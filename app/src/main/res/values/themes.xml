@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="Theme.Lottostat" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryVariant">@color/main</item>
+        <item name="colorOnPrimary">@color/main</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/main</item>
+
+        <!-- 뷰가 상태바및 소프트키 영역을 제외한 전체영역을 차지 -->
+        <item name="android:fitsSystemWindows">false</item>
+        <!-- 툴바 아래 그림자 삭제 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">@null</item>
+
+    </style>
+
+</resources>

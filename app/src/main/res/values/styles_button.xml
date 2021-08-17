@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 버튼 -->
+    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:letterSpacing">-0.05</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="rippleColor">@color/ripple</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="FilterButton" parent="BaseButton">
+        <item name="android:textColor">@color/txt_white</item>
+        <item name="android:radius">3dp</item>
+        <item name="backgroundTint">@color/main_blue</item>
+        <item name="android:layout_width">106dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="SaveButton" parent="FilterButton">
+        <item name="backgroundTint">@color/main_orange</item>
+    </style>
+
+    <style name="DoneButton" parent="BaseButton">
+        <item name="android:textColor">@color/txt_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/btn_grad_16c4bf</item>
+    </style>
+
+    <style name="DialogCloseButton" parent="BaseButton">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/txt_gray</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
+
+
+
+
+
+
+    <style name="Button_Dialog" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">98dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+
+
+
+</resources>

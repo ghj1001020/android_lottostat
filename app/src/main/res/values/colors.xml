@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 공통 -->
+    <color name="main">#12A19C</color>
+    <color name="main_dark">#008681</color>
+    <color name="main_sub">#31AEA9</color>
+    <color name="white">#ffffff</color>
+
+
+    <!-- 배경 -->
+    <color name="bg_main">#FFFFFF</color>
+    <color name="bg_handle">#D3D3D3</color>
+    <color name="main_blue">#007bc3</color>
+    <color name="main_orange">#ff8f29</color>
+    <color name="main_purple">#b6519a</color>
+
+    <color name="lotto_color1">#fbc400</color>
+    <color name="lotto_color2">#69c8f2</color>
+    <color name="lotto_color3">#ff7272</color>
+    <color name="lotto_color4">#aaaaaa</color>
+    <color name="lotto_color5">#b0d840</color>
+
+    <!-- 글자 -->
+    <color name="txt_black">#000000</color>
+    <color name="txt_black_opacity33">#33000000</color>
+    <color name="txt_white">#FFFFFF</color>
+    <color name="txt_title">#404040</color>
+    <color name="txt_gray">#666666</color>
+    <color name="txt_guide">#878787</color>
+
+    <!-- 테두리 -->
+    <color name="border">#F9F9F9</color>
+    <color name="divider">#E5E5E5</color>
+
+    <!-- 버튼 -->
+    <color name="ripple">#19202020</color>
+    <color name="transparent">@android:color/transparent</color>
+
+    
+</resources>

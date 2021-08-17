@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ghj.lottostat">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".LTApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:largeHeap="true"
+        android:hardwareAccelerated="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Lottostat">
+
+        <activity android:name=".activity.IntroActivity"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden|screenLayout"
+            android:screenOrientation="portrait"
+            android:exported="true"/>
+
+        <activity-alias
+            android:name="Main"
+            android:targetActivity=".activity.IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:launchMode="singleTask" />
+
+        <activity android:name=".activity.RecommendActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

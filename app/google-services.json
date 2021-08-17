@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "690423038718",
+    "project_id": "lottostat-4c9f1",
+    "storage_bucket": "lottostat-4c9f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690423038718:android:b69e96e7f9179847b5dbaf",
+        "android_client_info": {
+          "package_name": "com.ghj.lottostat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690423038718-jfvpuomutds0gk5acl5o8s8dftj5kgd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6a0l7m2xl1fbfXrSnFrwxyKGtWlVjeXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690423038718-jfvpuomutds0gk5acl5o8s8dftj5kgd6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 디바이더 -->
+    <style name="BaseDivider">
+        <item name="android:background">@color/divider</item>
+        <item name="android:layout_marginStart">@dimen/base_margin</item>
+        <item name="android:layout_marginEnd">@dimen/base_margin</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
+    <!-- 프로그레스바 -->
+    <!-- indeterminate : 무한반복 애니메이션 -->
+    <style name="Progress_Intro" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateDrawable">@drawable/prg_intro</item>
+        <item name="android:indeterminateDuration">750</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+    </style>
+
+    <!-- 바텀시트 다이얼로그 -->
+    <style name="BaseBottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowAnimationStyle">@style/AnimBottomSheetDialog</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <!-- 바텀시트 다이얼로그 애니메이션 -->
+    <style name="AnimBottomSheetDialog">
+        <item name="android:windowEnterAnimation">@anim/anim_up</item>
+        <item name="android:windowExitAnimation">@anim/anim_down</item>
+    </style>
+
+</resources>

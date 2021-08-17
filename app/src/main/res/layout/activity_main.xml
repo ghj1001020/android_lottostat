@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ghj.lottostat.ui.HJTitleBar
+        android:id="@+id/titleBar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="홈"/>
+
+    <Button
+        android:id="@+id/btnRecommend"
+        android:text="로또번호 추천"
+        app:layout_constraintTop_toBottomOf="@id/titleBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnStat"
+        android:text="로또번호 분석"
+        app:layout_constraintTop_toBottomOf="@id/btnRecommend"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnSimulation"
+        android:text="시뮬레이션"
+        app:layout_constraintTop_toBottomOf="@id/btnStat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--
+    <Button
+        android:id="@+id/btnStat"
+        android:text="로또번호 통계"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    -->
+
+    <Button
+        android:id="@+id/btnWinNumber"
+        android:text="당첨번호"
+        app:layout_constraintTop_toBottomOf="@id/btnSimulation"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnMyLotto"
+        android:text="나의 로또번호"
+        app:layout_constraintTop_toBottomOf="@id/btnWinNumber"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- 공유 -->
+    <!-- 설정 -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

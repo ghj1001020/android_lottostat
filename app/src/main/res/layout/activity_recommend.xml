@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- 컨텐츠 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.ghj.lottostat.ui.HJTitleBar
+            android:id="@+id/titleBar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="번호추천"
+            app:leftIconType="menu"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:text="저장"
+            style="@style/SaveButton"
+            android:layout_marginRight="8dp"
+            app:layout_constraintTop_toTopOf="@id/btnFilter"
+            app:layout_constraintRight_toLeftOf="@id/btnFilter"
+            android:visibility="visible"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFilter"
+            android:text="필터"
+            style="@style/FilterButton"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="@dimen/base_margin"
+            app:layout_constraintTop_toBottomOf="@id/titleBar"
+            app:layout_constraintRight_toRightOf="parent"
+             />
+
+        <FrameLayout
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/btnFilter"
+            app:layout_constraintBottom_toTopOf="@id/btnRecommend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLottoNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="12"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:listitem="@layout/row_lotto_num" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutNoContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <View
+                    android:id="@+id/divider1"
+                    style="@style/BaseDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                
+                <ImageView
+                    android:id="@+id/img1"
+                    android:background="@drawable/ic_no_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/no_number_desc"
+                    style="@style/Text.22.878787"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/img1"
+                    app:layout_constraintLeft_toLeftOf="@id/img1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRecommend"
+            android:text="번호생성"
+            style="@style/DoneButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 메뉴 -->
+    <include layout="@layout/navi_main" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

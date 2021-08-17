@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 왼쪽 버튼 타입 -->
+    <attr name="leftIconType">
+        <enum name="none" value="0" />  <!-- 버튼없음 -->
+        <enum name="back" value="1" />  <!-- 뒤로가기 -->
+        <enum name="menu" value="2" />  <!-- 메뉴 -->
+    </attr>
+
+    <!-- 타이틀바 -->
+    <declare-styleable name="HJTitleBar">
+        <attr name="title" format="string" />   <!-- 타이틀명 -->
+        <attr name="leftIconType" />
+    </declare-styleable>
+
+    <!-- 로또 번호 텍스트뷰 -->
+    <declare-styleable name="LTNumTextview">
+        <attr name="num" format="string" /> <!-- 숫자 -->
+    </declare-styleable>
+
+</resources>
