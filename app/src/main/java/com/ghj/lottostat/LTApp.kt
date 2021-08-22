@@ -26,7 +26,7 @@ class LTApp : MultiDexApplication() {
 
 
         // 로또당첨번호
-        var lottoWinNumber: ArrayList<LottoWinNumber> = arrayListOf()
+        var LottoWinNumberList: ArrayList<LottoWinNumber> = arrayListOf()
     }
 
     override fun onCreate() {

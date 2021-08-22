@@ -2,14 +2,20 @@ package com.ghj.lottostat.activity
 
 import android.os.SystemClock
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.adapter.LottoNumberAdapter
 import com.ghj.lottostat.activity.base.BaseViewModelActivity
+import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.activity.viewmodel.RecommendViewModel
+import com.ghj.lottostat.common.DefinePref
 import com.ghj.lottostat.databinding.ActivityRecommendBinding
+import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.dialog.FilterDialog
 import com.ghj.lottostat.util.LogUtil
+import com.ghj.lottostat.util.PrefUtil
 import java.util.concurrent.ThreadLocalRandom
 
 class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() , View.OnClickListener{
@@ -47,7 +53,7 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
 
             // 번호새성
             R.id.btnRecommend -> {
-                generateLottoNumber(10);
+                generateLottoNumber(20);
             }
         }
     }
@@ -55,18 +61,81 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
     fun generateLottoNumber(count: Int) {
         val startTime = SystemClock.elapsedRealtime()
 
-        lottoNumberAdapter.clearItems()
-        repeat(count) { i: Int ->
+        val isExcludePrevWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER, true)
+        val isExcludePrevWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS, true)
+        val isIncludeLastRoundWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, true)
+        val isIncludeLastRoundWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS, true)
 
-            val lotto = mutableListOf<Int>()
-            while ( lotto.size < 6 ) {
+        lottoNumberAdapter.clearItems()
+        var index : Int = 0
+        val lotto = arrayListOf<Int>()
+
+        // 테스트 데이터
+        var testIndex : Int = 0;
+        val testLotto = arrayListOf<MutableList<Int>>()
+        testLotto.add( mutableListOf(12, 13, 14, 15, 34, 36) )
+        testLotto.add( mutableListOf(2, 3, 9, 15, 23, 34) )
+        testLotto.add( mutableListOf(4, 17, 18, 19, 39, 43) )
+
+        while(index < count) {
+
+            // 번호생성
+            lotto.clear()
+
+            // 이전회차 번호 포함
+            if( isIncludeLastRoundWinNumber || isIncludeLastRoundWinNumberWithBonus ) {
+                val tempLotto = SQLiteService.selectPrevRoundWinNumber(this, isIncludeLastRoundWinNumberWithBonus)
+                val tempIndex = ThreadLocalRandom.current().nextInt(0, tempLotto.size )
+                val lastWinNumber : Int = tempLotto.get(tempIndex)
+                lotto.add(lastWinNumber)
+            }
+
+           while ( lotto.size < 6 ) {
                 val num = ThreadLocalRandom.current().nextInt(1, 46)  // 1~45
                 if( !lotto.contains(num) ) {
                     lotto.add( num )
                 }
             }
             lotto.sort()
+
+            // 테스트
+//            if( testIndex < testLotto.size ) {
+//                lotto.clear()
+//                lotto.addAll( testLotto.get(testIndex) )
+//                testIndex++
+//            }
+
+            // 이전로또번호 체크
+            if( isExcludePrevWinNumber ) {
+                val isLottoWinNumber = SQLiteService.selectIsLottoWinNumber(this, lotto)
+                // 결과
+                if( isLottoWinNumber ) {
+                    Toast.makeText(this, "이전로또번호 체크됨" , Toast.LENGTH_SHORT).show()
+                    continue
+                }
+            }
+
+            // 이전로또번호 체크 보너스포함
+            if( isExcludePrevWinNumberWithBonus ) {
+                var isLottoWinNumberWithBonus = false
+                for( item: LottoWinNumber in LTApp.LottoWinNumberList ) {
+                    if( item.checkContainNumWithBonus(lotto)) {
+                        isLottoWinNumberWithBonus = true
+                        break
+                    }
+                }
+                // 결과
+                if( isLottoWinNumberWithBonus ) {
+                    Toast.makeText(this, "(보너스포함) 이전로또번호 체크됨" , Toast.LENGTH_SHORT).show()
+                    continue
+                }
+            }
+
+            // 번호 추천
             lottoNumberAdapter.addItem(lotto)
+
+            // 인덱스 1추가
+            index++
         }
         lottoNumberAdapter.notifyDataSetChanged()
         renderLottoNumberList();

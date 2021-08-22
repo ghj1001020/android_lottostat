@@ -30,4 +30,48 @@ object SQLiteService {
 
         return winList
     }
+
+    // 로또당첨번호 여부
+    fun selectIsLottoWinNumber(context: Context, number: MutableList<Int>) : Boolean {
+        var result = false
+
+        val param : Array<String> = arrayOf(number.get(0).toString(),
+                                            number.get(1).toString(),
+                                            number.get(2).toString(),
+                                            number.get(3).toString(),
+                                            number.get(4).toString(),
+                                            number.get(5).toString())
+
+        SQLite.init(context)
+        SQLite.select(DefineQuery.SELECT_IS_LOTTO_WIN_NUMBER, param) { cursor: Cursor ->
+            cursor.moveToNext()
+            val cnt = cursor.getInt( cursor.getColumnIndex("CNT") )
+            result = cnt > 0
+        }
+        SQLite.close()
+
+        return result
+    }
+
+    // 마지막 로또번호 조회
+    fun selectPrevRoundWinNumber(context: Context, isBonus: Boolean) : ArrayList<Int>  {
+        val result : ArrayList<Int> = arrayListOf()
+
+        SQLite.init(context)
+        SQLite.select(DefineQuery.SELECT_LAST_ROUND_WIN_NUMBER) {cursor: Cursor ->
+            cursor.moveToNext()
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN1") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN2") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN3") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN4") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN5") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN6") ) )
+            if( isBonus ) {
+                result.add( cursor.getInt( cursor.getColumnIndex("BONUS") ) )
+            }
+        }
+        SQLite.close()
+
+        return result
+    }
 }

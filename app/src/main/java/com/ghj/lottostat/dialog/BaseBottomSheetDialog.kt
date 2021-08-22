@@ -4,12 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CompoundButton
 import androidx.viewbinding.ViewBinding
 import com.ghj.lottostat.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 
-abstract class BaseBottomSheetDialog<VB: ViewBinding>(mContext: Context, mStyle: Int) : BottomSheetDialog(mContext, mStyle){
+abstract class BaseBottomSheetDialog<VB: ViewBinding>(val mContext: Context, mStyle: Int) : BottomSheetDialog(mContext, mStyle)
+    , View.OnClickListener
+    , CompoundButton.OnCheckedChangeListener {
 
     // 뷰바인딩
     lateinit var mBinding: VB
@@ -27,4 +30,7 @@ abstract class BaseBottomSheetDialog<VB: ViewBinding>(mContext: Context, mStyle:
             dismiss()
         }
     }
+
+    override fun onClick(p0: View?) {}
+    override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {}
 }
