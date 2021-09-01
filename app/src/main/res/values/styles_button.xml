@@ -2,6 +2,12 @@
 <resources>
 
     <!-- 버튼 -->
+    <style name="BaseImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="BaseButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/txt_black</item>
         <item name="android:textSize">16dp</item>
@@ -41,13 +47,26 @@
     </style>
 
     <style name="DialogCloseButton" parent="BaseButton">
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:textColor">@color/txt_gray</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">30dp</item>
     </style>
+
+    <style name="OkButton" parent="BaseButton">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/txt_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:radius">3dp</item>
+        <item name="backgroundTint">@color/main_orange</item>
+    </style>
+
+    <style name="CancelButton" parent="OkButton">
+        <item name="backgroundTint">@color/bg_gray_dark</item>
+    </style>
+
 
 
 

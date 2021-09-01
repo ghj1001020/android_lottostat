@@ -13,6 +13,7 @@
     <color name="main_blue">#007bc3</color>
     <color name="main_orange">#ff8f29</color>
     <color name="main_purple">#b6519a</color>
+    <color name="bg_gray_dark">#666666</color>
 
     <color name="lotto_color1">#fbc400</color>
     <color name="lotto_color2">#69c8f2</color>
@@ -31,6 +32,7 @@
     <!-- 테두리 -->
     <color name="border">#F9F9F9</color>
     <color name="divider">#E5E5E5</color>
+    <color name="border_black">#222</color>
 
     <!-- 버튼 -->
     <color name="ripple">#19202020</color>

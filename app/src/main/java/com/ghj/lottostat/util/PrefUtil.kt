@@ -34,6 +34,10 @@ class PrefUtil private constructor(context: Context) {
         sp.edit().putBoolean(key, value).apply()
     }
 
+    fun put(key: String, value: Int) {
+        sp.edit().putInt(key, value).apply()
+    }
+
     // 데이터 조회
     fun getString(key: String, defaultValue: String="") : String {
         return sp.getString(key, defaultValue) ?: defaultValue
@@ -41,5 +45,9 @@ class PrefUtil private constructor(context: Context) {
 
     fun getBoolean(key: String, defaultValue: Boolean=false) : Boolean {
         return sp.getBoolean(key, defaultValue)
+    }
+
+    fun getInt(key: String, defaultValue: Int = 0) : Int {
+        return sp.getInt(key, defaultValue)
     }
 }

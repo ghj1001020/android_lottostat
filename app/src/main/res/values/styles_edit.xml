@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseEdit" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_b_line_222</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="NumberEdit" parent="BaseEdit">
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:digits">0123456789</item>
+        <item name="maxLines">1</item>
+        <item name="singleLine">true</item>
+     </style>
+
+    <style name="CountEdit" parent="NumberEdit">
+        <item name="android:maxLength">1</item>
+        <item name="android:digits">0123456</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:layout_width">80dp</item>
+    </style>
+
+</resources>

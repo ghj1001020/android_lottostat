@@ -93,4 +93,18 @@ object StringUtil {
 
         return text?.split(".")?.last() as String
     }
+
+    // string -> int
+    fun convertStringToInt( str : String? ) : Int {
+        if( TextUtils.isEmpty(str) ) {
+            return 0
+        }
+
+        try{
+            return Integer.parseInt(str)
+        }
+        catch ( e: Exception ) {
+            return 0
+        }
+    }
 }

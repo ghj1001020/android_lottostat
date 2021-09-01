@@ -4,8 +4,8 @@
     android:background="@drawable/bottomsheet_bg"
     android:paddingTop="10dp"
     android:paddingBottom="25dp"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     
@@ -16,55 +16,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         app:layout_constraintTop_toBottomOf="@id/btnClose"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/chkExcludePrevWinNumber"
-            android:text="이전 당첨번호 제외"
-            style="@style/BaseCheck"
-            android:checked="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+        <!-- 필터목록 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutFilterList"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/chkExcludePrevWinNumberWithBonus"
-            android:text="(보너스 포함) 이전 당첨번호 제외"
-            style="@style/BaseCheck"
-            android:checked="true"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/chkExcludePrevWinNumber"
-            app:layout_constraintLeft_toLeftOf="parent"
+            <include
+                android:id="@+id/filterList"
+                layout="@layout/filter_list" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 개수입력 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutInputCount"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/chkIncludeLastRoundWinNumber"
-            android:text="이전 회차 번호 중 1개 이상 포함"
-            style="@style/BaseCheck"
-            android:checked="true"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/chkExcludePrevWinNumberWithBonus"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            <include
+                android:id="@+id/filterInputCount"
+                layout="@layout/filter_input_count" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/chkIncludeLastRoundWinNumberWithBonus"
-            android:text="(보너스 포함) 이전 회차 번호 중 1개 이상 포함"
-            style="@style/BaseCheck"
-            android:checked="true"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/chkIncludeLastRoundWinNumber"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

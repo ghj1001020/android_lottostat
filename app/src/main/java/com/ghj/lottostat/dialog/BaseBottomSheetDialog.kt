@@ -27,8 +27,12 @@ abstract class BaseBottomSheetDialog<VB: ViewBinding>(val mContext: Context, mSt
     private fun initLayout() {
         val btnClose: MaterialButton = mBinding.root.findViewById(R.id.btnClose)
         btnClose.setOnClickListener{ v: View ->
-            dismiss()
+            onDialogClose()
         }
+    }
+
+    open fun onDialogClose() {
+        dismiss()
     }
 
     override fun onClick(p0: View?) {}
