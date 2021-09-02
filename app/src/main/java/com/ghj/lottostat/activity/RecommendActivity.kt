@@ -61,22 +61,29 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
     fun generateLottoNumber(count: Int) {
         val startTime = SystemClock.elapsedRealtime()
 
-        val isExcludePrevWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER, true)
-        val isExcludePrevWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS, true)
-        val isIncludeLastRoundWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, true)
-        val isIncludeLastRoundWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS, true)
+        val isExcludePrevWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER, DefinePref.DFT_IS_EXCLUDE_PREV_WIN_NUMBER)
+        val cntExcludePrevWinNumber = PrefUtil.getInstance(this).getInt(DefinePref.CNT_EXCLUDE_PREV_WIN_NUMBER, DefinePref.DFT_CNT_EXCLUDE_PREV_WIN_NUMBER);
+        val isExcludePrevWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS, DefinePref.DFT_IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS)
 
-        lottoNumberAdapter.clearItems()
+        val isIncludeLastRoundWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, DefinePref.DFT_IS_INCLUDE_LAST_ROUND_WIN_NUMBER)
+        val cntIncludeLastRoundWinNumber = PrefUtil.getInstance(this).getInt(DefinePref.CNT_INCLUDE_LAST_ROUND_WIN_NUMBER, DefinePref.DFT_CNT_INCLUDE_LAST_ROUND_WIN_NUMBER)
+        val isIncludeLastRoundWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS, DefinePref.DFT_IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS)
+
+        val isExcludeConsecutiveNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_CONSECUTIVE_NUMBER, DefinePref.DFT_IS_EXCLUDE_CONSECUTIVE_NUMBER)
+        val cntExcludeConsecutiveNumber = PrefUtil.getInstance(this).getInt(DefinePref.CNT_EXCLUDE_CONSECUTIVE_NUMBER, DefinePref.DFT_CNT_EXCLUDE_CONSECUTIVE_NUMBER)
+
+
         var index : Int = 0
-        val lotto = arrayListOf<Int>()
+        val lotto = arrayListOf<Int>()  // 추천 로또번호
 
         // 테스트 데이터
-        var testIndex : Int = 0;
-        val testLotto = arrayListOf<MutableList<Int>>()
-        testLotto.add( mutableListOf(12, 13, 14, 15, 34, 36) )
-        testLotto.add( mutableListOf(2, 3, 9, 15, 23, 34) )
-        testLotto.add( mutableListOf(4, 17, 18, 19, 39, 43) )
+//        var testIndex : Int = 0;
+//        val testLotto = arrayListOf<MutableList<Int>>()
+//        testLotto.add( mutableListOf(12, 13, 14, 15, 34, 36) )
+//        testLotto.add( mutableListOf(2, 3, 9, 15, 23, 34) )
+//        testLotto.add( mutableListOf(4, 17, 18, 19, 39, 43) )
 
+        lottoNumberAdapter.clearItems()
         while(index < count) {
 
             // 번호생성
@@ -84,13 +91,19 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
 
             // 이전회차 번호 포함
             if( isIncludeLastRoundWinNumber || isIncludeLastRoundWinNumberWithBonus ) {
-                val tempLotto = SQLiteService.selectPrevRoundWinNumber(this, isIncludeLastRoundWinNumberWithBonus)
-                val tempIndex = ThreadLocalRandom.current().nextInt(0, tempLotto.size )
-                val lastWinNumber : Int = tempLotto.get(tempIndex)
-                lotto.add(lastWinNumber)
+                val lastRoundLotto = SQLiteService.selectPrevRoundWinNumber(this, isIncludeLastRoundWinNumberWithBonus)
+                // 0 <= idx < cntIncludeLastRoundWinNumber
+                for( idx in 0 until cntIncludeLastRoundWinNumber) {
+                    // 인덱스 구해서 추천번호 뽑기
+                    val tempIndex = ThreadLocalRandom.current().nextInt(0, lastRoundLotto.size )
+                    val goodNumber : Int = lastRoundLotto.get(tempIndex)
+                    lotto.add(goodNumber)
+                    // 당첨번호에서 추가한 번호삭제
+                    lastRoundLotto.removeAt(tempIndex)
+                }
             }
 
-           while ( lotto.size < 6 ) {
+            while ( lotto.size < 6 ) {
                 val num = ThreadLocalRandom.current().nextInt(1, 46)  // 1~45
                 if( !lotto.contains(num) ) {
                     lotto.add( num )
