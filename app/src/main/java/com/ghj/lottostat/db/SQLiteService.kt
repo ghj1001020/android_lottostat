@@ -54,7 +54,7 @@ object SQLiteService {
     }
 
     // 마지막 로또번호 조회
-    fun selectPrevRoundWinNumber(context: Context, isBonus: Boolean) : ArrayList<Int>  {
+    fun selectLastRoundWinNumber(context: Context, isBonus: Boolean) : ArrayList<Int>  {
         val result : ArrayList<Int> = arrayListOf()
 
         SQLite.init(context)
@@ -68,6 +68,37 @@ object SQLiteService {
             result.add( cursor.getInt( cursor.getColumnIndex("WIN6") ) )
             if( isBonus ) {
                 result.add( cursor.getInt( cursor.getColumnIndex("BONUS") ) )
+            }
+        }
+        SQLite.close()
+
+        return result
+    }
+
+    // 해당 번호가 포함된 당첨번호 조회
+    fun selectPrevWinNumberByNum(context: Context, num: Int, isBonus: Boolean) : ArrayList<MutableList<Int>> {
+        val result : ArrayList<MutableList<Int>> = arrayListOf()
+        var query : String = DefineQuery.SELECT_PREV_WIN_NUMBER_BY_NUM
+        val param : ArrayList<String> = arrayListOf(num.toString(), num.toString(), num.toString(), num.toString(), num.toString(), num.toString())
+
+        SQLite.init(context)
+        if( isBonus ) {
+            query = DefineQuery.SELECT_PREV_WIN_NUMBER_BY_NUM_WITH_BONUS
+            param.add(num.toString())
+        }
+        SQLite.select(query, param.toTypedArray()) { cursor: Cursor ->
+            while( cursor.moveToNext() ) {
+                val arrNum : MutableList<Int> = mutableListOf()
+                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN1")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN2")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN3")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN4")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN5")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN6")) )
+                if( isBonus )
+                    arrNum.add( cursor.getInt(cursor.getColumnIndex("BONUS")) )
+
+                result.add( arrNum )
             }
         }
         SQLite.close()

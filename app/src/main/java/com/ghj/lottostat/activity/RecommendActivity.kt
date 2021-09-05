@@ -10,6 +10,7 @@ import com.ghj.lottostat.activity.adapter.LottoNumberAdapter
 import com.ghj.lottostat.activity.base.BaseViewModelActivity
 import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.activity.viewmodel.RecommendViewModel
+import com.ghj.lottostat.common.DefineCode
 import com.ghj.lottostat.common.DefinePref
 import com.ghj.lottostat.databinding.ActivityRecommendBinding
 import com.ghj.lottostat.db.SQLiteService
@@ -88,26 +89,54 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
 
             // 번호생성
             lotto.clear()
+            // 로또번호 1~45
+            val GROUP : MutableList<Int> = DefineCode.LOTTERY.toMutableList()
 
-            // 이전회차 번호 포함
+            // 직전회차 당첨번호 중 n개이상 포함
             if( isIncludeLastRoundWinNumber || isIncludeLastRoundWinNumberWithBonus ) {
-                val lastRoundLotto = SQLiteService.selectPrevRoundWinNumber(this, isIncludeLastRoundWinNumberWithBonus)
+                val lastRound = SQLiteService.selectLastRoundWinNumber(this, isIncludeLastRoundWinNumberWithBonus)
                 // 0 <= idx < cntIncludeLastRoundWinNumber
                 for( idx in 0 until cntIncludeLastRoundWinNumber) {
                     // 인덱스 구해서 추천번호 뽑기
-                    val tempIndex = ThreadLocalRandom.current().nextInt(0, lastRoundLotto.size )
-                    val goodNumber : Int = lastRoundLotto.get(tempIndex)
+                    val tempIndex = ThreadLocalRandom.current().nextInt(0, lastRound.size )
+                    val goodNumber : Int = lastRound.get(tempIndex)
                     lotto.add(goodNumber)
                     // 당첨번호에서 추가한 번호삭제
-                    lastRoundLotto.removeAt(tempIndex)
+                    lastRound.removeAt(tempIndex)
+                    GROUP.remove(goodNumber)
                 }
             }
 
             while ( lotto.size < 6 ) {
-                val num = ThreadLocalRandom.current().nextInt(1, 46)  // 1~45
-                if( !lotto.contains(num) ) {
-                    lotto.add( num )
+                // 이전 당첨번호와 n개이상 일치시 제외
+                if( lotto.size == cntExcludePrevWinNumber-1 ) {
+                    // 0번째 번호가 포함된 로또당첨번호 리스트
+                    val list : ArrayList<MutableList<Int>> = SQLiteService.selectPrevWinNumberByNum(this, lotto.get(0), isExcludePrevWinNumberWithBonus)
+
+                    for( idx in 0 until list.size ) {
+                        val WIN_NUMBER : MutableList<Int> = list.get(idx) // 당첨번호
+                        var isPrevWinNumber = true  // 이전번호와 n-1개 일치여부
+                        // 이전 당첨번호와 n-1개 일치하는지 체크
+                        for( i in 1 until lotto.size ) {
+                            if( !WIN_NUMBER.contains(lotto.get(i)) ) {
+                                isPrevWinNumber = false
+                                break
+                            }
+                        }
+
+                        // 이전번호와 n-1개 일치하면 나머지번호 삭제
+                        if( isPrevWinNumber ) {
+                            for( i in 0 until WIN_NUMBER.size ) {
+                                GROUP.remove( WIN_NUMBER.get(i) )
+                            }
+                        }
+                    }
                 }
+
+                // 번호추천
+                val numIndex = ThreadLocalRandom.current().nextInt(0, GROUP.size)
+                lotto.add( GROUP.get(numIndex) )
+                GROUP.removeAt( numIndex )
             }
             lotto.sort()
 
