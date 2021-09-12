@@ -7,6 +7,7 @@ import android.text.TextUtils
 import java.lang.Exception
 
 object SQLite {
+    val SQLITE_VERSION = 2
     val DB_FILE_NAME = "lotto.db"
     val DB_VERSION = 1
 

@@ -2,7 +2,7 @@ package com.ghj.lottostat.common
 
 object DefinePref {
 
-    const val IS_COPY_SQLITE = "pref_is_copy_sqlite"
+    const val VERSION_COPY_SQLITE = "pref_version_copy_sqlite"
 
     // 이전 당첨번호 n개 이상 일치시 제외
     const val IS_EXCLUDE_PREV_WIN_NUMBER = "pref_is_exclude_prev_win_number"

@@ -7,7 +7,9 @@ import android.widget.Toast
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.base.BaseActivity
+import com.ghj.lottostat.common.DefineCode
 import com.ghj.lottostat.common.DefinePref
+import com.ghj.lottostat.common.DefineQuery
 import com.ghj.lottostat.databinding.ActivityIntroBinding
 import com.ghj.lottostat.db.SQLite
 import com.ghj.lottostat.db.SQLiteService
@@ -66,7 +68,8 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
 
     // SQLite에서 데이터 읽기
     private fun getLottoNumber() {
-        var isCopy = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_COPY_SQLITE)
+        val copyVersion = PrefUtil.getInstance(this).getInt(DefinePref.VERSION_COPY_SQLITE)
+        var isCopy = copyVersion == SQLite.SQLITE_VERSION
         if( !isCopy ) {
             mBinding.txtMessage.text = getString(R.string.intro_guide_copy)
 
@@ -77,7 +80,8 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             if( isExist ) {
                 val databaseFolderPath = SQLite.databaseFolderPath(this)
                 isCopy = Util.copyFileFromAssets(this, SQLite.DB_FILE_NAME, databaseFolderPath, SQLite.DB_FILE_NAME)
-                PrefUtil.getInstance(this).put(DefinePref.IS_COPY_SQLITE, isCopy)
+                if( isCopy )
+                    PrefUtil.getInstance(this).put(DefinePref.VERSION_COPY_SQLITE, SQLite.SQLITE_VERSION)
             }
         }
 
