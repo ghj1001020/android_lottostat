@@ -39,8 +39,4 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
         }
     }
-
-
-
-
 }
