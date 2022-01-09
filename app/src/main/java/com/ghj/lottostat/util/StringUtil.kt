@@ -101,7 +101,7 @@ object StringUtil {
         }
 
         try{
-            return Integer.parseInt(str)
+            return Integer.parseInt(str as String)
         }
         catch ( e: Exception ) {
             return 0
