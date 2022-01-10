@@ -1,25 +1,29 @@
 package com.ghj.lottostat.activity
 
+import android.app.Activity
 import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.adapter.LottoNumberAdapter
+import com.ghj.lottostat.activity.base.BaseDrawerViewModelActivity
 import com.ghj.lottostat.activity.base.BaseViewModelActivity
 import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.activity.viewmodel.RecommendViewModel
 import com.ghj.lottostat.common.DefineCode
 import com.ghj.lottostat.common.DefinePref
 import com.ghj.lottostat.databinding.ActivityRecommendBinding
+import com.ghj.lottostat.databinding.BaseDrawerBinding
 import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.dialog.FilterDialog
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.PrefUtil
 import java.util.concurrent.ThreadLocalRandom
 
-class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() , View.OnClickListener{
+class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() , View.OnClickListener{
 
     lateinit var lottoNumberAdapter: LottoNumberAdapter
 
@@ -28,21 +32,22 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
         return ViewModelProvider(this).get(RecommendViewModel::class.java)
     }
 
-    override fun newBinding(): ActivityRecommendBinding {
+    override fun newContentBinding(): ActivityRecommendBinding {
         return ActivityRecommendBinding.inflate(layoutInflater)
     }
+
 
     override fun onCreateAfter() {
         initLayout()
     }
 
     fun initLayout() {
-        mBinding.btnSave.setOnClickListener(this)
-        mBinding.btnFilter.setOnClickListener(this)
-        mBinding.btnRecommend.setOnClickListener(this)
+        mContent.btnSave.setOnClickListener(this)
+        mContent.btnFilter.setOnClickListener(this)
+        mContent.btnRecommend.setOnClickListener(this)
 
         lottoNumberAdapter = LottoNumberAdapter(this, getViewModel())
-        mBinding.rvLottoNumber.adapter = lottoNumberAdapter
+        mContent.rvLottoNumber.adapter = lottoNumberAdapter
     }
 
     override fun onClick(p0: View?) {
@@ -186,14 +191,14 @@ class RecommendActivity : BaseViewModelActivity<ActivityRecommendBinding, Recomm
 
     fun renderLottoNumberList() {
         if( getViewModel().mLottoNumberList.size > 0 ) {
-            mBinding.layoutList.visibility = View.VISIBLE
-            mBinding.btnSave.visibility = View.VISIBLE
-            mBinding.layoutNoContent.visibility = View.GONE
+            mContent.layoutList.visibility = View.VISIBLE
+            mContent.btnSave.visibility = View.VISIBLE
+            mContent.layoutNoContent.visibility = View.GONE
         }
         else {
-            mBinding.layoutList.visibility = View.GONE
-            mBinding.btnSave.visibility = View.GONE
-            mBinding.layoutNoContent.visibility = View.VISIBLE
+            mContent.layoutList.visibility = View.GONE
+            mContent.btnSave.visibility = View.GONE
+            mContent.layoutNoContent.visibility = View.VISIBLE
         }
     }
 }
