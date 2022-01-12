@@ -8,11 +8,11 @@ import com.ghj.lottostat.common.DefineQuery
 class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, SQLite.DB_FILE_NAME, null, SQLite.DB_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         // 히스토리 테이블 생성
-        db?.execSQL(DefineQuery.CREATE_RECOMMEND_TABLE)
+        db?.execSQL(DefineQuery.CREATE_MY_LOTTO_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        db?.execSQL(DefineQuery.DROP_RECOMMEND_TABLE)
+        db?.execSQL(DefineQuery.DROP_MY_LOTTO_TABLE)
         onCreate(db)
     }
 }

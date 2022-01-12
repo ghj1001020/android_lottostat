@@ -1,24 +1,20 @@
 package com.ghj.lottostat.activity
 
-import android.app.Activity
 import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewbinding.ViewBinding
-import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.adapter.LottoNumberAdapter
 import com.ghj.lottostat.activity.base.BaseDrawerViewModelActivity
-import com.ghj.lottostat.activity.base.BaseViewModelActivity
-import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.activity.viewmodel.RecommendViewModel
 import com.ghj.lottostat.common.DefineCode
 import com.ghj.lottostat.common.DefinePref
 import com.ghj.lottostat.databinding.ActivityRecommendBinding
-import com.ghj.lottostat.databinding.BaseDrawerBinding
 import com.ghj.lottostat.db.SQLiteService
+import com.ghj.lottostat.dialog.CommonDialog
 import com.ghj.lottostat.dialog.FilterDialog
+import com.ghj.lottostat.util.AlertUtil
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.PrefUtil
 import java.util.concurrent.ThreadLocalRandom
@@ -65,7 +61,16 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
 
             // 저장
             R.id.btnSave -> {
-
+                if( getViewModel().mLottoNumberList.count() == 0 ) {
+                    AlertUtil.Alert(this, "번호를 생성하세요.").show()
+                    return
+                }
+                val dialog = AlertUtil.Alert(this,"저장하시겠습니까?")
+                dialog.setPositiveListener{ dialog: CommonDialog ->
+                    Toast.makeText(this, "aaa", Toast.LENGTH_SHORT).show()
+                }
+                dialog.setNegativeListener()
+                dialog.show()
             }
         }
     }
