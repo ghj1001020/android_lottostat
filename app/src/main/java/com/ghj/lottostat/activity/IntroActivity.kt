@@ -13,6 +13,7 @@ import com.ghj.lottostat.common.DefineQuery
 import com.ghj.lottostat.databinding.ActivityIntroBinding
 import com.ghj.lottostat.db.SQLite
 import com.ghj.lottostat.db.SQLiteService
+import com.ghj.lottostat.dialog.CommonDialog
 import com.ghj.lottostat.util.AlertUtil
 import com.ghj.lottostat.util.IntentUtil
 import com.ghj.lottostat.util.PrefUtil
@@ -50,9 +51,11 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
                 val version: String = ds["version"] as String
                 // 낮은버전이면 업데이트 팝업 노출
                 if( !Util.checkAppVersion(version) ) {
-                    AlertUtil.alert(this, getString(R.string.dialog_update), getString(R.string.dialog_update_desc), {
+                    val dialog = AlertUtil.Alert(this, getString(R.string.dialog_update), getString(R.string.dialog_update_desc))
+                    dialog.setPositiveListener { dialog: CommonDialog ->
                         appFinish()
-                    })
+                    }
+                    dialog.show()
                     return@addOnSuccessListener
                 }
                 // 정상버전이면 로또번호 가져오기
@@ -60,9 +63,11 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             }
             .addOnFailureListener { exception: Exception ->
                 // 버전요청 실패
-                AlertUtil.alert(this, getString(R.string.notice), getString(R.string.dialog_version_fail), {
+                val dialog = AlertUtil.Alert(this, getString(R.string.notice), getString(R.string.dialog_version_fail))
+                dialog.setPositiveListener { dialog: CommonDialog ->
                     appFinish()
-                })
+                }
+                dialog.show()
             }
     }
 
@@ -95,9 +100,11 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
         }
         else {
             // 파일복사 실패
-            AlertUtil.alert(this, getString(R.string.notice), getString(R.string.dialog_sqlite_fail), {
+            val dialog = AlertUtil.Alert(this, getString(R.string.notice), getString(R.string.dialog_sqlite_fail))
+            dialog.setPositiveListener { dialog: CommonDialog ->
                 appFinish()
-            })
+            }
+            dialog.show()
         }
     }
 

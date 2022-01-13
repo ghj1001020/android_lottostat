@@ -33,12 +33,4 @@ object AlertUtil {
             dialog.show()
         }
     }
-
-    fun alert(context: Context, title: String="", message: String="", positiveListener: ((dialog: CommonDialog)->Unit)?=null, negativeListener: ((dialog: CommonDialog)->Unit)?=null ) : Dialog {
-        val dialog = CommonDialog(context, title, message)
-        dialog.positiveListener = positiveListener
-        dialog.negativeListener = negativeListener
-        dialog.show()
-        return dialog
-    }
 }
