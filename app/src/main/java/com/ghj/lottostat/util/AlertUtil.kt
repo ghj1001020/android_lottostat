@@ -16,12 +16,12 @@ object AlertUtil {
         constructor(context: Context, message: String) : this(context, "", message)
 
 
-        fun setPositiveListener( text: String="확인", listener: ((dialog: CommonDialog)->Unit)?=null) {
+        fun setPositiveListener( text: String="확인", listener: ((dialog: CommonDialog)->Unit)?={}) {
             this.positiveText = text
             this.positiveListener = listener
         }
 
-        fun setNegativeListener( text: String="취소", listener: ((dialog: CommonDialog) -> Unit)?=null) {
+        fun setNegativeListener( text: String="취소", listener: ((dialog: CommonDialog) -> Unit)?={}) {
             this.negativeText = text
             this.negativeListener = listener
         }

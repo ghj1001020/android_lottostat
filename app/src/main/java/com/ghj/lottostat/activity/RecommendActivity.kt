@@ -2,7 +2,6 @@ package com.ghj.lottostat.activity
 
 import android.os.SystemClock
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.adapter.LottoNumberAdapter
@@ -59,7 +58,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
                 dialog.show()
             }
 
-            // 번호새성
+            // 번호생성
             R.id.btnRecommend -> {
                 generateLottoNumber(20);
             }
@@ -72,8 +71,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
                 }
                 val dialog = AlertUtil.Alert(this,"저장하시겠습니까?")
                 dialog.setPositiveListener{ dialog: CommonDialog ->
-                    getViewModel().mLottoNumberList
-                    SQLiteService.insertMyLottoData(this)
+                    SQLiteService.insertMyLottoData(this, mLottoNum, getViewModel().mLottoNumberList)
                 }
                 dialog.setNegativeListener()
                 dialog.show()

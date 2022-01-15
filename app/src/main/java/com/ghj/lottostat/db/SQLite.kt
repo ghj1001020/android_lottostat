@@ -54,7 +54,7 @@ object SQLite {
     }
 
     // INSERT, UPDATE, DELETE
-    fun execSQL( sql: String, params: Array<String>?=null ) : Boolean {
+    fun execSQL( sql: String, params: Array<Any>?=null ) : Boolean {
         synchronized(this) {
             writeDB?.beginTransaction()
 
