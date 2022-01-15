@@ -57,4 +57,7 @@ object DefineQuery {
                                                    "FROM   LOTTO_WIN_NUMBER " +
                                                    "WHERE  WIN1=? OR WIN2=? OR WIN3=? OR WIN4=? OR WIN5=? OR WIN6=? OR BONUS=?"
 
+    // 마지막 로또번호 회차
+    val SELECT_MAX_NO = "SELECT MAX(NO) as CNT " +
+                        "FROM   LOTTO_WIN_NUMBER"
 }

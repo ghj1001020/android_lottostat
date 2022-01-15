@@ -105,4 +105,25 @@ object SQLiteService {
 
         return result
     }
+
+    // 마지막 로또번호 회차
+    fun selectMaxNo(context: Context) : Int {
+        var result = 0
+
+        SQLite.init(context)
+        SQLite.select(DefineQuery.SELECT_MAX_NO) { cursor: Cursor ->
+            cursor.moveToNext()
+            result = cursor.getInt( cursor.getColumnIndex("CNT") )
+        }
+        SQLite.close()
+
+        return result
+    }
+
+    // My로또 데이터 저장
+    fun insertMyLottoData(context: Context) {
+        SQLite.init(context)
+        SQLite.execSQL(DefineQuery.INSERT_MY_LOTTO, )
+        SQLite.close()
+    }
 }

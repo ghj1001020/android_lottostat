@@ -22,13 +22,20 @@ class HJTitleBar(val mContext: Context, attrs: AttributeSet) : RelativeLayout(mC
 
     lateinit var mBinding : AppbarMainBinding
 
-    var mTitle : String = "" // 타이틀
+    // 타이틀
+    var mTitle : String = ""
+        set(value) {
+            mBinding.txtTitle.text = value
+            field = value
+        }
     var mLeftButtonType : eButtonType = eButtonType.NONE // 왼쪽 버튼타입
 
     init {
+        mBinding = AppbarMainBinding.inflate(LayoutInflater.from(mContext), this, true)
+
         val typedArray: TypedArray = mContext.theme.obtainStyledAttributes(attrs, R.styleable.HJTitleBar, 0, 0)
         try {
-            mTitle = typedArray.getString(R.styleable.HJTitleBar_title) ?: ""
+            mTitle = typedArray.getString(R.styleable.HJTitleBar_title)!!
             val leftType : Int = typedArray.getInteger(R.styleable.HJTitleBar_leftIconType, eButtonType.NONE.ordinal)
             for( type in eButtonType.values() ) {
                 if( type.ordinal == leftType ) {
@@ -36,6 +43,7 @@ class HJTitleBar(val mContext: Context, attrs: AttributeSet) : RelativeLayout(mC
                     break
                 }
             }
+
             initLayout()
         }
         finally {
@@ -49,9 +57,6 @@ class HJTitleBar(val mContext: Context, attrs: AttributeSet) : RelativeLayout(mC
 
 
     fun initLayout() {
-        mBinding = AppbarMainBinding.inflate(LayoutInflater.from(mContext), this, true)
-        mBinding.txtTitle.text = mTitle
-
         // 왼쪽버튼
         if( mLeftButtonType == eButtonType.BACK ) {
             mBinding.btnLeft.visibility = View.VISIBLE

@@ -22,6 +22,9 @@ import java.util.concurrent.ThreadLocalRandom
 class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() , View.OnClickListener{
 
     lateinit var lottoNumberAdapter: LottoNumberAdapter
+    val mLottoNum : Int by lazy {
+        SQLiteService.selectMaxNo(this) + 1
+    }
 
 
     override fun newViewModel(): RecommendViewModel {
@@ -38,6 +41,8 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
     }
 
     fun initLayout() {
+        mContent.titleBar.mTitle = "${mLottoNum}회 번호추천"
+
         mContent.btnSave.setOnClickListener(this)
         mContent.btnFilter.setOnClickListener(this)
         mContent.btnRecommend.setOnClickListener(this)
@@ -67,7 +72,8 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
                 }
                 val dialog = AlertUtil.Alert(this,"저장하시겠습니까?")
                 dialog.setPositiveListener{ dialog: CommonDialog ->
-                    Toast.makeText(this, "aaa", Toast.LENGTH_SHORT).show()
+                    getViewModel().mLottoNumberList
+                    SQLiteService.insertMyLottoData(this)
                 }
                 dialog.setNegativeListener()
                 dialog.show()
