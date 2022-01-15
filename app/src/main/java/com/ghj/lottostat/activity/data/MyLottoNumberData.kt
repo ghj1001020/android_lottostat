@@ -7,7 +7,7 @@ enum class MyLottoType {
     LOTTO
 }
 
-data class MyLottoNumberData(val type: MyLottoType,
+data class MyLottoNumberData(var type: MyLottoType,
                              val roundNo: Int,
                              val regDate: String,
                              val number1: Int,
@@ -19,4 +19,6 @@ data class MyLottoNumberData(val type: MyLottoType,
 
     constructor(type: MyLottoType, roundNo: Int, regDate: String)
             : this(type, roundNo, regDate, 0,0,0,0,0,0)
+
+    constructor(type: MyLottoType, roundNo: Int) : this(type, roundNo, "")
 }

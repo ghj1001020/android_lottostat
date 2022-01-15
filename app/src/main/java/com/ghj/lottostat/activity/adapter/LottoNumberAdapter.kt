@@ -12,7 +12,7 @@ import com.ghj.lottostat.activity.viewmodel.RecommendViewModel
 import com.ghj.lottostat.databinding.RowLottoNumBinding
 import com.ghj.lottostat.util.Util
 
-class LottoNumberAdapter(mContext: Context, mViewModel: RecommendViewModel) : BaseRecyclerViewAdapter<RecommendViewModel>(mContext, mViewModel) {
+class LottoNumberAdapter(mContext: Context, val mLottoList: ArrayList<LottoNumberData>) : BaseRecyclerViewAdapter(mContext) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
         val binding = RowLottoNumBinding.inflate(LayoutInflater.from(mContext), parent, false)
@@ -20,7 +20,7 @@ class LottoNumberAdapter(mContext: Context, mViewModel: RecommendViewModel) : Ba
     }
 
     override fun getItemCount(): Int {
-        return mViewModel.mLottoNumberList.size
+        return mLottoList.size
     }
 
 
@@ -51,19 +51,19 @@ class LottoNumberAdapter(mContext: Context, mViewModel: RecommendViewModel) : Ba
 
 
     fun addItems(list: MutableList<LottoNumberData> ) {
-        mViewModel.mLottoNumberList.addAll( list )
+        mLottoList.addAll( list )
     }
 
     fun addItem(list: MutableList<Int>) {
         if( list.size < 6 ) return
-        mViewModel.mLottoNumberList.add( LottoNumberData(list[0], list[1], list[2], list[3], list[4], list[5]) )
+        mLottoList.add( LottoNumberData(list[0], list[1], list[2], list[3], list[4], list[5]) )
     }
 
     fun clearItems() {
-        mViewModel.mLottoNumberList.clear()
+        mLottoList.clear()
     }
 
     fun getItem(position: Int) : LottoNumberData {
-        return mViewModel.mLottoNumberList.get(position)
+        return mLottoList.get(position)
     }
 }

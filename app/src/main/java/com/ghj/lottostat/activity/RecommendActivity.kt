@@ -42,11 +42,12 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
     fun initLayout() {
         mContent.titleBar.mTitle = "${mLottoNum}회 번호추천"
 
+        mContent.noContent.txtDesc.text = getString(R.string.no_number_recommend)
         mContent.btnSave.setOnClickListener(this)
         mContent.btnFilter.setOnClickListener(this)
         mContent.btnRecommend.setOnClickListener(this)
 
-        lottoNumberAdapter = LottoNumberAdapter(this, getViewModel())
+        lottoNumberAdapter = LottoNumberAdapter(this, getViewModel().mLottoNumberList)
         mContent.rvLottoNumber.adapter = lottoNumberAdapter
     }
 
@@ -202,12 +203,12 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
         if( getViewModel().mLottoNumberList.size > 0 ) {
             mContent.layoutList.visibility = View.VISIBLE
             mContent.btnSave.visibility = View.VISIBLE
-            mContent.layoutNoContent.visibility = View.GONE
+            mContent.noContent.root.visibility = View.GONE
         }
         else {
             mContent.layoutList.visibility = View.GONE
             mContent.btnSave.visibility = View.GONE
-            mContent.layoutNoContent.visibility = View.VISIBLE
+            mContent.noContent.root.visibility = View.VISIBLE
         }
     }
 }

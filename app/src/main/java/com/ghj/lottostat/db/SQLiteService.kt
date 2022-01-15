@@ -4,6 +4,8 @@ import android.content.Context
 import android.database.Cursor
 import com.ghj.lottostat.activity.data.LottoNumberData
 import com.ghj.lottostat.activity.data.LottoWinNumber
+import com.ghj.lottostat.activity.data.MyLottoNumberData
+import com.ghj.lottostat.activity.data.MyLottoType
 import com.ghj.lottostat.common.DefineQuery
 import com.ghj.lottostat.util.DateUtil.convertToString
 import com.ghj.lottostat.util.LogUtil
@@ -136,5 +138,49 @@ object SQLiteService {
             SQLite.execSQL(DefineQuery.INSERT_MY_LOTTO, param)
         }
         SQLite.close()
+    }
+
+    // My로또 데이터 조회
+    fun selectMyLottoRoundNo(context: Context) : ArrayList<MyLottoNumberData> {
+        val result = arrayListOf<MyLottoNumberData>()
+
+        SQLite.init(context)
+        // 회차조회
+        SQLite.select(DefineQuery.SELECT_MY_LOTTO_ROUND) { cursor: Cursor ->
+            while( cursor.moveToNext() ) {
+                val roundNo = cursor.getInt( cursor.getColumnIndex("NO") )
+                result.add( MyLottoNumberData(MyLottoType.ROUND_CLOSE, roundNo) )
+            }
+        }
+
+        // 첫번째회차 목록조회
+        if( result.size > 0 ) {
+            result[0].type = MyLottoType.ROUND_OPEN
+            val roundNo = result[0].roundNo
+            SQLite.select(DefineQuery.SELECT_MY_LOTTO_NUMBER, arrayOf("${roundNo}")) { cursor: Cursor ->
+                var date = ""
+                val temp = arrayListOf<MyLottoNumberData>()
+                while( cursor.moveToNext() ) {
+                    val regDate = cursor.getString( cursor.getColumnIndex("REG_DATE") )
+                    val num1 = cursor.getInt( cursor.getColumnIndex("NUM1") )
+                    val num2 = cursor.getInt( cursor.getColumnIndex("NUM2") )
+                    val num3 = cursor.getInt( cursor.getColumnIndex("NUM3") )
+                    val num4 = cursor.getInt( cursor.getColumnIndex("NUM4") )
+                    val num5 = cursor.getInt( cursor.getColumnIndex("NUM5") )
+                    val num6 = cursor.getInt( cursor.getColumnIndex("NUM6") )
+
+                    if( !date.equals(regDate) ) {
+                        temp.add(MyLottoNumberData(MyLottoType.REG_DATE, roundNo, regDate))
+                        date = regDate
+                    }
+                    temp.add(MyLottoNumberData(MyLottoType.LOTTO, roundNo, regDate, num1, num2, num3, num4, num5, num6))
+                }
+
+                result.addAll(1, temp)
+            }
+        }
+
+        SQLite.close()
+        return result
     }
 }

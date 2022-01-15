@@ -22,7 +22,7 @@ object DefineQuery {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 
     // My로또번호 회차그룹 조회
-    val SELECT_MY_LOTTO_ROUND = "SELECT   NO_ROUND " +
+    val SELECT_MY_LOTTO_ROUND = "SELECT   NO_ROUND as NO " +
             "FROM     MY_LOTTO_TBL " +
             "GROUP BY NO_ROUND"
 

@@ -18,8 +18,9 @@
     <string name="intro_guide_read">로또 당첨번호를 가져옵니다.</string>
     <string name="intro_guide_main">메인으로 이동합니다.</string>
 
-    <!-- 번호추천 -->
-    <string name="no_number_desc">번호를\n추천받으세요.</string>
+    <!-- 데이터없음 -->
+    <string name="no_number_recommend">번호를\n추천받으세요.</string>
+    <string name="no_number_mylotto">저장된\n번호가 없습니다.</string>
 
     <!-- 필터 -->
     <string name="filter_exclude_prev_win_number">이전 당첨번호와 %s개 이상 일치시 제외</string>
