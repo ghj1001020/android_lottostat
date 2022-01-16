@@ -53,7 +53,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="12"
-                tools:layout_editor_absoluteX="16dp"
                 tools:listitem="@layout/row_lotto_num" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

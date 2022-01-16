@@ -28,9 +28,8 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="12"
-            tools:layout_editor_absoluteX="16dp"
-            tools:listitem="@layout/row_lotto_num"
+            tools:itemCount="5"
+            tools:listitem="@layout/row_my_lotto_round"
             android:visibility="gone"/>
 
         <include

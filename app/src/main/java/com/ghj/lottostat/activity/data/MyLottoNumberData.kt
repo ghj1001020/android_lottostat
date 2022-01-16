@@ -21,4 +21,9 @@ data class MyLottoNumberData(var type: MyLottoType,
             : this(type, roundNo, regDate, 0,0,0,0,0,0)
 
     constructor(type: MyLottoType, roundNo: Int) : this(type, roundNo, "")
+
+    // 접기/펼치기 토글
+    fun toggleType() {
+        type = if( type==MyLottoType.ROUND_OPEN ) MyLottoType.ROUND_CLOSE else MyLottoType.ROUND_OPEN
+    }
 }

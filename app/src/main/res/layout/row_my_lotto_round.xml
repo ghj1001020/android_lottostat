@@ -3,10 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg_gray"
     android:layout_width="match_parent"
     android:layout_height="48dp">
 
     <TextView
+        android:id="@+id/txtNo"
         style="@style/Text_17_black_b"
         tools:text="890회"
         android:layout_marginStart="26dp"
@@ -14,12 +16,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        style="@style/FoldCheck"
-        android:enabled="false"
+    <com.ghj.lottostat.ui.HJCheckImageView
+        android:id="@+id/chkFold"
+        app:checkedImage="@drawable/ic_arrow_u"
+        app:uncheckedImage="@drawable/ic_arrow_d"
         android:layout_marginEnd="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

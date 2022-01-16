@@ -14,6 +14,7 @@
     <color name="main_orange">#ff8f29</color>
     <color name="main_purple">#b6519a</color>
     <color name="bg_gray_dark">#666666</color>
+    <color name="bg_gray">#F1F2F3</color>
 
     <color name="lotto_color1">#fbc400</color>
     <color name="lotto_color2">#69c8f2</color>

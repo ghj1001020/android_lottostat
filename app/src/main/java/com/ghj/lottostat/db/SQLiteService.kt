@@ -140,7 +140,7 @@ object SQLiteService {
         SQLite.close()
     }
 
-    // My로또 데이터 조회
+    // My로또 회차 조회
     fun selectMyLottoRoundNo(context: Context) : ArrayList<MyLottoNumberData> {
         val result = arrayListOf<MyLottoNumberData>()
 
@@ -175,12 +175,42 @@ object SQLiteService {
                     }
                     temp.add(MyLottoNumberData(MyLottoType.LOTTO, roundNo, regDate, num1, num2, num3, num4, num5, num6))
                 }
-
                 result.addAll(1, temp)
             }
         }
 
         SQLite.close()
+        return result
+    }
+
+    // 해당회차의 My로또 데이터 조회
+    fun selectMyLottoData(context: Context, no: Int) : ArrayList<MyLottoNumberData> {
+        val result = arrayListOf<MyLottoNumberData>()
+
+        SQLite.init(context)
+        SQLite.select(DefineQuery.SELECT_MY_LOTTO_NUMBER, arrayOf("${no}")) { cursor: Cursor ->
+            var date = ""
+            val temp = arrayListOf<MyLottoNumberData>()
+            while( cursor.moveToNext() ) {
+                val roundNo = cursor.getInt( cursor.getColumnIndex("NO_ROUND") )
+                val regDate = cursor.getString( cursor.getColumnIndex("REG_DATE") )
+                val num1 = cursor.getInt( cursor.getColumnIndex("NUM1") )
+                val num2 = cursor.getInt( cursor.getColumnIndex("NUM2") )
+                val num3 = cursor.getInt( cursor.getColumnIndex("NUM3") )
+                val num4 = cursor.getInt( cursor.getColumnIndex("NUM4") )
+                val num5 = cursor.getInt( cursor.getColumnIndex("NUM5") )
+                val num6 = cursor.getInt( cursor.getColumnIndex("NUM6") )
+
+                if( !date.equals(regDate) ) {
+                    temp.add(MyLottoNumberData(MyLottoType.REG_DATE, roundNo, regDate))
+                    date = regDate
+                }
+                temp.add(MyLottoNumberData(MyLottoType.LOTTO, roundNo, regDate, num1, num2, num3, num4, num5, num6))
+            }
+            result.addAll(temp)
+        }
+        SQLite.close()
+
         return result
     }
 }

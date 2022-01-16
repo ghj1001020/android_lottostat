@@ -10,3 +10,8 @@ abstract class BaseRecyclerViewAdapter(val mContext: Context) : RecyclerView.Ada
         holder.onBindViewHolder(position)
     }
 }
+
+// 목록 클릭 리스너
+interface IListListener {
+    fun onItemClick( position: Int )
+}
