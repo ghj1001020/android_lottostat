@@ -40,22 +40,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutList"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLottoNumber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvLottoNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="12"
-                tools:listitem="@layout/row_lotto_num" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="12"
+            tools:listitem="@layout/row_lotto_num"
+            android:visibility="gone"/>
 
         <include
             android:id="@+id/noContent"

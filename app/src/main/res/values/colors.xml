@@ -7,6 +7,9 @@
     <color name="white">#ffffff</color>
 
 
+    <color name="gray_f5f5f5">#f5f5f5</color>
+    <color name="gray_ddd">#dddddd</color>
+
     <!-- 배경 -->
     <color name="bg_main">#FFFFFF</color>
     <color name="bg_handle">#D3D3D3</color>

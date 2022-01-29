@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutRound"
+        android:background="@color/bg_gray"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtNo"
+            style="@style/Text_17_black_b"
+            tools:text="890회"
+            android:layout_marginStart="26dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.ghj.lottostat.ui.HJCheckImageView
+            android:id="@+id/chkFold"
+            app:checkedImage="@drawable/ic_arrow_u"
+            app:uncheckedImage="@drawable/ic_arrow_d"
+            android:layout_marginEnd="26dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutNum"
+        android:layout_marginTop="12dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutRound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/num1"
+            style="@style/TextLottoNumMid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/num2" />
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/num2"
+            style="@style/TextLottoNumMid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/num1"
+            app:layout_constraintRight_toLeftOf="@id/num3" />
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/num3"
+            style="@style/TextLottoNumMid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/num2"
+            app:layout_constraintRight_toLeftOf="@id/num4" />
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/num4"
+            style="@style/TextLottoNumMid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/num3"
+            app:layout_constraintRight_toLeftOf="@id/num5" />
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/num5"
+            style="@style/TextLottoNumMid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/num4"
+            app:layout_constraintRight_toLeftOf="@id/num6" />
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/num6"
+            style="@style/TextLottoNumMid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/num5"
+            app:layout_constraintRight_toLeftOf="@id/numBonus" />
+
+        <com.ghj.lottostat.ui.LTNumTextview
+            android:id="@+id/numBonus"
+            style="@style/TextLottoNumSmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/num6"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TableLayout
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutNum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1,2">
+
+        <View style="@style/BaseDivider"
+            android:layout_margin="0dp"
+            android:background="#333"/>
+
+        <TableRow>
+            <TextView android:text="순위"
+                style="@style/TextWinLottoTableHead"/>
+            <TextView android:text="당첨게임 수"
+                style="@style/TextWinLottoTableHead"
+                android:background="@drawable/bg_f5f5f5_st1_b_ddd"/>
+            <TextView android:text="당첨금액"
+                style="@style/TextWinLottoTableHead"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="1등"
+                style="@style/TextWinLottoTableNo"/>
+            <TextView android:text="2,369,326"
+                style="@style/TextWinLottoTableCnt"/>
+            <TextView android:text="24,212,396,640원"
+                style="@style/TextWinLottoTableAmt"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="2등"
+                style="@style/TextWinLottoTableNo"/>
+            <TextView android:text="2,369,326"
+                style="@style/TextWinLottoTableCnt"/>
+            <TextView android:text="24,212,396,640원"
+                style="@style/TextWinLottoTableAmt"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="3등"
+                style="@style/TextWinLottoTableNo"/>
+            <TextView android:text="2,369,326"
+                style="@style/TextWinLottoTableCnt"/>
+            <TextView android:text="24,212,396,640원"
+                style="@style/TextWinLottoTableAmt"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="4등"
+                style="@style/TextWinLottoTableNo"/>
+            <TextView android:text="2,369,326"
+                style="@style/TextWinLottoTableCnt"/>
+            <TextView android:text="24,212,396,640원"
+                style="@style/TextWinLottoTableAmt"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="5등"
+                style="@style/TextWinLottoTableNo"/>
+            <TextView android:text="2,369,326"
+                style="@style/TextWinLottoTableCnt"/>
+            <TextView android:text="24,212,396,640원"
+                style="@style/TextWinLottoTableAmt"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/BaseDivider"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

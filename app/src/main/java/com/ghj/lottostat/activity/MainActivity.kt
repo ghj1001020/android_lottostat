@@ -33,7 +33,8 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
         }
         mBinding.btnWinNumber.setOnClickListener { v: View ->
-
+            val intent = Intent(this, WinLottoActivity::class.java)
+            startActivity(intent)
         }
         mBinding.btnMyLotto.setOnClickListener { v: View ->
             val intent = Intent(this, MyLottoActivity::class.java)

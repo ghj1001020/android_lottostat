@@ -201,12 +201,12 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
 
     fun renderLottoNumberList() {
         if( getViewModel().mLottoNumberList.size > 0 ) {
-            mContent.layoutList.visibility = View.VISIBLE
+            mContent.rvLottoNumber.visibility = View.VISIBLE
             mContent.btnSave.visibility = View.VISIBLE
             mContent.noContent.root.visibility = View.GONE
         }
         else {
-            mContent.layoutList.visibility = View.GONE
+            mContent.rvLottoNumber.visibility = View.GONE
             mContent.btnSave.visibility = View.GONE
             mContent.noContent.root.visibility = View.VISIBLE
         }
