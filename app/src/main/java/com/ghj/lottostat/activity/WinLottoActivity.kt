@@ -24,6 +24,6 @@ class WinLottoActivity : BaseDrawerViewModelActivity<ActivityWinLottoBinding, Wi
 
     fun initLayout() {
         winLottoAdapter = WinLottoAdapter(this, getViewModel().mLottoWinList)
-
+        mContent.rvWinLotto.adapter = winLottoAdapter
     }
 }

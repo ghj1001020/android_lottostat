@@ -12,7 +12,7 @@ import com.ghj.lottostat.activity.data.MyLottoType
 import com.ghj.lottostat.databinding.RowMyLottoDateBinding
 import com.ghj.lottostat.databinding.RowMyLottoNumberBinding
 import com.ghj.lottostat.databinding.RowMyLottoRoundBinding
-import com.ghj.lottostat.util.DateUtil.convertDate
+import com.ghj.lottostat.util.DateUtil.convertSeparator
 
 class MyLottoAdapter(mContext: Context, val mMyLottoList : ArrayList<MyLottoNumberData>) : BaseRecyclerViewAdapter(mContext) {
 
@@ -61,7 +61,7 @@ class MyLottoAdapter(mContext: Context, val mMyLottoList : ArrayList<MyLottoNumb
 
         override fun onBindViewHolder(position: Int) {
             val data = mMyLottoList.get(position)
-            mBinding.txtRegDate.text = data.regDate.convertDate()
+            mBinding.txtRegDate.text = data.regDate.convertSeparator()
         }
     }
 

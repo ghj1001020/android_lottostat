@@ -33,8 +33,10 @@ object DefineQuery {
             "ORDER BY REG_DATE DESC"
 
     // 로또당첨번호 목록 조회
-    val SELECT_LOTTO_WIN_NUMBER = "SELECT NO, WIN1, WIN2, WIN3, WIN4, WIN5, WIN6, BONUS " +
-                                  "FROM   LOTTO_WIN_NUMBER"
+    val SELECT_LOTTO_WIN_NUMBER = "SELECT   NO, LOTTERY_DATE, WIN1, WIN2, WIN3, WIN4, WIN5, WIN6, BONUS, " +
+                                  "         PLACE1CNT, PLACE1AMT, PLACE2CNT, PLACE2AMT, PLACE3CNT, PLACE3AMT, PLACE4CNT, PLACE4AMT, PLACE5CNT, PLACE5AMT " +
+                                  "FROM     LOTTO_WIN_NUMBER " +
+                                  "ORDER BY NO DESC"
 
     // 로또당첨번호 여부 조회
     val SELECT_IS_LOTTO_WIN_NUMBER = "SELECT COUNT(no) as CNT   " +

@@ -7,6 +7,7 @@ import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.activity.data.MyLottoNumberData
 import com.ghj.lottostat.activity.data.MyLottoType
 import com.ghj.lottostat.common.DefineQuery
+import com.ghj.lottostat.util.DateUtil.convertDateFormat
 import com.ghj.lottostat.util.DateUtil.convertToString
 import com.ghj.lottostat.util.LogUtil
 import java.util.*
@@ -22,6 +23,7 @@ object SQLiteService {
         SQLite.select(DefineQuery.SELECT_LOTTO_WIN_NUMBER) { cursor: Cursor ->
             while( cursor.moveToNext() ) {
                 val no = cursor.getInt( cursor.getColumnIndex("NO") )
+                val lotteryDate = cursor.getString( cursor.getColumnIndex("LOTTERY_DATE") ).convertDateFormat("yyyy.M.d", "yyyyMMdd")
                 val win1 = cursor.getInt( cursor.getColumnIndex("WIN1") )
                 val win2 = cursor.getInt( cursor.getColumnIndex("WIN2") )
                 val win3 = cursor.getInt( cursor.getColumnIndex("WIN3") )
@@ -29,8 +31,19 @@ object SQLiteService {
                 val win5 = cursor.getInt( cursor.getColumnIndex("WIN5") )
                 val win6 = cursor.getInt( cursor.getColumnIndex("WIN6") )
                 val bonus = cursor.getInt( cursor.getColumnIndex("BONUS") )
+                val place1Cnt = cursor.getString( cursor.getColumnIndex("PLACE1CNT") ).replace("[^0-9]", "")
+                val place1Amt = cursor.getString( cursor.getColumnIndex("PLACE1AMT") ).replace("[^0-9]", "")
+                val place2Cnt = cursor.getString( cursor.getColumnIndex("PLACE2CNT") ).replace("[^0-9]", "")
+                val place2Amt = cursor.getString( cursor.getColumnIndex("PLACE2AMT") ).replace("[^0-9]", "")
+                val place3Cnt = cursor.getString( cursor.getColumnIndex("PLACE3CNT") ).replace("[^0-9]", "")
+                val place3Amt = cursor.getString( cursor.getColumnIndex("PLACE3AMT") ).replace("[^0-9]", "")
+                val place4Cnt = cursor.getString( cursor.getColumnIndex("PLACE4CNT") ).replace("[^0-9]", "")
+                val place4Amt = cursor.getString( cursor.getColumnIndex("PLACE4AMT") ).replace("[^0-9]", "")
+                val place5Cnt = cursor.getString( cursor.getColumnIndex("PLACE5CNT") ).replace("[^0-9]", "")
+                val place5Amt = cursor.getString( cursor.getColumnIndex("PLACE5AMT") ).replace("[^0-9]", "")
 
-                winList.add( LottoWinNumber(no, win1, win2, win3, win4, win5, win6, bonus) )
+                winList.add( LottoWinNumber(no, lotteryDate, win1, win2, win3, win4, win5, win6, bonus,
+                    place1Cnt, place1Amt, place2Cnt, place2Amt, place3Cnt, place3Amt, place4Cnt, place4Amt, place5Cnt, place5Amt) )
             }
         }
         SQLite.close()
