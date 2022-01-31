@@ -7,9 +7,25 @@ import java.util.*
 object DateUtil {
 
     // Date() -> String 변환
-    fun Date.convertToString(format: String="yyyyMMdd") : String {
-        val format = SimpleDateFormat(format)
-        return format.format(this)
+    fun Date.toString(format: String="yyyyMMdd") : String {
+        val sdf = SimpleDateFormat(format)
+        return sdf.format(this)
+    }
+
+    // 날짜 String yyyy-MM-dd 포맷적용
+    fun String.dateFormatHyphen() : String {
+        if( this.length == 8 ) {
+            return "${this.substring(0,4)}-${this.substring(4,6)}-${this.substring(6)}"
+        }
+        else if( this.length == 12 ) {
+            return "${this.substring(0,4)}-${this.substring(4,6)}-${this.substring(6,8)} " +
+                    "${this.substring(8,10)}:${this.substring(10)}"
+        }
+        else if( this.length == 14 ) {
+            return "${this.substring(0,4)}-${this.substring(4,6)}-${this.substring(6,8)} " +
+                    "${this.substring(8,10)}:${this.substring(10,12)}:${this.substring(12)}"
+        }
+        return ""
     }
 
     // date string을 from format -> to format 으로 변환

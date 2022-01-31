@@ -67,20 +67,20 @@
 
     <style name="TextLottoNumMid" parent="TextLottoNum">
         <item name="android:background">@drawable/lotto_bg1</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">42dp</item>
+        <item name="android:layout_height">42dp</item>
     </style>
 
     <style name="TextLottoNumSmall" parent="TextLottoNum">
         <item name="android:background">@drawable/lotto_bg1</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">16dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
     </style>
 
     <style name="TextWinLottoTableHead" parent="Text_14_333">

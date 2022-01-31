@@ -2,16 +2,11 @@ package com.ghj.lottostat.db
 
 import android.content.Context
 import android.database.Cursor
-import com.ghj.lottostat.activity.data.LottoNumberData
-import com.ghj.lottostat.activity.data.LottoWinNumber
-import com.ghj.lottostat.activity.data.MyLottoNumberData
-import com.ghj.lottostat.activity.data.MyLottoType
+import com.ghj.lottostat.activity.data.*
 import com.ghj.lottostat.common.DefineQuery
 import com.ghj.lottostat.util.DateUtil.convertDateFormat
-import com.ghj.lottostat.util.DateUtil.convertToString
-import com.ghj.lottostat.util.LogUtil
+import com.ghj.lottostat.util.DateUtil.toString
 import java.util.*
-import kotlin.collections.ArrayList
 
 object SQLiteService {
 
@@ -42,7 +37,7 @@ object SQLiteService {
                 val place5Cnt = cursor.getString( cursor.getColumnIndex("PLACE5CNT") ).replace("[^0-9]", "")
                 val place5Amt = cursor.getString( cursor.getColumnIndex("PLACE5AMT") ).replace("[^0-9]", "")
 
-                winList.add( LottoWinNumber(no, lotteryDate, win1, win2, win3, win4, win5, win6, bonus,
+                winList.add( LottoWinNumber( ListType.CLOSE, no, lotteryDate, win1, win2, win3, win4, win5, win6, bonus,
                     place1Cnt, place1Amt, place2Cnt, place2Amt, place3Cnt, place3Amt, place4Cnt, place4Amt, place5Cnt, place5Amt) )
             }
         }
@@ -142,7 +137,7 @@ object SQLiteService {
 
     // My로또 데이터 저장
     fun insertMyLottoData(context: Context, no: Int, datas: ArrayList<LottoNumberData>) {
-        val date = Date().convertToString("yyyyMMddHHmmss")
+        val date = Date().toString("yyyyMMddHHmmss")
 
         SQLite.init(context)
         for( data in datas ) {

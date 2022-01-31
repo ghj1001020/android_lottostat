@@ -17,12 +17,14 @@
     <!-- 당첨번호 목록 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWinLotto"
+        style="@style/ListWinLotto"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
         tools:listitem="@layout/row_win_lotto_number"
         app:layout_constraintTop_toBottomOf="@id/titleBar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
