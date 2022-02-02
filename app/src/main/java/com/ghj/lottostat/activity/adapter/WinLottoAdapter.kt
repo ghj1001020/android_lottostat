@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ghj.lottostat.activity.base.BaseRecyclerViewAdapter
 import com.ghj.lottostat.activity.base.BaseRecyclerViewHolder
+import com.ghj.lottostat.activity.base.IListListener
 import com.ghj.lottostat.activity.data.ListType
 import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.databinding.RowWinLottoNumberBinding
@@ -13,6 +14,8 @@ import com.ghj.lottostat.ui.HJCheckImageView
 import com.ghj.lottostat.util.DateUtil.dateFormatHyphen
 
 class WinLottoAdapter(mContext: Context, val mWinList: ArrayList<LottoWinNumber>) : BaseRecyclerViewAdapter(mContext) {
+
+    var mListener : IListListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
         val binding = RowWinLottoNumberBinding.inflate(LayoutInflater.from(mContext), parent, false)
@@ -56,6 +59,11 @@ class WinLottoAdapter(mContext: Context, val mWinList: ArrayList<LottoWinNumber>
                 data.type = if(data.type == ListType.CLOSE) ListType.OPEN else ListType.CLOSE
                 mBinding.chkFold.isChecked = data.type == ListType.OPEN
                 mBinding.layoutInfo.visibility = if(data.type == ListType.OPEN) View.VISIBLE else View.GONE
+            }
+
+            // 분석
+            mBinding.layoutNum.setOnClickListener {
+                mListener?.onItemClick(position)
             }
         }
     }

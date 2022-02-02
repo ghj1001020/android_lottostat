@@ -2,6 +2,7 @@ package com.ghj.lottostat
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import androidx.multidex.MultiDexApplication
 import com.ghj.lottostat.activity.data.LottoWinNumber
@@ -23,7 +24,6 @@ class LTApp : MultiDexApplication() {
             get() {
                 return field
             }
-
 
         // 로또당첨번호
         var LottoWinNumberList: ArrayList<LottoWinNumber> = arrayListOf()

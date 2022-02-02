@@ -9,6 +9,8 @@
 
     <color name="gray_f5f5f5">#f5f5f5</color>
     <color name="gray_ddd">#dddddd</color>
+    <color name="gray_d3d3d3">#D3D3D3</color>
+    <color name="gray_878787">#878787</color>
 
     <!-- 배경 -->
     <color name="bg_main">#FFFFFF</color>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottomsheet_bg"
+    android:paddingTop="10dp"
+    android:paddingBottom="25dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClose"
+        android:text="@string/close"
+        style="@style/DialogCloseButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:text="회 번호 분석"
+        android:gravity="center"
+        style="@style/Text_20_black_b"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View android:id="@+id/divider"
+        style="@style/BaseDivider"
+        android:layout_marginTop="11dp"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:layout_marginTop="11dp"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="※ 괄호 안은 보너스 포함일 경우"
+                android:gravity="center_vertical"
+                style="@style/Text_9_878787"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="9dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:minHeight="52dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="직전 회차 당첨번호와 일치하는 번호 갯수"
+                    android:gravity="center_vertical"
+                    style="@style/Text_16_333"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:gravity="right|center_vertical"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txtLastRoundMatchCount1"
+                        android:text="0"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="개"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="("
+                        android:layout_marginStart="3dp"
+                        style="@style/Text_13_288AD1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtLastRoundMatchCount2"
+                        android:text="0"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="개"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text=")"
+                        style="@style/Text_13_288AD1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/BaseDivider" />
+
+            <LinearLayout
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:minHeight="52dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="최대로 연속하는 갯수"
+                    android:gravity="center_vertical"
+                    style="@style/Text_16_333"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:gravity="right|center_vertical"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txtConsecutiveCount1"
+                        android:text="0"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="개"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="("
+                        android:layout_marginStart="3dp"
+                        style="@style/Text_13_288AD1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtConsecutiveCount2"
+                        android:text="0"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="개"
+                        style="@style/Text_16_288ad1_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text=")"
+                        style="@style/Text_13_288AD1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.ghj.lottostat.activity.base
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Process
 import android.view.View
