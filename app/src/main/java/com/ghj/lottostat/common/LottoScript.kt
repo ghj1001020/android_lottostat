@@ -15,8 +15,8 @@ object LottoScript {
 
     // 연속하는 갯수
     fun Array<Int>.getConsecutiveCount() : Int {
-        var count = 0
-        var tempCount = 0
+        var count = 1
+        var tempCount = 1
         var temp = -1
         for( idx in this.indices) {
             // 두수 사이 간격이 1이면 이전번호와 연속된 수
@@ -27,7 +27,7 @@ object LottoScript {
                 if( tempCount > count ) {
                     count = tempCount
                 }
-                tempCount = 0
+                tempCount = 1
             }
             temp = this[idx]
         }

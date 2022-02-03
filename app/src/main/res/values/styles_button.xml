@@ -27,18 +27,6 @@
         <item name="android:minHeight">0dp</item>
     </style>
 
-    <style name="FilterButton" parent="BaseButton">
-        <item name="android:textColor">@color/txt_white</item>
-        <item name="android:radius">3dp</item>
-        <item name="backgroundTint">@color/main_blue</item>
-        <item name="android:layout_width">106dp</item>
-        <item name="android:layout_height">40dp</item>
-    </style>
-
-    <style name="SaveButton" parent="FilterButton">
-        <item name="backgroundTint">@color/main_orange</item>
-    </style>
-
     <style name="DoneButton" parent="BaseButton">
         <item name="android:textColor">@color/txt_white</item>
         <item name="android:textStyle">bold</item>
@@ -55,6 +43,18 @@
         <item name="android:layout_height">30dp</item>
     </style>
 
+    <style name="FilterMButton" parent="BaseButton">
+        <item name="android:textColor">@color/txt_white</item>
+        <item name="android:radius">3dp</item>
+        <item name="backgroundTint">@color/main_blue</item>
+        <item name="android:layout_width">106dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="SaveMButton" parent="FilterMButton">
+        <item name="backgroundTint">@color/main_orange</item>
+    </style>
+
     <style name="OkButton" parent="BaseButton">
         <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/txt_white</item>
@@ -66,6 +66,11 @@
     <style name="CancelButton" parent="OkButton">
         <item name="backgroundTint">@color/bg_gray_dark</item>
     </style>
+
+    <style name="FilterButton" parent="OkButton">
+        <item name="backgroundTint">@color/main_blue</item>
+    </style>
+
 
 
 

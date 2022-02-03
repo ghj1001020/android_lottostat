@@ -1,15 +1,10 @@
 package com.ghj.lottostat.activity.base
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Process
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewbinding.ViewBinding
 import com.ghj.lottostat.LTApp
-import com.ghj.lottostat.R
-import com.ghj.lottostat.databinding.BaseDrawerBinding
 
 abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 

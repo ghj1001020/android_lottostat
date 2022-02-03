@@ -77,9 +77,9 @@
         <item name="android:textSize">12dp</item>
     </style>
 
-    <style name="Text_9_878787" parent="BaseText">
+    <style name="Text_11_878787" parent="BaseText">
         <item name="android:textColor">#878787</item>
-        <item name="android:textSize">9dp</item>
+        <item name="android:textSize">11dp</item>
     </style>
 
 

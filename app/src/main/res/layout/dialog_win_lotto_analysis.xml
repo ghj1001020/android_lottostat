@@ -46,7 +46,7 @@
             <TextView
                 android:text="※ 괄호 안은 보너스 포함일 경우"
                 android:gravity="center_vertical"
-                style="@style/Text_9_878787"
+                style="@style/Text_11_878787"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="9dp"
                 android:layout_width="wrap_content"

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ghj.lottostat.ui.HJTitleBar
+        android:id="@+id/titleBar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="시뮬레이션"
+        app:leftIconType="menu" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutHead"
+        android:background="@color/bg_gray"
+        app:layout_constraintTop_toBottomOf="@id/titleBar"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutTitle"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtWinNo"
+                android:text="1000회 당첨번호"
+                style="@style/Text_17_black_b"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"/>
+
+            <com.ghj.lottostat.ui.HJCheckImageView
+                android:id="@+id/chkFold"
+                app:checkedImage="@drawable/ic_arrow_u"
+                app:uncheckedImage="@drawable/ic_arrow_d"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutWinNo"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/layoutTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/num1"
+                style="@style/TextLottoNumMid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/num2" />
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/num2"
+                style="@style/TextLottoNumMid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num1"
+                app:layout_constraintRight_toLeftOf="@id/num3" />
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/num3"
+                style="@style/TextLottoNumMid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num2"
+                app:layout_constraintRight_toLeftOf="@id/num4" />
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/num4"
+                style="@style/TextLottoNumMid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num3"
+                app:layout_constraintRight_toLeftOf="@id/num5" />
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/num5"
+                style="@style/TextLottoNumMid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num4"
+                app:layout_constraintRight_toLeftOf="@id/num6" />
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/num6"
+                style="@style/TextLottoNumMid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num5"
+                app:layout_constraintRight_toLeftOf="@id/plus" />
+
+            <ImageView
+                android:id="@+id/plus"
+                android:src="@drawable/bg_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num6"
+                app:layout_constraintRight_toLeftOf="@id/numBonus"/>
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/numBonus"
+                style="@style/TextLottoNumSmall"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/plus"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:text="※ 설정된 필터로 100번(10만원 어치) 시뮬레이션 했을 경우의 결과"
+            android:gravity="center_vertical"
+            style="@style/Text_11_878787"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="9dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/layoutWinNo"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:background="@color/bg_gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layoutHead"
+        android:visibility="visible">
+
+        <TableLayout
+            android:id="@+id/layoutInfo"
+            android:layout_marginStart="@dimen/base_margin"
+            android:layout_marginEnd="@dimen/base_margin"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1,2">
+
+            <View style="@style/BaseDivider"
+                android:layout_margin="0dp"
+                android:background="#333"/>
+
+            <TableRow>
+                <TextView android:text="순위"
+                    style="@style/TextWinLottoTableHead"/>
+                <TextView android:text="당첨금액"
+                    style="@style/TextWinLottoTableHead"
+                    android:background="@drawable/bg_f5f5f5_st1_b_ddd"/>
+                <TextView android:text="결과"
+                    style="@style/TextWinLottoTableHead"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView android:text="1등"
+                    style="@style/TextWinLottoTableNo"/>
+                <TextView android:id="@+id/txt1PlaceCnt"
+                    tools:text="2,369,326"
+                    style="@style/TextWinLottoTableCnt"/>
+                <TextView android:id="@+id/txt1PlaceAmt"
+                    tools:text="24,212,396,640원"
+                    style="@style/TextWinLottoTableAmt"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView android:text="2등"
+                    style="@style/TextWinLottoTableNo"/>
+                <TextView android:id="@+id/txt2PlaceCnt"
+                    tools:text="2,369,326"
+                    style="@style/TextWinLottoTableCnt"/>
+                <TextView android:id="@+id/txt2PlaceAmt"
+                    tools:text="24,212,396,640원"
+                    style="@style/TextWinLottoTableAmt"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView android:text="3등"
+                    style="@style/TextWinLottoTableNo"/>
+                <TextView android:id="@+id/txt3PlaceCnt"
+                    tools:text="2,369,326"
+                    style="@style/TextWinLottoTableCnt"/>
+                <TextView android:id="@+id/txt3PlaceAmt"
+                    tools:text="24,212,396,640원"
+                    style="@style/TextWinLottoTableAmt"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView android:text="4등"
+                    style="@style/TextWinLottoTableNo"/>
+                <TextView android:id="@+id/txt4PlaceCnt"
+                    tools:text="2,369,326"
+                    style="@style/TextWinLottoTableCnt"/>
+                <TextView android:id="@+id/txt4PlaceAmt"
+                    tools:text="24,212,396,640원"
+                    style="@style/TextWinLottoTableAmt"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView android:text="5등"
+                    style="@style/TextWinLottoTableNo"/>
+                <TextView android:id="@+id/txt5PlaceCnt"
+                    tools:text="2,369,326"
+                    style="@style/TextWinLottoTableCnt"/>
+                <TextView android:id="@+id/txt5PlaceAmt"
+                    tools:text="24,212,396,640원"
+                    style="@style/TextWinLottoTableAmt"/>
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutHead"
+        app:layout_constraintBottom_toTopOf="@id/layoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLottoNumber"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="12"
+            tools:listitem="@layout/row_lotto_num"
+            android:visibility="gone"/>
+
+        <include
+            android:id="@+id/noContent"
+            layout="@layout/no_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBtn"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:text="필터"
+            style="@style/CancelButton"
+            android:backgroundTint="@color/main_blue"
+            android:layout_weight="108"
+            android:layout_width="0dp" />
+
+        <Space android:layout_width="12dp" android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:text="시뮬레이션 시작"
+            style="@style/OkButton"
+            android:layout_weight="252"
+            android:layout_width="0dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

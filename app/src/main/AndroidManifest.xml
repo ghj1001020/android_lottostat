@@ -51,6 +51,10 @@
             android:screenOrientation="portrait"
             android:exported="false" />
 
+        <activity android:name=".activity.SimulationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
     </application>
 
 </manifest>

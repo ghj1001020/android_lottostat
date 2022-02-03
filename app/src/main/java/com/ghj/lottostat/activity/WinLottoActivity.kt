@@ -41,7 +41,7 @@ class WinLottoActivity : BaseDrawerViewModelActivity<ActivityWinLottoBinding, Wi
                     val dialog = WinLottoAnalysisDialog(this, currentData, prevData)
                     dialog.show()
                 }
-             }
+            }
         }
         mContent.rvWinLotto.adapter = winLottoAdapter
     }
