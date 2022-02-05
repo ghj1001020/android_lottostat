@@ -20,12 +20,11 @@ object LottoScript {
         var cntConsecutiveNumber = PrefUtil.getInstance(context).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
 
         var index : Int = 0
-        val LOTTO = arrayListOf<Int>()  // 추천 로또번호
 
         while(index < count) {
 
             // 번호생성
-            LOTTO.clear()
+            val LOTTO = arrayListOf<Int>()  // 추천 로또번호
             // 로또번호 1~45
             val GROUP : ArrayList<Int> = arrayListOf()
             GROUP.addAll(DefineCode.LOTTERY)
@@ -72,7 +71,7 @@ object LottoScript {
                 LOTTO.add( number )
                 LOTTO.sort()
                 GROUP.removeAt( numIndex )
-                
+
                 // n개 연속된 수
                 if( isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size) ) {
                     LOTTO.generateConsecutiveNumber(GROUP, cntConsecutiveNumber)
