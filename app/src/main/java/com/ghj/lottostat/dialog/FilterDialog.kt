@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import com.ghj.lottostat.R
+import com.ghj.lottostat.common.CONSECUTIVE_NUMBER
 import com.ghj.lottostat.common.DefinePref
+import com.ghj.lottostat.common.LAST_ROUND_WIN_NUMBER
 import com.ghj.lottostat.databinding.DialogFilterBinding
 import com.ghj.lottostat.databinding.FilterInputCountBinding
 import com.ghj.lottostat.databinding.FilterListBinding
@@ -22,9 +24,8 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
     }
 
     enum class FILTER_TYPE {
-        EXCLUDE_PREV_WIN_NUMBER ,
-        INCLUDE_LAST_ROUND_WIN_NUMBER ,
-        EXCLUDE_CONSECUTIVE_NUMBER
+        LAST_ROUND_WIN_NUMBER ,
+        CONSECUTIVE_NUMBER
     }
 
 
@@ -32,21 +33,16 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
     lateinit var filterInputCount : FilterInputCountBinding
 
     var mLayoutType : LAYOUT_TYPE = LAYOUT_TYPE.LIST
-    var mFilterType : FILTER_TYPE = FILTER_TYPE.EXCLUDE_PREV_WIN_NUMBER
+    var mFilterType : FILTER_TYPE = FILTER_TYPE.LAST_ROUND_WIN_NUMBER
 
-    // 이전 당첨번호 n개 이상 일치시 제외
-    var isExcludePrevWinNumber : Boolean = true
-    var cntExcludePrevWinNumber : Int = 4
-    var isExcludePrevWinNumberWithBonus : Boolean = true
+    // 이전 회차 번호 중 n개 일치
+    var isLastRoundWinNumber : Boolean = true
+    var cnLastRoundWinNumber : Int = 1
+    var isLastRoundWinNumberWithBonus : Boolean = true
 
-    // 이전 회차 번호 중 n개 이상 포함
-    var isIncludeLastRoundWinNumber : Boolean = true
-    var cntIncludeLastRoundWinNumber : Int = 1
-    var isIncludeLastRoundWinNumberWithBonus : Boolean = true
-
-    // n개 이상 연속된 수 제외
-    var isExcludeConsecutiveNumber : Boolean = true
-    var cntExcludeConsecutiveNumber : Int = 4
+    // n개 연속된 수
+    var isConsecutiveNumber : Boolean = true
+    var cntConsecutiveNumber : Int = 2
 
 
     override fun newBinding(): DialogFilterBinding {
@@ -70,20 +66,17 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
         filterInputCount.btnCountMinus.setOnClickListener( this )
         filterInputCount.btnCountPlus.setOnClickListener( this )
 
-        filterList.chkExcludePrevWinNumber.setOnCheckedChangeListener( this )
-        filterList.chkIncludeLastRoundWinNumber.setOnCheckedChangeListener( this )
-        filterList.chkExcludeConsecutiveNumber.setOnCheckedChangeListener( this )
+        filterList.chkLastRoundWinNumber.setOnCheckedChangeListener( this )
+        filterList.chkConsecutiveNumber.setOnCheckedChangeListener( this )
 
         initPreferenceLayout()
     }
 
     fun initPreferenceLayout() {
-        // 이전 당첨번호 제외
-        updateExcludePrevWinNumber()
-        // 이전 회차 번호 중 1개 이상 포함
-        updateIncludeLastRoundWinNumber()
-        // n개 이상 연속된 수 제외
-        updateExcludeConsecutiveNumber()
+        // 이전 회차 번호 중 n개 일치
+        updateLastRoundWinNumber()
+        // n개 연속된 수
+        updateConsecutiveNumber()
     }
 
     override fun onClick(p0: View?) {
@@ -98,25 +91,18 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
                 val cnt = StringUtil.convertStringToInt( filterInputCount.etCount.text.toString() )
                 val isBonus = filterInputCount.chkBonus.isChecked
 
-                // 이전 당첨번호 제외
-                if( mFilterType == FILTER_TYPE.EXCLUDE_PREV_WIN_NUMBER ) {
-                    PrefUtil.getInstance(mContext).put(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER , true)
-                    PrefUtil.getInstance(mContext).put(DefinePref.CNT_EXCLUDE_PREV_WIN_NUMBER , cnt)
-                    PrefUtil.getInstance(mContext).put(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS , isBonus)
-                    updateExcludePrevWinNumber()
-                }
-                // 이전 회차 번호 중 n개 이상 포함
-                else if( mFilterType == FILTER_TYPE.INCLUDE_LAST_ROUND_WIN_NUMBER ) {
-                    PrefUtil.getInstance(mContext).put(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, true)
-                    PrefUtil.getInstance(mContext).put(DefinePref.CNT_INCLUDE_LAST_ROUND_WIN_NUMBER, cnt)
-                    PrefUtil.getInstance(mContext).put(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS, isBonus)
-                    updateIncludeLastRoundWinNumber()
+                // 이전 회차 번호 중 n개 일치
+                if( mFilterType == FILTER_TYPE.LAST_ROUND_WIN_NUMBER ) {
+                    PrefUtil.getInstance(mContext).put(LAST_ROUND_WIN_NUMBER.SELECT , true)
+                    PrefUtil.getInstance(mContext).put(LAST_ROUND_WIN_NUMBER.CNT , cnt)
+                    PrefUtil.getInstance(mContext).put(LAST_ROUND_WIN_NUMBER.BONUS , isBonus)
+                    updateLastRoundWinNumber()
                 }
                 // n개 이상 연속된 수 제외
-                else if( mFilterType == FILTER_TYPE.EXCLUDE_CONSECUTIVE_NUMBER ) {
-                    PrefUtil.getInstance(mContext).put(DefinePref.IS_EXCLUDE_CONSECUTIVE_NUMBER, true)
-                    PrefUtil.getInstance(mContext).put(DefinePref.CNT_EXCLUDE_CONSECUTIVE_NUMBER, cnt)
-                    updateExcludeConsecutiveNumber()
+                else if( mFilterType == FILTER_TYPE.CONSECUTIVE_NUMBER ) {
+                    PrefUtil.getInstance(mContext).put(CONSECUTIVE_NUMBER.SELECT, true)
+                    PrefUtil.getInstance(mContext).put(CONSECUTIVE_NUMBER.CNT, cnt)
+                    updateConsecutiveNumber()
                 }
 
                 dismissDialog()
@@ -136,45 +122,33 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
 
     override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
         when( p0?.id ) {
-            // 이전 당첨번호 제외
-            R.id.chkExcludePrevWinNumber -> {
+            // 이전 회차 번호 중 n개 일치
+            R.id.chkLastRoundWinNumber -> {
                 if( isChecked ) {
-                    mFilterType = FILTER_TYPE.EXCLUDE_PREV_WIN_NUMBER
+                    mFilterType = FILTER_TYPE.LAST_ROUND_WIN_NUMBER
                     mLayoutType = LAYOUT_TYPE.INPUT_COUNT
                     changeFilterLayout()
-                    setInputCount(true, isExcludePrevWinNumberWithBonus)
+                    val isBonus = PrefUtil.getInstance(mContext).getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
+                    setInputCount(true, isBonus)
                 }
                 else {
-                    PrefUtil.getInstance(mContext).put( DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER, false )
-                    filterList.chkExcludePrevWinNumber.text = String.format(mContext.getString(R.string.filter_exclude_prev_win_number), "n")
-                }
-            }
-
-            // 이전 회차 번호 중 n개 이상 포함
-            R.id.chkIncludeLastRoundWinNumber -> {
-                if( isChecked ) {
-                    mFilterType = FILTER_TYPE.INCLUDE_LAST_ROUND_WIN_NUMBER
-                    mLayoutType = LAYOUT_TYPE.INPUT_COUNT
-                    changeFilterLayout()
-                    setInputCount(true, isIncludeLastRoundWinNumberWithBonus)
-                }
-                else {
-                    PrefUtil.getInstance(mContext).put( DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, false )
-                    filterList.chkIncludeLastRoundWinNumber.text = String.format(mContext.getString(R.string.filter_include_last_round_win_number), "n")
+                    PrefUtil.getInstance(mContext).put( LAST_ROUND_WIN_NUMBER.SELECT, false )
+                    PrefUtil.getInstance(mContext).put( LAST_ROUND_WIN_NUMBER.BONUS, true )
+                    filterList.chkLastRoundWinNumber.text = String.format(mContext.getString(R.string.filter_last_round_win_number), "n")
                 }
             }
 
             // n개 이상 연속된 수 제외
-            R.id.chkExcludeConsecutiveNumber -> {
+            R.id.chkConsecutiveNumber -> {
                 if( isChecked ) {
-                    mFilterType = FILTER_TYPE.EXCLUDE_CONSECUTIVE_NUMBER
+                    mFilterType = FILTER_TYPE.CONSECUTIVE_NUMBER
                     mLayoutType = LAYOUT_TYPE.INPUT_COUNT
                     changeFilterLayout()
                     setInputCount(false, false)
                 }
                 else {
-                    PrefUtil.getInstance(mContext).put( DefinePref.IS_EXCLUDE_CONSECUTIVE_NUMBER, false )
-                    filterList.chkExcludeConsecutiveNumber.text = String.format(mContext.getString(R.string.filter_exclude_consecutive_number), "n")
+                    PrefUtil.getInstance(mContext).put( CONSECUTIVE_NUMBER.SELECT, false )
+                    filterList.chkConsecutiveNumber.text = String.format(mContext.getString(R.string.filter_consecutive_number), "n")
                 }
             }
         }
@@ -211,30 +185,24 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
     // 횟수입력 레이아웃 설정
     fun setInputCount(isBonusShow: Boolean, isBonus: Boolean) {
         when( mFilterType ) {
-            FILTER_TYPE.EXCLUDE_PREV_WIN_NUMBER -> {
-                filterInputCount.etCount.setMinNumber(4)
-                filterInputCount.etCount.setMaxNumber(6)
-                filterInputCount.txtTitle.text = String.format(mContext.getString(R.string.filter_exclude_prev_win_number), "n")
-                filterInputCount.layoutDesc.visibility = View.GONE
-                filterInputCount.etCount.setNumber(cntExcludePrevWinNumber)
-            }
-
-            FILTER_TYPE.INCLUDE_LAST_ROUND_WIN_NUMBER -> {
+            FILTER_TYPE.LAST_ROUND_WIN_NUMBER -> {
                 filterInputCount.etCount.setMinNumber(0)
-                filterInputCount.etCount.setMaxNumber(3)
-                filterInputCount.txtTitle.text = String.format(mContext.getString(R.string.filter_include_last_round_win_number), "n")
+                filterInputCount.etCount.setMaxNumber(4)
+                filterInputCount.txtTitle.text = String.format(mContext.getString(R.string.filter_last_round_win_number), "n")
                 filterInputCount.layoutDesc.visibility = View.VISIBLE
-                filterInputCount.txtDesc.setText(mContext.getString(R.string.filter_desc_include_last_round_win_number))
-                filterInputCount.etCount.setNumber(cntIncludeLastRoundWinNumber)
+                filterInputCount.txtDesc.text = mContext.getString(R.string.filter_desc_last_round_win_number)
+                val cnt = PrefUtil.getInstance(mContext).getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
+                filterInputCount.etCount.setNumber(cnt)
             }
 
-            FILTER_TYPE.EXCLUDE_CONSECUTIVE_NUMBER -> {
-                filterInputCount.etCount.setMinNumber(1)
+            FILTER_TYPE.CONSECUTIVE_NUMBER -> {
+                filterInputCount.etCount.setMinNumber(0)
                 filterInputCount.etCount.setMaxNumber(4)
-                filterInputCount.txtTitle.text = String.format(mContext.getString(R.string.filter_exclude_consecutive_number), "n")
+                filterInputCount.txtTitle.text = String.format(mContext.getString(R.string.filter_consecutive_number), "n")
                 filterInputCount.layoutDesc.visibility = View.VISIBLE
-                filterInputCount.txtDesc.setText(mContext.getString(R.string.filter_desc_exclude_consecutive_number))
-                filterInputCount.etCount.setNumber(cntExcludeConsecutiveNumber)
+                filterInputCount.txtDesc.text = mContext.getString(R.string.filter_desc_consecutive_number)
+                val cnt = PrefUtil.getInstance(mContext).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
+                filterInputCount.etCount.setNumber(cnt)
             }
         }
 
@@ -256,60 +224,40 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
             return
         }
 
-        // 이전 당첨번호 제외
-        if( mFilterType == FILTER_TYPE.EXCLUDE_PREV_WIN_NUMBER ) {
-            filterList.chkExcludePrevWinNumber.isChecked = false
+        // 이전 회차 번호 중 n개 일치
+        if( mFilterType == FILTER_TYPE.LAST_ROUND_WIN_NUMBER ) {
+            filterList.chkLastRoundWinNumber.isChecked = false
         }
-        // 이전 회차 번호 중 n개 이상 포함
-        else if( mFilterType == FILTER_TYPE.INCLUDE_LAST_ROUND_WIN_NUMBER ) {
-            filterList.chkIncludeLastRoundWinNumber.isChecked = false
-        }
-        // n개 이상 연속된 수 제외
-        else if( mFilterType == FILTER_TYPE.EXCLUDE_CONSECUTIVE_NUMBER ) {
-            filterList.chkExcludeConsecutiveNumber.isChecked = false
+        // n개 연속된 수
+        else if( mFilterType == FILTER_TYPE.CONSECUTIVE_NUMBER ) {
+            filterList.chkConsecutiveNumber.isChecked = false
         }
     }
 
 
-    // 이전 당첨번호 n개 이상 일치시 제외
-    fun updateExcludePrevWinNumber() {
-        isExcludePrevWinNumber = PrefUtil.getInstance(mContext).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER, DefinePref.DFT_IS_EXCLUDE_PREV_WIN_NUMBER)
-        cntExcludePrevWinNumber = PrefUtil.getInstance(mContext).getInt(DefinePref.CNT_EXCLUDE_PREV_WIN_NUMBER, DefinePref.DFT_CNT_EXCLUDE_PREV_WIN_NUMBER)
-        isExcludePrevWinNumberWithBonus = PrefUtil.getInstance(mContext).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS, DefinePref.DFT_IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS)
+    // 이전 회차 번호 중 n개 일치
+    fun updateLastRoundWinNumber() {
+        val select = PrefUtil.getInstance(mContext).getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
+        val cnt = PrefUtil.getInstance(mContext).getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
+        val bonus = PrefUtil.getInstance(mContext).getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
 
-        filterList.chkExcludePrevWinNumber.isChecked = isExcludePrevWinNumber
-        if( isExcludePrevWinNumber ) {
-            val bonus = if(isExcludePrevWinNumberWithBonus) "보너스 포함" else "보너스 미포함"
-            filterList.chkExcludePrevWinNumber.text = "${String.format(mContext.getString(R.string.filter_exclude_prev_win_number), cntExcludePrevWinNumber)} (${bonus})"
+        filterList.chkLastRoundWinNumber.isChecked = select
+        if( select ) {
+            val strBonus = if(bonus) "보너스 포함" else "보너스 미포함"
+            filterList.chkLastRoundWinNumber.text = "${String.format(mContext.getString(R.string.filter_last_round_win_number), cnt)} (${strBonus})"
         }
         else {
-            filterList.chkExcludePrevWinNumber.text = String.format(mContext.getString(R.string.filter_exclude_prev_win_number), "n")
+            filterList.chkLastRoundWinNumber.text = String.format(mContext.getString(R.string.filter_last_round_win_number), "n")
         }
     }
 
-    // 이전 회차 번호 중 n개 이상 포함
-    fun updateIncludeLastRoundWinNumber() {
-        isIncludeLastRoundWinNumber = PrefUtil.getInstance(mContext).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, DefinePref.DFT_IS_INCLUDE_LAST_ROUND_WIN_NUMBER)
-        cntIncludeLastRoundWinNumber = PrefUtil.getInstance(mContext).getInt(DefinePref.CNT_INCLUDE_LAST_ROUND_WIN_NUMBER, DefinePref.DFT_CNT_INCLUDE_LAST_ROUND_WIN_NUMBER)
-        isIncludeLastRoundWinNumberWithBonus = PrefUtil.getInstance(mContext).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS, DefinePref.DFT_IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS)
+    // n개 연속된 수
+    fun updateConsecutiveNumber() {
+        val select = PrefUtil.getInstance(mContext).getBoolean(CONSECUTIVE_NUMBER.SELECT, CONSECUTIVE_NUMBER.DFT_SELECT)
+        val cnt = PrefUtil.getInstance(mContext).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
 
-        filterList.chkIncludeLastRoundWinNumber.isChecked = isIncludeLastRoundWinNumber
-        if( isIncludeLastRoundWinNumber ) {
-            val bonus = if(isIncludeLastRoundWinNumberWithBonus) "보너스 포함" else "보너스 미포함"
-            filterList.chkIncludeLastRoundWinNumber.text = "${String.format(mContext.getString(R.string.filter_include_last_round_win_number), cntIncludeLastRoundWinNumber)} (${bonus})"
-        }
-        else {
-            filterList.chkIncludeLastRoundWinNumber.text = String.format(mContext.getString(R.string.filter_include_last_round_win_number), "n")
-        }
-    }
-
-    // n개 이상 연속된 수 제외
-    fun updateExcludeConsecutiveNumber() {
-        isExcludeConsecutiveNumber = PrefUtil.getInstance(mContext).getBoolean(DefinePref.IS_EXCLUDE_CONSECUTIVE_NUMBER, DefinePref.DFT_IS_EXCLUDE_CONSECUTIVE_NUMBER)
-        cntExcludeConsecutiveNumber = PrefUtil.getInstance(mContext).getInt(DefinePref.CNT_EXCLUDE_CONSECUTIVE_NUMBER, DefinePref.DFT_CNT_EXCLUDE_CONSECUTIVE_NUMBER)
-
-        filterList.chkExcludeConsecutiveNumber.isChecked = isExcludeConsecutiveNumber
-        val arg = if(isExcludeConsecutiveNumber) "${cntExcludeConsecutiveNumber}" else "n"
-        filterList.chkExcludeConsecutiveNumber.text = String.format(mContext.getString(R.string.filter_exclude_consecutive_number), arg)
+        filterList.chkConsecutiveNumber.isChecked = select
+        val strCnt = if(select) "${cnt}" else "n"
+        filterList.chkConsecutiveNumber.text = String.format(mContext.getString(R.string.filter_consecutive_number), strCnt)
     }
 }

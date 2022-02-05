@@ -6,8 +6,8 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/chkExcludePrevWinNumber"
-        android:text="@string/filter_exclude_prev_win_number"
+        android:id="@+id/chkLastRoundWinNumber"
+        android:text="@string/filter_last_round_win_number"
         style="@style/BaseCheck"
         android:checked="true"
         app:layout_constraintTop_toTopOf="parent"
@@ -16,23 +16,12 @@
         android:layout_height="50dp" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/chkIncludeLastRoundWinNumber"
-        android:text="@string/filter_include_last_round_win_number"
+        android:id="@+id/chkConsecutiveNumber"
+        android:text="@string/filter_consecutive_number"
         style="@style/BaseCheck"
         android:checked="true"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/chkExcludePrevWinNumber"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
-
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/chkExcludeConsecutiveNumber"
-        android:text="@string/filter_exclude_consecutive_number"
-        style="@style/BaseCheck"
-        android:checked="true"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/chkIncludeLastRoundWinNumber"
+        app:layout_constraintTop_toBottomOf="@id/chkLastRoundWinNumber"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
         android:layout_height="50dp" />

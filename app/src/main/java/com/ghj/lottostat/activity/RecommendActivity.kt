@@ -7,8 +7,11 @@ import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.adapter.LottoNumberAdapter
 import com.ghj.lottostat.activity.base.BaseDrawerViewModelActivity
 import com.ghj.lottostat.activity.viewmodel.RecommendViewModel
+import com.ghj.lottostat.common.CONSECUTIVE_NUMBER
 import com.ghj.lottostat.common.DefineCode
-import com.ghj.lottostat.common.DefinePref
+import com.ghj.lottostat.common.LAST_ROUND_WIN_NUMBER
+import com.ghj.lottostat.common.LottoScript.generateConsecutiveNumber
+import com.ghj.lottostat.common.LottoScript.getConsecutiveCount
 import com.ghj.lottostat.databinding.ActivityRecommendBinding
 import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.dialog.CommonDialog
@@ -16,7 +19,7 @@ import com.ghj.lottostat.dialog.FilterDialog
 import com.ghj.lottostat.util.AlertUtil
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.PrefUtil
-import java.util.concurrent.ThreadLocalRandom
+import java.security.SecureRandom
 
 class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() , View.OnClickListener{
 
@@ -83,16 +86,12 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
     fun generateLottoNumber(count: Int) {
         val startTime = SystemClock.elapsedRealtime()
 
-        val isExcludePrevWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER, DefinePref.DFT_IS_EXCLUDE_PREV_WIN_NUMBER)
-        val cntExcludePrevWinNumber = PrefUtil.getInstance(this).getInt(DefinePref.CNT_EXCLUDE_PREV_WIN_NUMBER, DefinePref.DFT_CNT_EXCLUDE_PREV_WIN_NUMBER);
-        val isExcludePrevWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS, DefinePref.DFT_IS_EXCLUDE_PREV_WIN_NUMBER_WITH_BONUS)
+        val isLastRoundWinNumber = PrefUtil.getInstance(this).getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
+        val cntLastRoundWinNumber = PrefUtil.getInstance(this).getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
+        val isLastRoundWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
 
-        val isIncludeLastRoundWinNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER, DefinePref.DFT_IS_INCLUDE_LAST_ROUND_WIN_NUMBER)
-        val cntIncludeLastRoundWinNumber = PrefUtil.getInstance(this).getInt(DefinePref.CNT_INCLUDE_LAST_ROUND_WIN_NUMBER, DefinePref.DFT_CNT_INCLUDE_LAST_ROUND_WIN_NUMBER)
-        val isIncludeLastRoundWinNumberWithBonus = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS, DefinePref.DFT_IS_INCLUDE_LAST_ROUND_WIN_NUMBER_WITH_BONUS)
-
-        val isExcludeConsecutiveNumber = PrefUtil.getInstance(this).getBoolean(DefinePref.IS_EXCLUDE_CONSECUTIVE_NUMBER, DefinePref.DFT_IS_EXCLUDE_CONSECUTIVE_NUMBER)
-        val cntExcludeConsecutiveNumber = PrefUtil.getInstance(this).getInt(DefinePref.CNT_EXCLUDE_CONSECUTIVE_NUMBER, DefinePref.DFT_CNT_EXCLUDE_CONSECUTIVE_NUMBER)
+        val isConsecutiveNumber = PrefUtil.getInstance(this).getBoolean(CONSECUTIVE_NUMBER.SELECT, CONSECUTIVE_NUMBER.DFT_SELECT)
+        var cntConsecutiveNumber = PrefUtil.getInstance(this).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
 
         var index : Int = 0
         val LOTTO = arrayListOf<Int>()  // 추천 로또번호
@@ -103,53 +102,45 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
             // 번호생성
             LOTTO.clear()
             // 로또번호 1~45
-            val GROUP : MutableList<Int> = DefineCode.LOTTERY.toMutableList()
+            val GROUP : ArrayList<Int> = arrayListOf()
+            GROUP.addAll(DefineCode.LOTTERY)
 
-            // 직전회차 당첨번호 중 n개이상 포함
-            if( isIncludeLastRoundWinNumber || isIncludeLastRoundWinNumberWithBonus ) {
-                val lastRound = SQLiteService.selectLastRoundWinNumber(this, isIncludeLastRoundWinNumberWithBonus)
+            // 이전 회차 번호 중 n개 일치
+            if( isLastRoundWinNumber ) {
+                val lastRound = SQLiteService.selectLastRoundWinNumber(this, isLastRoundWinNumberWithBonus)
                 // 0 <= idx < cntIncludeLastRoundWinNumber
-                for( idx in 0 until cntIncludeLastRoundWinNumber) {
+                for( idx in 0 until cntLastRoundWinNumber) {
                     // 인덱스 구해서 추천번호 뽑기
-                    val tempIndex = ThreadLocalRandom.current().nextInt(0, lastRound.size )
+                    val tempIndex = SecureRandom().nextInt(lastRound.size )
                     val goodNumber : Int = lastRound.get(tempIndex)
                     LOTTO.add(goodNumber)
                     // 당첨번호에서 추가한 번호삭제
                     lastRound.removeAt(tempIndex)
                     GROUP.remove(goodNumber)
                 }
+
+                // 나머지 당첨번호 삭제
+                for( num in lastRound ) {
+                    GROUP.remove(num)
+                }
+            }
+
+            var isOverConsecutiveNumber = false   // 이미 제한된 연속수가 넘어갔는지 여부
+            if( isConsecutiveNumber ) {
+                // 뽑을수 있는 수보다 연속해야 하는 숫자가 더 크면 뽑을수 있는 수만큼만 연속해야 한다
+                if( cntConsecutiveNumber > (6-LOTTO.size) ) {
+                    cntConsecutiveNumber = 6-LOTTO.size
+                }
+
+                if( LOTTO.getConsecutiveCount() > cntConsecutiveNumber ) {
+                    isOverConsecutiveNumber = true
+                }
             }
 
             while ( LOTTO.size < 6 ) {
-                // 이전 당첨번호와 n개이상 일치시 제외
-                if( isExcludePrevWinNumber || isExcludePrevWinNumberWithBonus ) {
-                    if( LOTTO.size == cntExcludePrevWinNumber-1 ) {
-                        // 0번째 번호가 포함된 로또당첨번호 리스트
-                        val list : ArrayList<MutableList<Int>> = SQLiteService.selectPrevWinNumberByNum(this, LOTTO.get(0), isExcludePrevWinNumberWithBonus)
-
-                        for( idx in 0 until list.size ) {
-                            val WIN_NUMBER : MutableList<Int> = list.get(idx) // 당첨번호
-                            var isPrevWinNumber = true  // 이전번호와 n-1개 일치여부
-                            // 이전 당첨번호와 n-1개 일치하는지 체크
-                            for( i in 1 until LOTTO.size ) {
-                                if( !WIN_NUMBER.contains(LOTTO.get(i)) ) {
-                                    isPrevWinNumber = false
-                                    break
-                                }
-                            }
-
-                            // 이전번호와 n-1개 일치하면 나머지번호 삭제
-                            if( isPrevWinNumber ) {
-                                for( i in 0 until WIN_NUMBER.size ) {
-                                    GROUP.remove( WIN_NUMBER.get(i) )
-                                }
-                            }
-                        }
-                    }
-                }
 
                 // 번호추천
-                val numIndex = ThreadLocalRandom.current().nextInt(0, GROUP.size)
+                val numIndex = SecureRandom().nextInt(GROUP.size)
                 val number = GROUP.get(numIndex)
 
                 // 추천번호 결과담고 모그룹에서 삭제
@@ -157,32 +148,17 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
                 LOTTO.sort()
                 GROUP.removeAt( numIndex )
 
-                // n개이상 연속된 수 체크
-                if( isExcludeConsecutiveNumber && cntExcludeConsecutiveNumber <= LOTTO.size) {
-                    var isConsecutive : Boolean = false    // 결과체크
-                    var cntConsecutive = 1  // 연속된수 개수
-                    var temp : Int = -1 // 이전번호
-                    for( idx in 0 until LOTTO.size ) {
-                        // 두수 사이 간격이 1이면 이전번호와 연속된 수
-                        if( Math.abs(temp-LOTTO.get(idx)) <= 1 ) {
-                            // 지금까지 연속수 >= n 연속수 한계 설정개수
-                            if( (++cntConsecutive) >= cntExcludeConsecutiveNumber ) {
-                                isConsecutive = true
-                                break
-                            }
-                        }
-                        // 이전번호와 연속되지 않은 수
-                        else {
-                            cntConsecutive = 1
-                        }
-                        temp = LOTTO.get(idx)
-                    }
+                LogUtil.d("${LOTTO.size} >> ${LOTTO}")
 
-                    // n개이상 연속된 수이면 지우고 다시하기
-                    if( isConsecutive ) {
-                        LOTTO.remove( number )
-                        continue
-                    }
+                // n개 연속된 수
+                if( isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size) ) {
+                    LOTTO.generateConsecutiveNumber(GROUP, cntConsecutiveNumber)
+                }
+
+                // n개 연속된 수 필터 체크
+                if( isConsecutiveNumber && !isOverConsecutiveNumber && LOTTO.getConsecutiveCount() > cntConsecutiveNumber ) {
+                    LOTTO.remove( number )
+                    GROUP.remove( number )
                 }
             }
 

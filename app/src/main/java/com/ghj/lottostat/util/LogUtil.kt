@@ -5,7 +5,7 @@ import android.util.Log
 import com.ghj.lottostat.BuildConfig
 
 object LogUtil {
-    private val TAG : String = "Browser"
+    private val TAG : String = "LogUtil"
 
     private val MAX_MSG = 1500
 

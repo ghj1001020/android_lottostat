@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/txtWinNo"
-                android:text="1000회 당첨번호"
+                android:text="1회 당첨번호"
                 style="@style/Text_17_black_b"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -196,10 +196,10 @@
             <TableRow>
                 <TextView android:text="1등"
                     style="@style/TextWinLottoTableNo"/>
-                <TextView android:id="@+id/txt1PlaceCnt"
+                <TextView android:id="@+id/txt1PlaceAmt"
                     tools:text="2,369,326"
                     style="@style/TextWinLottoTableCnt"/>
-                <TextView android:id="@+id/txt1PlaceAmt"
+                    <TextView android:id="@+id/place1Result"
                     tools:text="0원"
                     style="@style/TextWinLottoTableAmt"/>
             </TableRow>
@@ -207,10 +207,10 @@
             <TableRow>
                 <TextView android:text="2등"
                     style="@style/TextWinLottoTableNo"/>
-                <TextView android:id="@+id/txt2PlaceCnt"
+                <TextView android:id="@+id/txt2PlaceAmt"
                     tools:text="2,369,326"
                     style="@style/TextWinLottoTableCnt"/>
-                <TextView android:id="@+id/txt2PlaceAmt"
+                <TextView android:id="@+id/place2Result"
                     tools:text="0원"
                     style="@style/TextWinLottoTableAmt"/>
             </TableRow>
@@ -218,10 +218,10 @@
             <TableRow>
                 <TextView android:text="3등"
                     style="@style/TextWinLottoTableNo"/>
-                <TextView android:id="@+id/txt3PlaceCnt"
+                <TextView android:id="@+id/txt3PlaceAmt"
                     tools:text="2,369,326"
                     style="@style/TextWinLottoTableCnt"/>
-                <TextView android:id="@+id/txt3PlaceAmt"
+                <TextView android:id="@+id/place3Result"
                     tools:text="0원"
                     style="@style/TextWinLottoTableAmt"/>
             </TableRow>
@@ -229,10 +229,10 @@
             <TableRow>
                 <TextView android:text="4등"
                     style="@style/TextWinLottoTableNo"/>
-                <TextView android:id="@+id/txt4PlaceCnt"
+                <TextView android:id="@+id/txt4PlaceAmt"
                     tools:text="2,369,326"
                     style="@style/TextWinLottoTableCnt"/>
-                <TextView android:id="@+id/txt4PlaceAmt"
+                <TextView android:id="@+id/place4Result"
                     tools:text="0원"
                     style="@style/TextWinLottoTableAmt"/>
             </TableRow>
@@ -240,10 +240,10 @@
             <TableRow>
                 <TextView android:text="5등"
                     style="@style/TextWinLottoTableNo"/>
-                <TextView android:id="@+id/txt5PlaceCnt"
+                <TextView android:id="@+id/txt5PlaceAmt"
                     tools:text="2,369,326"
                     style="@style/TextWinLottoTableCnt"/>
-                <TextView android:id="@+id/txt5PlaceAmt"
+                <TextView android:id="@+id/place5Result"
                     tools:text="0원"
                     style="@style/TextWinLottoTableAmt"/>
             </TableRow>
