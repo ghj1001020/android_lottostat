@@ -1,9 +1,101 @@
 package com.ghj.lottostat.common
 
+import android.content.Context
+import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.util.LogUtil
+import com.ghj.lottostat.util.PrefUtil
 import java.security.SecureRandom
 
 object LottoScript {
+
+    // 로또번호 생성
+    fun generateLottoNumberList(context: Context, count: Int) : ArrayList<ArrayList<Int>> {
+        val resultList : ArrayList<ArrayList<Int>> = arrayListOf()
+
+        val isLastRoundWinNumber = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
+        val cntLastRoundWinNumber = PrefUtil.getInstance(context).getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
+        val isLastRoundWinNumberWithBonus = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
+
+        val isConsecutiveNumber = PrefUtil.getInstance(context).getBoolean(CONSECUTIVE_NUMBER.SELECT, CONSECUTIVE_NUMBER.DFT_SELECT)
+        var cntConsecutiveNumber = PrefUtil.getInstance(context).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
+
+        var index : Int = 0
+        val LOTTO = arrayListOf<Int>()  // 추천 로또번호
+
+        while(index < count) {
+
+            // 번호생성
+            LOTTO.clear()
+            // 로또번호 1~45
+            val GROUP : ArrayList<Int> = arrayListOf()
+            GROUP.addAll(DefineCode.LOTTERY)
+
+            // 이전 회차 번호 중 n개 일치
+            if( isLastRoundWinNumber ) {
+                val lastRound = SQLiteService.selectLastRoundWinNumber(context, isLastRoundWinNumberWithBonus)
+                // 0 <= idx < cntIncludeLastRoundWinNumber
+                for( idx in 0 until cntLastRoundWinNumber) {
+                    // 인덱스 구해서 추천번호 뽑기
+                    val tempIndex = SecureRandom().nextInt(lastRound.size )
+                    val goodNumber : Int = lastRound.get(tempIndex)
+                    LOTTO.add(goodNumber)
+                    // 당첨번호에서 추가한 번호삭제
+                    lastRound.removeAt(tempIndex)
+                    GROUP.remove(goodNumber)
+                }
+
+                // 나머지 당첨번호 삭제
+                for( num in lastRound ) {
+                    GROUP.remove(num)
+                }
+            }
+
+            var isOverConsecutiveNumber = false   // 이미 제한된 연속수가 넘어갔는지 여부
+            if( isConsecutiveNumber ) {
+                // 뽑을수 있는 수보다 연속해야 하는 숫자가 더 크면 뽑을수 있는 수만큼만 연속해야 한다
+                if( cntConsecutiveNumber > (6-LOTTO.size) ) {
+                    cntConsecutiveNumber = 6-LOTTO.size
+                }
+
+                if( LOTTO.getConsecutiveCount() > cntConsecutiveNumber ) {
+                    isOverConsecutiveNumber = true
+                }
+            }
+
+            while ( LOTTO.size < 6 ) {
+
+                // 번호추천
+                val numIndex = SecureRandom().nextInt(GROUP.size)
+                val number = GROUP.get(numIndex)
+
+                // 추천번호 결과담고 모그룹에서 삭제
+                LOTTO.add( number )
+                LOTTO.sort()
+                GROUP.removeAt( numIndex )
+                
+                // n개 연속된 수
+                if( isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size) ) {
+                    LOTTO.generateConsecutiveNumber(GROUP, cntConsecutiveNumber)
+                }
+
+                // n개 연속된 수 필터 체크
+                if( isConsecutiveNumber && !isOverConsecutiveNumber && LOTTO.getConsecutiveCount() > cntConsecutiveNumber ) {
+                    LOTTO.remove( number )
+                    GROUP.remove( number )
+                }
+            }
+
+            // 번호 추천 목록에 담기
+            resultList.add(LOTTO)
+
+            // 인덱스 1추가
+            index++
+        }
+
+        return resultList
+    }
+
+
 
     // 일치하는 숫자 갯수
     fun ArrayList<Int>.getMatchCount(other: ArrayList<Int>) : Int {
@@ -123,8 +215,6 @@ object LottoScript {
             else {
                 _this.remove(number)    // 기준수바꾸기
             }
-
-            LogUtil.d("generateConsecutiveNumber ${temp} ${_this} ${number}")
         }
 
         this.distinct()    // 중복제거

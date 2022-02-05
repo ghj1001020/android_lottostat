@@ -50,8 +50,11 @@ class LottoNumberAdapter(mContext: Context, val mLottoList: ArrayList<LottoNumbe
     }
 
 
-    fun addItems(list: MutableList<LottoNumberData> ) {
-        mLottoList.addAll( list )
+    fun addItems(list: MutableList<ArrayList<Int>> ) {
+        for( item in list ) {
+            if( item.size < 6 ) continue
+            mLottoList.add( LottoNumberData(item[0], item[1], item[2], item[3], item[4], item[5]) )
+        }
     }
 
     fun addItem(list: MutableList<Int>) {
