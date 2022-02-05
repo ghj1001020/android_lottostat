@@ -21,6 +21,7 @@
     <!-- 데이터없음 -->
     <string name="no_number_recommend">번호를\n추천받으세요.</string>
     <string name="no_number_mylotto">저장된\n번호가 없습니다.</string>
+    <string name="no_number_simulation">시뮬레이션을\n시작하세요.</string>
 
     <!-- 필터 -->
     <string name="filter_exclude_prev_win_number">이전 당첨번호와 %s개 이상 일치시 제외</string>

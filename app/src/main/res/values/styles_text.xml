@@ -20,6 +20,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Text_18_ff4c4c_b" parent="BaseText">
+        <item name="android:textColor">#ff4c4c</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Text_17_black_b" parent="BaseText">
         <item name="android:textSize">17dp</item>
         <item name="android:textStyle">bold</item>
@@ -64,6 +70,11 @@
 
     <style name="Text_13_222" parent="BaseText">
         <item name="android:textColor">#222222</item>
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="Text_13_666" parent="BaseText">
+        <item name="android:textColor">#666666</item>
         <item name="android:textSize">13dp</item>
     </style>
 
