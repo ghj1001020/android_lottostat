@@ -197,7 +197,7 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
 
             FILTER_TYPE.CONSECUTIVE_NUMBER -> {
                 filterInputCount.etCount.setMinNumber(0)
-                filterInputCount.etCount.setMaxNumber(4)
+                filterInputCount.etCount.setMaxNumber(3)
                 filterInputCount.txtTitle.text = String.format(mContext.getString(R.string.filter_consecutive_number), "n")
                 filterInputCount.layoutDesc.visibility = View.VISIBLE
                 filterInputCount.txtDesc.text = mContext.getString(R.string.filter_desc_consecutive_number)

@@ -67,10 +67,21 @@ object LottoScript {
                 val numIndex = SecureRandom().nextInt(GROUP.size)
                 val number = GROUP.get(numIndex)
 
+                LogUtil.d("generateLottoNumberList1 >> ${LOTTO}")
+
+                // n개 연속된 수
+                if( isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size) ) {
+                    LOTTO.generateConsecutiveNumber(GROUP, cntConsecutiveNumber)
+                }
+
                 // 추천번호 결과담고 모그룹에서 삭제
-                LOTTO.add( number )
-                LOTTO.sort()
-                GROUP.removeAt( numIndex )
+                if( LOTTO.size < 6 ) {
+                    LOTTO.add( number )
+                    LOTTO.sort()
+                    GROUP.removeAt( numIndex )
+                }
+
+                LogUtil.d("generateLottoNumberList2 >> ${LOTTO}")
 
                 // n개 연속된 수
                 if( isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size) ) {
@@ -201,6 +212,8 @@ object LottoScript {
                 }
             }
 
+            LogUtil.d("generateConsecutiveNumber ${temp.size}")
+
             if( temp.size > 0) {
                 if( temp.size == 1 ) {
                     this.addAll(temp.get(0))
@@ -216,7 +229,10 @@ object LottoScript {
             }
         }
 
-        this.distinct()    // 중복제거
+        val list = this.distinct()    // 중복제거
+        this.clear()
+        this.addAll(list)
+
         this.sort()
     }
 }
