@@ -1,6 +1,8 @@
 package com.ghj.lottostat.util
 
 import android.text.TextUtils
+import com.ghj.lottostat.util.StringUtil.stringToInt
+import com.ghj.lottostat.util.StringUtil.stringToLong
 import java.net.URL
 
 object StringUtil {
@@ -95,16 +97,61 @@ object StringUtil {
     }
 
     // string -> int
-    fun convertStringToInt( str : String? ) : Int {
-        if( TextUtils.isEmpty(str) ) {
-            return 0
-        }
-
+    fun String?.stringToInt() : Int {
         try{
-            return Integer.parseInt(str as String)
+            return stringToNumber(this, false).toInt()
         }
         catch ( e: Exception ) {
             return 0
         }
+    }
+
+    // string -> long
+    fun String?.stringToLong() : Long {
+        try{
+            return stringToNumber(this, false).toLong()
+        }
+        catch ( e: Exception ) {
+            return 0
+        }
+    }
+
+    // string -> double
+    fun String?.stringToDouble() : Double {
+        try{
+            return stringToNumber(this, false).toDouble()
+        }
+        catch ( e: Exception ) {
+            return 0.0
+        }
+    }
+
+    // string -> 숫자형태 string
+    private fun stringToNumber(str: String?, isReal: Boolean) : String {
+        if( TextUtils.isEmpty(str) ) {
+            return "0"
+        }
+
+        var sign = ""
+        // 음수
+        if( str!!.startsWith("-") ) {
+            sign = "-"
+        }
+
+        // 정수
+        val arrPoint = str.split(".")
+        val _integer = arrPoint[0].replace("[^0-9]".toRegex(), "")
+        // 소수
+        var _decimal = ""
+        if( arrPoint.size > 1 ) {
+            _decimal = arrPoint[1].replace("[^0-9]".toRegex(), "")
+        }
+
+        var _this = sign + _integer
+        if( isReal && !TextUtils.isEmpty(_decimal) ) {
+            _this += ".$_decimal"
+        }
+
+        return _this
     }
 }

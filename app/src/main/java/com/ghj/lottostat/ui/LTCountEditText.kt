@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import com.ghj.lottostat.util.StringUtil
+import com.ghj.lottostat.util.StringUtil.stringToInt
 
 class LTCountEditText(val mContext: Context, attrs: AttributeSet) : AppCompatEditText(mContext, attrs) {
 
@@ -15,7 +16,7 @@ class LTCountEditText(val mContext: Context, attrs: AttributeSet) : AppCompatEdi
 
     init {
         isEnabled = false
-        mCurrentNumber = StringUtil.convertStringToInt(this.text.toString())
+        mCurrentNumber = this.text.toString().stringToInt()
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(context, attrs) {}

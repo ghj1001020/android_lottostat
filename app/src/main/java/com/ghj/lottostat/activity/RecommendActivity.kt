@@ -81,7 +81,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
         val startTime = SystemClock.elapsedRealtime()
         lottoNumberAdapter.clearItems()
 
-        val list = LottoScript.generateLottoNumberList(this, count)
+        val list = LottoScript.generateLottoNumberList(this, mLottoNum, count)
 
         lottoNumberAdapter.addItems(list)
         lottoNumberAdapter.notifyDataSetChanged()

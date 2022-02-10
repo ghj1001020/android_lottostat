@@ -53,6 +53,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Text_16_d43301_b" parent="BaseText">
+        <item name="android:textColor">#D43301</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Text_14_333" parent="BaseText">
         <item name="android:textColor">#333333</item>
         <item name="android:textSize">14dp</item>

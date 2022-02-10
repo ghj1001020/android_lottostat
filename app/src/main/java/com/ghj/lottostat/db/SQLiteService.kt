@@ -7,6 +7,7 @@ import com.ghj.lottostat.common.DefineQuery
 import com.ghj.lottostat.util.DateUtil.convertDateFormat
 import com.ghj.lottostat.util.DateUtil.toString
 import java.util.*
+import kotlin.collections.ArrayList
 
 object SQLiteService {
 
@@ -74,6 +75,28 @@ object SQLiteService {
 
         SQLite.init(context)
         SQLite.select(DefineQuery.SELECT_LAST_ROUND_WIN_NUMBER) {cursor: Cursor ->
+            cursor.moveToNext()
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN1") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN2") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN3") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN4") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN5") ) )
+            result.add( cursor.getInt( cursor.getColumnIndex("WIN6") ) )
+            if( isBonus ) {
+                result.add( cursor.getInt( cursor.getColumnIndex("BONUS") ) )
+            }
+        }
+        SQLite.close()
+
+        return result
+    }
+
+    // 특정 회차 로또당첨번호 조회
+    fun selectRoundWinNumber(context: Context, isBonus: Boolean, round: Int) : ArrayList<Int> {
+        val result : ArrayList<Int> = arrayListOf()
+
+        SQLite.init(context)
+        SQLite.select(DefineQuery.SELECT_ROUND_WIN_NUMBER, arrayOf("${round}")) {cursor: Cursor ->
             cursor.moveToNext()
             result.add( cursor.getInt( cursor.getColumnIndex("WIN1") ) )
             result.add( cursor.getInt( cursor.getColumnIndex("WIN2") ) )

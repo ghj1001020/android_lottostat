@@ -1,16 +1,25 @@
 package com.ghj.lottostat.activity
 
+import android.os.SystemClock
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
+import com.ghj.lottostat.activity.adapter.SimulationAdapter
 import com.ghj.lottostat.activity.base.BaseDrawerViewModelActivity
 import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.activity.viewmodel.SimulationViewModel
+import com.ghj.lottostat.common.LottoScript
 import com.ghj.lottostat.databinding.ActivitySimulationBinding
 import com.ghj.lottostat.dialog.FilterDialog
+import com.ghj.lottostat.util.LogUtil
+import com.ghj.lottostat.util.StringUtil.stringToDouble
+import java.text.DecimalFormat
 
 class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding, SimulationViewModel>(), View.OnClickListener {
+
+    // 시뮬레이션 번호 목록 어답터
+    lateinit var simulationAdapter: SimulationAdapter
 
     // 당첨번호
     val winData : LottoWinNumber = LTApp.LottoWinNumberList.first()
@@ -51,6 +60,8 @@ class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding
         mContent.btnFilter.setOnClickListener(this)
         mContent.btnSimulation.setOnClickListener(this)
 
+        simulationAdapter = SimulationAdapter(this, getViewModel().mSimulationList)
+        mContent.rvLottoNumber.adapter = simulationAdapter
     }
 
     override fun onClick(p0: View?) {
@@ -60,6 +71,55 @@ class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding
                 val dialog = FilterDialog(this)
                 dialog.show()
             }
+
+            // 시뮬레이션
+            R.id.btnSimulation -> {
+                simulationLottoNumber()
+            }
+        }
+    }
+
+    // 시뮬레이션
+    fun simulationLottoNumber() {
+        val startTime = SystemClock.elapsedRealtime()
+        simulationAdapter.clearItems()
+
+        val list = LottoScript.generateLottoNumberList(this, winData.no, 100 )
+
+        simulationAdapter.addItems(list, winData)
+        simulationAdapter.notifyDataSetChanged()
+        renderSimulationList();
+
+        mContent.place1Result.text = "${simulationAdapter.ctnWin1}개"
+        mContent.place2Result.text = "${simulationAdapter.ctnWin2}개"
+        mContent.place3Result.text = "${simulationAdapter.ctnWin3}개"
+        mContent.place4Result.text = "${simulationAdapter.ctnWin4}개"
+        mContent.place5Result.text = "${simulationAdapter.ctnWin5}개"
+
+        var total = mContent.txt1PlaceAmt.text.toString().stringToDouble() * simulationAdapter.ctnWin1
+        total += mContent.txt2PlaceAmt.text.toString().stringToDouble() * simulationAdapter.ctnWin2
+        total += mContent.txt3PlaceAmt.text.toString().stringToDouble() * simulationAdapter.ctnWin3
+        total += mContent.txt4PlaceAmt.text.toString().stringToDouble() * simulationAdapter.ctnWin4
+        total += mContent.txt5PlaceAmt.text.toString().stringToDouble() * simulationAdapter.ctnWin5
+
+        val df = DecimalFormat("#,##0")
+        mContent.txtTotal.text = df.format(total)
+
+        mContent.chkFold.isChecked = true
+        mContent.layoutResult.visibility = View.VISIBLE
+
+        val runTime = SystemClock.elapsedRealtime() - startTime;
+        LogUtil.d("runTime = ${runTime}")
+    }
+
+    fun renderSimulationList() {
+        if( getViewModel().mSimulationList.size > 0 ) {
+            mContent.rvLottoNumber.visibility = View.VISIBLE
+            mContent.noContent.root.visibility = View.GONE
+        }
+        else {
+            mContent.rvLottoNumber.visibility = View.GONE
+            mContent.noContent.root.visibility = View.VISIBLE
         }
     }
 }

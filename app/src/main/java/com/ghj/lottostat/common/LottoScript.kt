@@ -1,6 +1,7 @@
 package com.ghj.lottostat.common
 
 import android.content.Context
+import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.PrefUtil
@@ -9,7 +10,8 @@ import java.security.SecureRandom
 object LottoScript {
 
     // 로또번호 생성
-    fun generateLottoNumberList(context: Context, count: Int) : ArrayList<ArrayList<Int>> {
+    // round-생성하는 로또회차, count-생성갯수
+    fun generateLottoNumberList(context: Context, round: Int, count: Int) : ArrayList<ArrayList<Int>> {
         val resultList : ArrayList<ArrayList<Int>> = arrayListOf()
 
         val isLastRoundWinNumber = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
@@ -30,8 +32,8 @@ object LottoScript {
             GROUP.addAll(DefineCode.LOTTERY)
 
             // 이전 회차 번호 중 n개 일치
-            if( isLastRoundWinNumber ) {
-                val lastRound = SQLiteService.selectLastRoundWinNumber(context, isLastRoundWinNumberWithBonus)
+            if( isLastRoundWinNumber && round > 1) {
+                val lastRound = SQLiteService.selectRoundWinNumber(context, isLastRoundWinNumberWithBonus, round-1)
                 // 0 <= idx < cntIncludeLastRoundWinNumber
                 for( idx in 0 until cntLastRoundWinNumber) {
                     // 인덱스 구해서 추천번호 뽑기

@@ -15,6 +15,7 @@ import com.ghj.lottostat.databinding.FilterListBinding
 import com.ghj.lottostat.ui.LTCountEditText
 import com.ghj.lottostat.util.PrefUtil
 import com.ghj.lottostat.util.StringUtil
+import com.ghj.lottostat.util.StringUtil.stringToInt
 
 class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding>(context) {
 
@@ -88,7 +89,7 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
 
             // 횟수입력 > 확인
             R.id.btnCountOk -> {
-                val cnt = StringUtil.convertStringToInt( filterInputCount.etCount.text.toString() )
+                val cnt = filterInputCount.etCount.text.toString().stringToInt()
                 val isBonus = filterInputCount.chkBonus.isChecked
 
                 // 이전 회차 번호 중 n개 일치
