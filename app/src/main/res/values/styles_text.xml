@@ -146,7 +146,7 @@
     <style name="TextWinLottoTableCnt" parent="Text_14_767676">
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/bg_fff_st1_b_ddd</item>
-        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">35dp</item>
     </style>
 
@@ -154,7 +154,7 @@
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:paddingEnd">10dp</item>
         <item name="android:background">@drawable/bg_fff_st1_brl_ddd</item>
-        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">35dp</item>
     </style>
 

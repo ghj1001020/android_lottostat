@@ -216,7 +216,7 @@ class FilterDialog(context: Context) : BaseBottomSheetDialog<DialogFilterBinding
             filterInputCount.chkBonus.visibility = View.GONE
         }
 
-        mLayoutType = LAYOUT_TYPE.INPUT_COUNT
+//        mLayoutType = LAYOUT_TYPE.INPUT_COUNT
     }
 
     // 필터 설정 취소
