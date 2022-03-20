@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/bg_r3_fff"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="1000회 번호추천"
+            style="@style/Text_16_black_b"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/btnMoreRecommend"
+            android:layout_alignBottom="@id/btnMoreRecommend"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/btnMoreRecommend"
+            android:text="더 많은 번호 추천받기 >"
+            style="@style/BaseWidgetButton"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/btnMoreRecommend"
+            android:layout_marginTop="8dp">
+
+            <TextView android:id="@+id/txtNum1" style="@style/TextLottoNumMid" />
+            <FrameLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/txtNum2" style="@style/TextLottoNumMid" />
+            <FrameLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/txtNum3" style="@style/TextLottoNumMid" />
+            <FrameLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/txtNum4" style="@style/TextLottoNumMid" />
+            <FrameLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/txtNum5" style="@style/TextLottoNumMid" />
+            <FrameLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/txtNum6" style="@style/TextLottoNumMid" />
+            <FrameLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+
+            <ImageButton
+                style="@style/BaseImageButton"
+                android:foreground="@android:color/transparent"
+                android:src="@drawable/ic_more"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        style="@style/BaseDivider"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="추천내용"
+            style="@style/Text_16_black_b"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/btnFilterSetting"
+            android:layout_alignBottom="@id/btnFilterSetting"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/btnFilterSetting"
+            android:text="필터 설정하기 >"
+            style="@style/BaseWidgetButton"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnFilterSetting"
+            android:layout_marginTop="8dp"
+            android:divider="@null"
+            tools:listitem="@layout/row_appwidget_info" />
+
+    </RelativeLayout>
+
+</LinearLayout>

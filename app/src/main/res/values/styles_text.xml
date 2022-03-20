@@ -35,6 +35,11 @@
         <item name="android:textSize">16dp</item>
     </style>
 
+    <style name="Text_16_black_b" parent="BaseText">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Text_16_333" parent="BaseText">
         <item name="android:textColor">#333333</item>
         <item name="android:textSize">16dp</item>
@@ -72,6 +77,12 @@
     <style name="Text_14_D43301" parent="BaseText">
         <item name="android:textColor">#D43301</item>
         <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="Text_13_black_b" parent="BaseText">
+        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text_13_222" parent="BaseText">
