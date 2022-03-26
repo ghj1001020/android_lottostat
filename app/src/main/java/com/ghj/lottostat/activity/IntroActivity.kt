@@ -7,9 +7,8 @@ import android.widget.Toast
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.base.BaseActivity
-import com.ghj.lottostat.common.DefineCode
-import com.ghj.lottostat.common.DefinePref
-import com.ghj.lottostat.common.DefineQuery
+import com.ghj.lottostat.activity.data.LinkData
+import com.ghj.lottostat.common.*
 import com.ghj.lottostat.databinding.ActivityIntroBinding
 import com.ghj.lottostat.db.SQLite
 import com.ghj.lottostat.db.SQLiteService
@@ -110,18 +109,22 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
 
     // 메인화면으로 이동
     private fun moveToMain() {
+        // 외부링크 확인
+        val classCode = intent.getIntExtra(LinkParam.LINK, -1)
+        val link = LinkData(classCode)
+
         val diffTime = Calendar.getInstance().timeInMillis - mStartTime
         // 최소 인트로타임 보장
         if( diffTime < INTRO_TIME ) {
             Timer().schedule( timerTask {
                 mBinding.txtMessage.text = getString(R.string.intro_guide_main)
-                IntentUtil.moveToMain(this@IntroActivity)
+                IntentUtil.moveToMain(this@IntroActivity, link)
                 finish()
             }, INTRO_TIME-diffTime)
         }
         else {
             mBinding.txtMessage.text = getString(R.string.intro_guide_main)
-            IntentUtil.moveToMain(this)
+            IntentUtil.moveToMain(this, link)
             finish()
         }
     }

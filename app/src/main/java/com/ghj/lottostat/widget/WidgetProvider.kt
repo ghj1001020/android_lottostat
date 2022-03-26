@@ -1,18 +1,29 @@
 package com.ghj.lottostat.widget
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.RemoteViews
+import android.widget.Toast
 import com.ghj.lottostat.R
+import com.ghj.lottostat.activity.IntroActivity
+import com.ghj.lottostat.common.LinkParam
 import com.ghj.lottostat.common.LottoScript
+import com.ghj.lottostat.common.WidgetParam
 import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.Util
 
 class WidgetProvider : AppWidgetProvider() {
+
+    // 브로드캐스트 아이드
+    val REQ_ID_REFRESH = 10000
+    val REQ_ID_RECOMMEND = 10001
 
 
     // 브로드캐스트 리시버
@@ -22,16 +33,36 @@ class WidgetProvider : AppWidgetProvider() {
 
         val action = intent.action
         LogUtil.d("WidgetProvider action = $action")
+        Toast.makeText(context, "onReceive $action", Toast.LENGTH_SHORT).show()
+
+        if( Intent.ACTION_MY_PACKAGE_REPLACED.equals(action) ) {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            onUpdate( context, appWidgetManager, appWidgetManager.getAppWidgetIds(ComponentName(context, javaClass)) )
+        }
+        else if( WidgetParam.WIDGET_REFRESH.equals(action) ) {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            onUpdate( context, appWidgetManager, appWidgetManager.getAppWidgetIds(ComponentName(context, javaClass)) )
+        }
     }
 
     // 위젯 업데이트 주기, 위젯 구성완료
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
+        Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show()
+
         if(context == null)
             return
 
         val remoteViews = makeWidgetUI(context)
-
         appWidgetIds?.forEach { _id ->
+            // 리스트뷰
+            val listIntent = Intent(context, WidgetRemoteViewsService::class.java).apply {
+                this.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, _id)
+                data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+            }
+            remoteViews.apply {
+                this.setRemoteAdapter(R.id.listInfo, listIntent)
+                this.setEmptyView(R.id.listInfo, R.id.txtEmpty)
+            }
             // 뷰
             appWidgetManager?.updateAppWidget(_id, remoteViews)
         }
@@ -41,7 +72,13 @@ class WidgetProvider : AppWidgetProvider() {
     fun makeWidgetUI(context: Context) : RemoteViews {
         val remoteViews = RemoteViews(context.packageName, R.layout.appwidget)
             .apply {
+                // 번호추천
+                val recommendPendingIntent = moveToAppPendingIntent(context, LinkParam.RECOMMEND, REQ_ID_RECOMMEND)
+                setOnClickPendingIntent(R.id.btnMoreRecommend, recommendPendingIntent)
 
+                // 새로고침
+                val refreshPendingIntent = getBroadcastPendingIntent(context, WidgetParam.WIDGET_REFRESH, REQ_ID_REFRESH)
+                setOnClickPendingIntent(R.id.btnRefresh, refreshPendingIntent)
             }
 
         val round = SQLiteService.selectMaxNo(context) + 1
@@ -63,6 +100,22 @@ class WidgetProvider : AppWidgetProvider() {
         }
 
         return remoteViews
+    }
+
+    // 클릭이벤트를 위한 브로드캐스트 PendingIntent
+    fun getBroadcastPendingIntent(context: Context, action: String, reqId: Int) : PendingIntent {
+        val intent = Intent(context, javaClass)
+        intent.action = action
+        intent.flags = Intent.FLAG_RECEIVER_FOREGROUND
+        return PendingIntent.getBroadcast(context, reqId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    // 클릭이벤트를 위한 액티비티 PendingIntent
+    fun moveToAppPendingIntent(context: Context, linkCode: Int, reqId: Int) : PendingIntent {
+        val intent = Intent(context, IntroActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra(LinkParam.LINK, linkCode)
+        return PendingIntent.getActivity(context, reqId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
     
     // 위젯 삭제

@@ -4,7 +4,9 @@ import android.content.Intent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.ghj.lottostat.activity.base.BaseViewModelActivity
+import com.ghj.lottostat.activity.data.LinkData
 import com.ghj.lottostat.activity.viewmodel.MainViewModel
+import com.ghj.lottostat.common.LinkParam
 import com.ghj.lottostat.databinding.ActivityMainBinding
 
 class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>() {
@@ -19,6 +21,23 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
     override fun onCreateAfter() {
         initLayout()
+        checkIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        checkIntent(intent)
+    }
+
+    fun checkIntent(intent: Intent?) {
+        if(intent != null) {
+            // 외부링크 확인
+            val linkType = intent.getSerializableExtra(LinkParam.LINK) as? LinkData
+            // 번호추천
+            if( linkType?.classCode == LinkParam.RECOMMEND ) {
+                moveToRecommend()
+            }
+        }
     }
 
     fun initLayout() {
@@ -41,5 +60,12 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
             val intent = Intent(this, MyLottoActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    // 번호추천 화면으로 이동
+    fun moveToRecommend() {
+        val intent = Intent(this, RecommendActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+        startActivity(intent)
     }
 }

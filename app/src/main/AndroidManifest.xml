@@ -34,23 +34,28 @@
         </activity-alias>
 
         <activity android:name=".activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="false"
             android:launchMode="singleTask" />
 
         <activity android:name=".activity.RecommendActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity android:name=".activity.MyLottoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity android:name=".activity.WinLottoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity android:name=".activity.SimulationActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="false" />
 
@@ -64,11 +69,16 @@
                 <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
                 <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
                 <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="com.ghj.lottostat.action.APPWIDGET_REFRESH" />
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_provider_info"/>
         </receiver>
+
+        <service android:name=".widget.WidgetRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
         
     </application>
 

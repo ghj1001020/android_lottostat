@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        android:text="이전 회차 번호 중 1개 일치 (보너스 포함)"
-        style="@style/Text_13_222"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:id="@+id/txtInfo"
+        tools:text="이전 회차 번호 중 1개 일치 (보너스 포함)"
+        style="@style/Text_14_333"
+        android:paddingBottom="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>
