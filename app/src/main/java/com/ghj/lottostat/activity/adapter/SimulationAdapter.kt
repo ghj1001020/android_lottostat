@@ -59,6 +59,7 @@ class SimulationAdapter(mContext: Context, val mLottoList: ArrayList<SimulationN
                 WinRate.WIN5PLACE -> {
                     ctnWin5 += 1
                 }
+                WinRate.NONE -> {}
             }
             mLottoList.add( SimulationNumberData(numList[0], numList[1], numList[2], numList[3], numList[4], numList[5], result) )
         }

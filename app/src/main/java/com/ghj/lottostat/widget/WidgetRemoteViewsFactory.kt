@@ -1,18 +1,22 @@
 package com.ghj.lottostat.widget
 
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.ghj.lottostat.R
+import com.ghj.lottostat.common.WidgetParam
 
-class WidgetRemoteViewsFactory(private val context: Context) : RemoteViewsService.RemoteViewsFactory {
+class WidgetRemoteViewsFactory(private val context: Context, val intent: Intent?) : RemoteViewsService.RemoteViewsFactory {
 
     private var infoList = arrayListOf<String>()
 
     override fun onCreate() {
-        infoList.add("이전 회차 번호 중 %s개 일치")
-        infoList.add("%s개 연속된 수 포함")
-        infoList.add("%s개 연속된 수 포함")
+        intent?.let {
+            val list = it.getStringArrayListExtra(WidgetParam.PARAM_WIDGET_INFO_LIST)
+            if(list!=null)
+                infoList.addAll(list)
+        }
     }
 
     override fun getViewAt(index: Int): RemoteViews {

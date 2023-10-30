@@ -14,4 +14,5 @@ object LinkParam {
 // 위젯 파라미터
 object WidgetParam {
     val WIDGET_REFRESH = "com.ghj.lottostat.action.APPWIDGET_REFRESH"
+    val PARAM_WIDGET_INFO_LIST = "param_widget_info_list"
 }
