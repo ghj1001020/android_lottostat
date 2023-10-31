@@ -14,9 +14,9 @@ class LTApp : MultiDexApplication() {
 
     companion object {
         // 현재 액티비티
-        var currentActivity : Activity? = null
+        var mActivity : Activity? = null
             set(value) {
-                if( currentActivity != null && value.hashCode() == currentActivity.hashCode()) {
+                if( mActivity != null && value.hashCode() == mActivity.hashCode()) {
                     return
                 }
                 field = value
@@ -24,6 +24,7 @@ class LTApp : MultiDexApplication() {
             get() {
                 return field
             }
+        var mContext : Context? = null
 
         // 로또당첨번호
         var LottoWinNumberList: ArrayList<LottoWinNumber> = arrayListOf()

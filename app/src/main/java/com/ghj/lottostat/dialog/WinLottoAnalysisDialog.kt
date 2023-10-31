@@ -45,7 +45,7 @@ class WinLottoAnalysisDialog(context: Context, val currentNumber: LottoWinNumber
             val prevList2 = prevNumber.getNumberList()
             val count2 = curList2.getMatchCount(prevList2)
 
-            LTApp.currentActivity?.runOnUiThread {
+            LTApp.mActivity?.runOnUiThread {
                 mBinding.txtLastRoundMatchCount1.text = "${count1}"
                 mBinding.txtLastRoundMatchCount2.text = "${count2}"
             }
@@ -61,7 +61,7 @@ class WinLottoAnalysisDialog(context: Context, val currentNumber: LottoWinNumber
             val list2 = currentNumber.getNumberList()
             val count2 = list2.getConsecutiveCount()
 
-            LTApp.currentActivity?.runOnUiThread {
+            LTApp.mActivity?.runOnUiThread {
                 mBinding.txtConsecutiveCount1.text = "${count1}"
                 mBinding.txtConsecutiveCount2.text = "${count2}"
             }

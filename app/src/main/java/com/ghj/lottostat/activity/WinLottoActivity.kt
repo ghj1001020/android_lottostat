@@ -32,7 +32,7 @@ class WinLottoActivity : BaseDrawerViewModelActivity<ActivityWinLottoBinding, Wi
         winLottoAdapter.mListener = object : IListListener {
             // 분석정보
             override fun onItemClick(position: Int) {
-                LTApp.currentActivity?.run {
+                LTApp.mActivity?.run {
                     val currentData = winLottoAdapter.mWinList.get(position)
                     var prevData: LottoWinNumber? = null
                     if( position+1 < winLottoAdapter.mWinList.size ) {

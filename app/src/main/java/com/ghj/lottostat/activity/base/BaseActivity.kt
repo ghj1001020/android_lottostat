@@ -20,7 +20,9 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LTApp.currentActivity = this
+        LTApp.mActivity = this
+        LTApp.mContext = this
+
         mBinding = newBinding()
         setContentView(mBinding.root)
         onLayoutCreate()
@@ -30,7 +32,8 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        LTApp.currentActivity = this
+        LTApp.mActivity = this
+        LTApp.mContext = this
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

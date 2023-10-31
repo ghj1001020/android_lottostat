@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 
 class PrefUtil private constructor(context: Context) {
 
-    private val PREF_FILE_NAME = "BROWSER_PREF"
-    private val sp : SharedPreferences
+    private val PREF_FILE_NAME = "LottoStatPref"
+    private val sp: SharedPreferences
 
     init {
         sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
@@ -14,9 +14,9 @@ class PrefUtil private constructor(context: Context) {
 
     companion object {
         private var prefUtil: PrefUtil? = null
-        fun getInstance(context: Context) : PrefUtil {
+        fun getInstance(context: Context): PrefUtil {
             synchronized(PrefUtil::class) {
-                if( prefUtil == null ) {
+                if (prefUtil == null) {
                     prefUtil = PrefUtil(context)
                 }
             }
@@ -39,15 +39,15 @@ class PrefUtil private constructor(context: Context) {
     }
 
     // 데이터 조회
-    fun getString(key: String, defaultValue: String="") : String {
+    fun getString(key: String, defaultValue: String = ""): String {
         return sp.getString(key, defaultValue) ?: defaultValue
     }
 
-    fun getBoolean(key: String, defaultValue: Boolean=false) : Boolean {
+    fun getBoolean(key: String, defaultValue: Boolean = false): Boolean {
         return sp.getBoolean(key, defaultValue)
     }
 
-    fun getInt(key: String, defaultValue: Int = 0) : Int {
+    fun getInt(key: String, defaultValue: Int = 0): Int {
         return sp.getInt(key, defaultValue)
     }
 }

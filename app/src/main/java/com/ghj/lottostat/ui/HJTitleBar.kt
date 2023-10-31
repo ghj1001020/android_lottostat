@@ -62,14 +62,14 @@ class HJTitleBar(val mContext: Context, attrs: AttributeSet) : RelativeLayout(mC
             mBinding.btnLeft.visibility = View.VISIBLE
             mBinding.btnLeft.setBackgroundResource( R.drawable.ic_back )
             mBinding.btnLeft.setOnClickListener { view: View ->
-                LTApp.currentActivity?.onBackPressed()
+                LTApp.mActivity?.onBackPressed()
             }
         }
         if( mLeftButtonType == eButtonType.MENU ) {
             mBinding.btnLeft.visibility = View.VISIBLE
             mBinding.btnLeft.setBackgroundResource( R.drawable.ic_more )
             mBinding.btnLeft.setOnClickListener { view: View ->
-                val drawer = LTApp.currentActivity?.findViewById<DrawerLayout>(R.id.drawer)
+                val drawer = LTApp.mActivity?.findViewById<DrawerLayout>(R.id.drawer)
                 drawer?.open()
             }
         }

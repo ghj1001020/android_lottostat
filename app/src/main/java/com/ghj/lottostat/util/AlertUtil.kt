@@ -1,11 +1,27 @@
 package com.ghj.lottostat.util
 
-import android.app.Dialog
 import android.content.Context
-import android.widget.Toast
+import android.content.DialogInterface
+import android.text.TextUtils
+import androidx.appcompat.app.AlertDialog
+import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.dialog.CommonDialog
 
 object AlertUtil {
+
+    fun alert(title: String="", message: String="", buttonText: String="확인", listener: DialogInterface.OnClickListener?=null): AlertDialog? {
+        if(LTApp.mContext == null) return null;
+
+        val builder = AlertDialog.Builder(LTApp.mContext!!)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setCancelable(false)
+        builder.setPositiveButton(buttonText) { dialog, which ->
+            dialog.dismiss()
+            listener?.onClick(dialog, which)
+        }
+        return builder.show();
+    }
 
     class Alert(var context: Context, var title: String="", var message: String="") {
         var positiveText: String = ""

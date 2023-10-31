@@ -2,6 +2,7 @@ package com.ghj.lottostat.db
 
 import android.content.Context
 import android.database.Cursor
+import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.activity.data.*
 import com.ghj.lottostat.common.DefineQuery
 import com.ghj.lottostat.util.DateUtil.convertDateFormat
@@ -12,37 +13,39 @@ import kotlin.collections.ArrayList
 object SQLiteService {
 
     // 로또당첨번호 가져오기
-    fun selectLottoWinNumber(context: Context) : ArrayList<LottoWinNumber> {
+    fun selectLottoWinNumber() : ArrayList<LottoWinNumber> {
         val winList : ArrayList<LottoWinNumber> = arrayListOf()
 
-        SQLite.init(context)
-        SQLite.select(DefineQuery.SELECT_LOTTO_WIN_NUMBER) { cursor: Cursor ->
-            while( cursor.moveToNext() ) {
-                val no = cursor.getInt( cursor.getColumnIndex("NO") )
-                val lotteryDate = cursor.getString( cursor.getColumnIndex("LOTTERY_DATE") ).convertDateFormat("yyyy.M.d", "yyyyMMdd")
-                val win1 = cursor.getInt( cursor.getColumnIndex("WIN1") )
-                val win2 = cursor.getInt( cursor.getColumnIndex("WIN2") )
-                val win3 = cursor.getInt( cursor.getColumnIndex("WIN3") )
-                val win4 = cursor.getInt( cursor.getColumnIndex("WIN4") )
-                val win5 = cursor.getInt( cursor.getColumnIndex("WIN5") )
-                val win6 = cursor.getInt( cursor.getColumnIndex("WIN6") )
-                val bonus = cursor.getInt( cursor.getColumnIndex("BONUS") )
-                val place1Cnt = cursor.getString( cursor.getColumnIndex("PLACE1CNT") ).replace("[^0-9]", "")
-                val place1Amt = cursor.getString( cursor.getColumnIndex("PLACE1AMT") ).replace("[^0-9]", "")
-                val place2Cnt = cursor.getString( cursor.getColumnIndex("PLACE2CNT") ).replace("[^0-9]", "")
-                val place2Amt = cursor.getString( cursor.getColumnIndex("PLACE2AMT") ).replace("[^0-9]", "")
-                val place3Cnt = cursor.getString( cursor.getColumnIndex("PLACE3CNT") ).replace("[^0-9]", "")
-                val place3Amt = cursor.getString( cursor.getColumnIndex("PLACE3AMT") ).replace("[^0-9]", "")
-                val place4Cnt = cursor.getString( cursor.getColumnIndex("PLACE4CNT") ).replace("[^0-9]", "")
-                val place4Amt = cursor.getString( cursor.getColumnIndex("PLACE4AMT") ).replace("[^0-9]", "")
-                val place5Cnt = cursor.getString( cursor.getColumnIndex("PLACE5CNT") ).replace("[^0-9]", "")
-                val place5Amt = cursor.getString( cursor.getColumnIndex("PLACE5AMT") ).replace("[^0-9]", "")
+        LTApp.mContext?.let {
+            SQLite.init(it)
+            SQLite.select(DefineQuery.SELECT_LOTTO_WIN_NUMBER) { cursor: Cursor ->
+                while( cursor.moveToNext() ) {
+                    val no = cursor.getInt( cursor.getColumnIndexOrThrow("NO") )
+                    val lotteryDate = cursor.getString( cursor.getColumnIndexOrThrow("LOTTERY_DATE") ).convertDateFormat("yyyy.M.d", "yyyyMMdd")
+                    val win1 = cursor.getInt( cursor.getColumnIndexOrThrow("WIN1") )
+                    val win2 = cursor.getInt( cursor.getColumnIndexOrThrow("WIN2") )
+                    val win3 = cursor.getInt( cursor.getColumnIndexOrThrow("WIN3") )
+                    val win4 = cursor.getInt( cursor.getColumnIndexOrThrow("WIN4") )
+                    val win5 = cursor.getInt( cursor.getColumnIndexOrThrow("WIN5") )
+                    val win6 = cursor.getInt( cursor.getColumnIndexOrThrow("WIN6") )
+                    val bonus = cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") )
+                    val place1Cnt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE1CNT") ).replace("[^0-9]", "")
+                    val place1Amt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE1AMT") ).replace("[^0-9]", "")
+                    val place2Cnt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE2CNT") ).replace("[^0-9]", "")
+                    val place2Amt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE2AMT") ).replace("[^0-9]", "")
+                    val place3Cnt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE3CNT") ).replace("[^0-9]", "")
+                    val place3Amt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE3AMT") ).replace("[^0-9]", "")
+                    val place4Cnt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE4CNT") ).replace("[^0-9]", "")
+                    val place4Amt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE4AMT") ).replace("[^0-9]", "")
+                    val place5Cnt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE5CNT") ).replace("[^0-9]", "")
+                    val place5Amt = cursor.getString( cursor.getColumnIndexOrThrow("PLACE5AMT") ).replace("[^0-9]", "")
 
-                winList.add( LottoWinNumber( ListType.CLOSE, no, lotteryDate, win1, win2, win3, win4, win5, win6, bonus,
-                    place1Cnt, place1Amt, place2Cnt, place2Amt, place3Cnt, place3Amt, place4Cnt, place4Amt, place5Cnt, place5Amt) )
+                    winList.add( LottoWinNumber( ListType.CLOSE, no, lotteryDate, win1, win2, win3, win4, win5, win6, bonus,
+                        place1Cnt, place1Amt, place2Cnt, place2Amt, place3Cnt, place3Amt, place4Cnt, place4Amt, place5Cnt, place5Amt) )
+                }
             }
+            SQLite.close()
         }
-        SQLite.close()
 
         return winList
     }
@@ -61,7 +64,7 @@ object SQLiteService {
         SQLite.init(context)
         SQLite.select(DefineQuery.SELECT_IS_LOTTO_WIN_NUMBER, param) { cursor: Cursor ->
             cursor.moveToNext()
-            val cnt = cursor.getInt( cursor.getColumnIndex("CNT") )
+            val cnt = cursor.getInt( cursor.getColumnIndexOrThrow("CNT") )
             result = cnt > 0
         }
         SQLite.close()
@@ -76,14 +79,14 @@ object SQLiteService {
         SQLite.init(context)
         SQLite.select(DefineQuery.SELECT_LAST_ROUND_WIN_NUMBER) {cursor: Cursor ->
             cursor.moveToNext()
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN1") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN2") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN3") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN4") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN5") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN6") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN1") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN2") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN3") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN4") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN5") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN6") ) )
             if( isBonus ) {
-                result.add( cursor.getInt( cursor.getColumnIndex("BONUS") ) )
+                result.add( cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") ) )
             }
         }
         SQLite.close()
@@ -98,14 +101,14 @@ object SQLiteService {
         SQLite.init(context)
         SQLite.select(DefineQuery.SELECT_ROUND_WIN_NUMBER, arrayOf("${round}")) {cursor: Cursor ->
             cursor.moveToNext()
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN1") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN2") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN3") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN4") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN5") ) )
-            result.add( cursor.getInt( cursor.getColumnIndex("WIN6") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN1") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN2") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN3") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN4") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN5") ) )
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN6") ) )
             if( isBonus ) {
-                result.add( cursor.getInt( cursor.getColumnIndex("BONUS") ) )
+                result.add( cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") ) )
             }
         }
         SQLite.close()
@@ -127,14 +130,14 @@ object SQLiteService {
         SQLite.select(query, param.toTypedArray()) { cursor: Cursor ->
             while( cursor.moveToNext() ) {
                 val arrNum : MutableList<Int> = mutableListOf()
-                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN1")) )
-                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN2")) )
-                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN3")) )
-                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN4")) )
-                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN5")) )
-                arrNum.add( cursor.getInt(cursor.getColumnIndex("WIN6")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("WIN1")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("WIN2")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("WIN3")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("WIN4")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("WIN5")) )
+                arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("WIN6")) )
                 if( isBonus )
-                    arrNum.add( cursor.getInt(cursor.getColumnIndex("BONUS")) )
+                    arrNum.add( cursor.getInt(cursor.getColumnIndexOrThrow("BONUS")) )
 
                 result.add( arrNum )
             }
@@ -151,7 +154,7 @@ object SQLiteService {
         SQLite.init(context)
         SQLite.select(DefineQuery.SELECT_MAX_NO) { cursor: Cursor ->
             cursor.moveToNext()
-            result = cursor.getInt( cursor.getColumnIndex("CNT") )
+            result = cursor.getInt( cursor.getColumnIndexOrThrow("CNT") )
         }
         SQLite.close()
 
@@ -179,7 +182,7 @@ object SQLiteService {
         // 회차조회
         SQLite.select(DefineQuery.SELECT_MY_LOTTO_ROUND) { cursor: Cursor ->
             while( cursor.moveToNext() ) {
-                val roundNo = cursor.getInt( cursor.getColumnIndex("NO") )
+                val roundNo = cursor.getInt( cursor.getColumnIndexOrThrow("NO") )
                 result.add( MyLottoNumberData(MyLottoType.ROUND_CLOSE, roundNo) )
             }
         }
@@ -192,13 +195,13 @@ object SQLiteService {
                 var date = ""
                 val temp = arrayListOf<MyLottoNumberData>()
                 while( cursor.moveToNext() ) {
-                    val regDate = cursor.getString( cursor.getColumnIndex("REG_DATE") )
-                    val num1 = cursor.getInt( cursor.getColumnIndex("NUM1") )
-                    val num2 = cursor.getInt( cursor.getColumnIndex("NUM2") )
-                    val num3 = cursor.getInt( cursor.getColumnIndex("NUM3") )
-                    val num4 = cursor.getInt( cursor.getColumnIndex("NUM4") )
-                    val num5 = cursor.getInt( cursor.getColumnIndex("NUM5") )
-                    val num6 = cursor.getInt( cursor.getColumnIndex("NUM6") )
+                    val regDate = cursor.getString( cursor.getColumnIndexOrThrow("REG_DATE") )
+                    val num1 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM1") )
+                    val num2 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM2") )
+                    val num3 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM3") )
+                    val num4 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM4") )
+                    val num5 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM5") )
+                    val num6 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM6") )
 
                     if( !date.equals(regDate) ) {
                         temp.add(MyLottoNumberData(MyLottoType.REG_DATE, roundNo, regDate))
@@ -223,14 +226,14 @@ object SQLiteService {
             var date = ""
             val temp = arrayListOf<MyLottoNumberData>()
             while( cursor.moveToNext() ) {
-                val roundNo = cursor.getInt( cursor.getColumnIndex("NO_ROUND") )
-                val regDate = cursor.getString( cursor.getColumnIndex("REG_DATE") )
-                val num1 = cursor.getInt( cursor.getColumnIndex("NUM1") )
-                val num2 = cursor.getInt( cursor.getColumnIndex("NUM2") )
-                val num3 = cursor.getInt( cursor.getColumnIndex("NUM3") )
-                val num4 = cursor.getInt( cursor.getColumnIndex("NUM4") )
-                val num5 = cursor.getInt( cursor.getColumnIndex("NUM5") )
-                val num6 = cursor.getInt( cursor.getColumnIndex("NUM6") )
+                val roundNo = cursor.getInt( cursor.getColumnIndexOrThrow("NO_ROUND") )
+                val regDate = cursor.getString( cursor.getColumnIndexOrThrow("REG_DATE") )
+                val num1 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM1") )
+                val num2 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM2") )
+                val num3 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM3") )
+                val num4 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM4") )
+                val num5 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM5") )
+                val num6 = cursor.getInt( cursor.getColumnIndexOrThrow("NUM6") )
 
                 if( !date.equals(regDate) ) {
                     temp.add(MyLottoNumberData(MyLottoType.REG_DATE, roundNo, regDate))

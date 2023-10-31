@@ -9,7 +9,7 @@ import com.ghj.lottostat.common.LinkParam
 object IntentUtil {
 
     // 메인으로 이동
-    fun moveToMain(context: Context, linkData: LinkData?=null) {
+    fun MoveToMain(context: Context, linkData: LinkData?=null) {
         val intent: Intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         if( linkData != null ) {

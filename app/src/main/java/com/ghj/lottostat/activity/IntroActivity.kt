@@ -14,6 +14,8 @@ import com.ghj.lottostat.db.SQLite
 import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.dialog.CommonDialog
 import com.ghj.lottostat.util.AlertUtil
+import com.ghj.lottostat.util.AppUtil
+import com.ghj.lottostat.util.FileUtil
 import com.ghj.lottostat.util.IntentUtil
 import com.ghj.lottostat.util.PrefUtil
 import com.ghj.lottostat.util.Util
@@ -49,10 +51,10 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             .addOnSuccessListener { ds: DocumentSnapshot ->
                 val version: String = ds["version"] as String
                 // 낮은버전이면 업데이트 팝업 노출
-                if( !Util.checkAppVersion(version) ) {
+                if( !AppUtil.CheckAppVersion(version) ) {
                     val dialog = AlertUtil.Alert(this, getString(R.string.dialog_update), getString(R.string.dialog_update_desc))
                     dialog.setPositiveListener { dialog: CommonDialog ->
-                        appFinish()
+                        AppUtil.AppClose()
                     }
                     dialog.show()
                     return@addOnSuccessListener
@@ -64,7 +66,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
                 // 버전요청 실패
                 val dialog = AlertUtil.Alert(this, getString(R.string.notice), getString(R.string.dialog_version_fail))
                 dialog.setPositiveListener { dialog: CommonDialog ->
-                    appFinish()
+                    AppUtil.AppClose()
                 }
                 dialog.show()
             }
@@ -78,12 +80,12 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             mBinding.txtMessage.text = getString(R.string.intro_guide_copy)
 
             //  asset폴더에 SQLite파일 확인
-            val isExist = Util.checkAssetFileExist(this, "", SQLite.DB_FILE_NAME)
+            val isExist = FileUtil.CheckAssetFileExist("", SQLite.DB_FILE_NAME)
 
             // SQLite파일 복사
             if( isExist ) {
                 val databaseFolderPath = SQLite.databaseFolderPath(this)
-                isCopy = Util.copyFileFromAssets(this, SQLite.DB_FILE_NAME, databaseFolderPath, SQLite.DB_FILE_NAME)
+                isCopy = FileUtil.CopyFileFromAssets(SQLite.DB_FILE_NAME, databaseFolderPath, SQLite.DB_FILE_NAME)
                 if( isCopy )
                     PrefUtil.getInstance(this).put(DefinePref.VERSION_COPY_SQLITE, SQLite.SQLITE_VERSION)
             }
@@ -94,7 +96,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
 
             // SQLite파일 로또 당첨번호 읽기
             LTApp.LottoWinNumberList.clear()
-            LTApp.LottoWinNumberList.addAll( SQLiteService.selectLottoWinNumber(this) )
+            LTApp.LottoWinNumberList.addAll( SQLiteService.selectLottoWinNumber() )
             moveToMain()
         }
         else {
@@ -118,13 +120,13 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
         if( diffTime < INTRO_TIME ) {
             Timer().schedule( timerTask {
                 mBinding.txtMessage.text = getString(R.string.intro_guide_main)
-                IntentUtil.moveToMain(this@IntroActivity, link)
+                IntentUtil.MoveToMain(this@IntroActivity, link)
                 finish()
             }, INTRO_TIME-diffTime)
         }
         else {
             mBinding.txtMessage.text = getString(R.string.intro_guide_main)
-            IntentUtil.moveToMain(this, link)
+            IntentUtil.MoveToMain(this, link)
             finish()
         }
     }
