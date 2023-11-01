@@ -4,7 +4,7 @@
     <style name="BaseEdit" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/bg_st1_b_222</item>
         <item name="android:textCursorDrawable">@null</item>
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

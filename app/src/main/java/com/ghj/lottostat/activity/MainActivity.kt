@@ -45,9 +45,6 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
             val intent = Intent(this, RecommendActivity::class.java)
             startActivity(intent)
         }
-        mBinding.btnStat.setOnClickListener { v: View ->
-
-        }
         mBinding.btnSimulation.setOnClickListener { v: View ->
             val intent = Intent(this, SimulationActivity::class.java)
             startActivity(intent)

@@ -3,10 +3,16 @@
 
     <!-- 텍스트뷰 -->
     <style name="BaseText" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">18dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TxtMainTitle" parent="BaseText">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">28dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text_22_878787" parent="BaseText">
@@ -15,7 +21,7 @@
     </style>
     
     <style name="Text_20_black_b" parent="BaseText">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -80,7 +86,7 @@
     </style>
 
     <style name="Text_13_black_b" parent="BaseText">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">13dp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -177,7 +183,7 @@
 
 
     <style name="TextView_18_black_bold" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">match_parent</item>

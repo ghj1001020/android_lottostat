@@ -10,7 +10,7 @@
     </style>
 
     <style name="BaseButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">16dp</item>
         <item name="android:letterSpacing">-0.05</item>
         <item name="android:gravity">center</item>
@@ -80,10 +80,24 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <!-- 메뉴 -->
+    <style name="BtnMenu" parent="BaseButton">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+
+        <item name="backgroundTint">@null</item>
+        <item name="rippleColor">@color/ripple</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
 
 
     <style name="BaseWidgetButton" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">16dp</item>
         <item name="android:letterSpacing">-0.05</item>
         <item name="android:gravity">center</item>
@@ -106,7 +120,7 @@
 
 
     <style name="Button_Dialog" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">16dp</item>
         <item name="android:textStyle">bold</item>
             <item name="android:layout_width">98dp</item>
