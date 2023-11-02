@@ -91,9 +91,6 @@
             android:id="@+id/btnRecommend"
             android:text="로또번호 추천"
             style="@style/BtnMenu"
-            android:background="@color/white"
-            android:gravity="left|center_vertical"
-            android:drawablePadding="24dp"
             android:drawableLeft="@drawable/icon_recommend"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
@@ -101,18 +98,24 @@
         <Button
             android:id="@+id/btnSimulation"
             android:text="시뮬레이션"
+            style="@style/BtnMenu"
+            android:drawableLeft="@drawable/icon_simulation"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
 
         <Button
             android:id="@+id/btnWinNumber"
             android:text="당첨번호"
+            style="@style/BtnMenu"
+            android:drawableLeft="@drawable/icon_win"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
 
         <Button
             android:id="@+id/btnMyLotto"
             android:text="나의 로또번호"
+            style="@style/BtnMenu"
+            android:drawableLeft="@drawable/icon_lotto"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
 

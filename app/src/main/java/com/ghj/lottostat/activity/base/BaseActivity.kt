@@ -24,7 +24,6 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
         LTApp.mContext = this
 
         mBinding = newBinding()
-        setContentView(mBinding.root)
         onLayoutCreate()
 
         checkActivity()
@@ -59,9 +58,4 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     abstract fun onCreateAfter()   // 앱 실행 후 기본적인 체크 후 액티비티 로직 실행
 
-    // 앱종료 함수
-    fun appFinish() {
-        finishAffinity()
-        Process.killProcess(Process.myPid())
-    }
 }

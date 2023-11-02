@@ -1,22 +1,23 @@
 package com.ghj.lottostat.activity
 
 import android.content.Intent
+import android.os.Build
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.ghj.lottostat.R
+import com.ghj.lottostat.activity.base.BaseActivity
 import com.ghj.lottostat.activity.base.BaseViewModelActivity
 import com.ghj.lottostat.activity.data.LinkData
 import com.ghj.lottostat.activity.viewmodel.MainViewModel
 import com.ghj.lottostat.common.LinkParam
 import com.ghj.lottostat.databinding.ActivityMainBinding
+import com.google.rpc.Help.Link
 
-class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>() {
-
-    override fun newViewModel(): MainViewModel {
-        return ViewModelProvider(this).get(MainViewModel::class.java)
-    }
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun newBinding(): ActivityMainBinding {
-        return ActivityMainBinding.inflate(layoutInflater)
+        return DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
 
     override fun onCreateAfter() {
@@ -32,7 +33,11 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
     fun checkIntent(intent: Intent?) {
         if(intent != null) {
             // 외부링크 확인
-            val linkType = intent.getSerializableExtra(LinkParam.LINK) as? LinkData
+            val linkType : LinkData? = if(Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) {
+                    intent.getSerializableExtra(LinkParam.LINK, LinkData::class.java) }
+                else {
+                    intent.getSerializableExtra(LinkParam.LINK) as? LinkData
+                }
             // 번호추천
             if( linkType?.classCode == LinkParam.RECOMMEND ) {
                 moveToRecommend()
@@ -62,7 +67,6 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
     // 번호추천 화면으로 이동
     fun moveToRecommend() {
         val intent = Intent(this, RecommendActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         startActivity(intent)
     }
 }

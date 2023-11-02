@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.base.BaseActivity
@@ -35,7 +36,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
     }
 
     override fun newBinding(): ActivityIntroBinding {
-        return ActivityIntroBinding.inflate(layoutInflater)
+        return DataBindingUtil.setContentView(this, R.layout.activity_intro)
     }
 
     override fun onCreateAfter() {
@@ -103,7 +104,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             // 파일복사 실패
             val dialog = AlertUtil.Alert(this, getString(R.string.notice), getString(R.string.dialog_sqlite_fail))
             dialog.setPositiveListener { dialog: CommonDialog ->
-                appFinish()
+                AppUtil.AppClose()
             }
             dialog.show()
         }
