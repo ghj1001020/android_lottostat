@@ -72,7 +72,7 @@ class WidgetProvider : AppWidgetProvider() {
             }
 
         val round = SQLiteService.selectMaxNo(context) + 1
-        val list = LottoScript.generateLottoNumberList(context, round, 1)
+        val list = LottoScript.GenerateLottoNumberList(context, round, 1)
         if(list.size > 0) {
             val data = list.get(0)
             remoteViews.setTextViewText(R.id.txtNum1, "${data.get(0)}")
@@ -106,28 +106,12 @@ class WidgetProvider : AppWidgetProvider() {
 
     // 이전 회차 번호 중 n개 일치
     fun getInfoLastRoundWinNumber(context: Context, infoList: ArrayList<String>) {
-        val select = PrefUtil.getInstance(context)
-            .getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
-        val cnt = PrefUtil.getInstance(context)
-            .getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
-        val bonus = PrefUtil.getInstance(context)
-            .getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
-
-        if(!select) return
-
-        val strBonus = if(bonus) "보너스 포함" else "보너스 미포함"
-        infoList.add( "${String.format(context.getString(R.string.filter_last_round_win_number), cnt)} (${strBonus})" )
+        infoList.add( "${context.getString(R.string.filter_last_round_win_number)}" )
     }
 
     // n개 연속된 수
     fun getInfoConsecutiveNumber(context: Context, infoList: ArrayList<String>) {
-        val select = PrefUtil.getInstance(context).getBoolean(CONSECUTIVE_NUMBER.SELECT, CONSECUTIVE_NUMBER.DFT_SELECT)
-        val cnt = PrefUtil.getInstance(context).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
-
-        if(!select) return
-
-        val strCnt = if(select) "${cnt}" else "n"
-        infoList.add( String.format(context.getString(R.string.filter_consecutive_number), strCnt) )
+        infoList.add( context.getString(R.string.filter_consecutive_number) )
     }
 
     // 클릭이벤트를 위한 브로드캐스트 PendingIntent

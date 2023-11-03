@@ -1,94 +1,174 @@
 package com.ghj.lottostat.common
 
 import android.content.Context
+import androidx.constraintlayout.widget.Group
 import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.PrefUtil
 import java.security.SecureRandom
+import java.util.Date
 
 object LottoScript {
 
     // 로또번호 생성
     // round-생성하는 로또회차, count-생성갯수
-    fun generateLottoNumberList(context: Context, round: Int, count: Int) : ArrayList<ArrayList<Int>> {
+    fun GenerateLottoNumberList(context: Context, round: Int, count: Int) : ArrayList<ArrayList<Int>> {
         val resultList : ArrayList<ArrayList<Int>> = arrayListOf()
 
-        val isLastRoundWinNumber = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
-        val cntLastRoundWinNumber = PrefUtil.getInstance(context).getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
-        val isLastRoundWinNumberWithBonus = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
-
-        val isConsecutiveNumber = PrefUtil.getInstance(context).getBoolean(CONSECUTIVE_NUMBER.SELECT, CONSECUTIVE_NUMBER.DFT_SELECT)
-        val cntConsecutiveNumber = PrefUtil.getInstance(context).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
-
-        var index : Int = 0
-
         // count 개수만큼 당첨번호 생성
-        while(index < count) {
+        while(resultList.size < count) {
             // 추천로또번호 생성
             val LOTTO = arrayListOf<Int>()
             // 로또번호 1~45
             val GROUP : ArrayList<Int> = arrayListOf()
             GROUP.addAll(DefineCode.LOTTERY)
 
+            val secureRandom = SecureRandom()
+            secureRandom.setSeed(Date().time)
+
             // 이전 회차 번호 중 n개 일치
-            if( isLastRoundWinNumber && round > 1) {
-                val lastRound = SQLiteService.selectRoundWinNumber(context, isLastRoundWinNumberWithBonus, round-1)
-                // 0 <= idx < cntIncludeLastRoundWinNumber
-                for( idx in 0 until cntLastRoundWinNumber) {
-                    // 인덱스 구해서 추천번호 뽑기
-                    val tempIndex = SecureRandom().nextInt(lastRound.size )
-                    val goodNumber : Int = lastRound.get(tempIndex)
-                    LOTTO.add(goodNumber)
-                    // 당첨번호에서 추가한 번호삭제
-                    lastRound.removeAt(tempIndex)
-                    GROUP.remove(goodNumber)
-                }
-                // 나머지 당첨번호 삭제
-                for( num in lastRound ) {
-                    GROUP.remove(num)
-                }
+            var lastRound: ArrayList<Int> = arrayListOf()
+            if( round > 1) {
+                lastRound = SQLiteService.selectRoundWinNumber(context,round-1)
+                // 인덱스 구해서 이전 회차 번호 뽑기
+                val goodNumber : Int = lastRound.get(secureRandom.nextInt(lastRound.size))
+                LOTTO.add(goodNumber)
+                // 전체번호에서 삭제
+                GROUP.remove(goodNumber)
             }
 
-            var isConsecutiveExecuted = false
+            // 로또번호 6개 뽑기
             while ( LOTTO.size < 6 ) {
-                // n개 연속된수
-                if(isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size)) {
-                    if(!isConsecutiveExecuted) {
-                        LOTTO.generateConsecutiveNumber(GROUP, cntConsecutiveNumber+1)
-                        isConsecutiveExecuted = true
-                    }
-                }
-
-                // 번호추천 결과담고 모그룹에서 삭제
-                if( LOTTO.size < 6 ) {
-                    val numIndex = SecureRandom().nextInt(GROUP.size)
-                    val number = GROUP.get(numIndex)    // 추가할 번호
-
-                    LOTTO.add(number)
-                    LOTTO.sort()
-                    GROUP.remove(number)
-
-                    // n개 연속된수 체크
-                    if(isConsecutiveNumber && (cntConsecutiveNumber+1) < LOTTO.getConsecutiveCount() && GROUP.size > 6-LOTTO.size ) {
-                        LOTTO.remove(number)
-                    }
-                }
+                val number = GROUP[secureRandom.nextInt(GROUP.size)]
+                LOTTO.add(number)
+                GROUP.remove(number)
             }
-            // end 추천로또번호 생성 while
 
-            // 번호 추천 목록에 담기
+            // 유효성 검사
+            // 이전회차 번호 중 1~2개
+            val matchCnt = LOTTO.GetMatchCount(lastRound)
+            if(matchCnt < 1 || 2 < matchCnt) continue
+            // 연속수 2~3개
+            val consecutiveCnt = LOTTO.GetConsecutiveCount()
+            if(consecutiveCnt < 2 || 3 < consecutiveCnt) continue
+
+            // 선택된 결과
             resultList.add(LOTTO)
-
-            // 인덱스 1추가
-            index++
         }
 
         return resultList
     }
+//    fun generateLottoNumberList(context: Context, round: Int, count: Int) : ArrayList<ArrayList<Int>> {
+//        val resultList : ArrayList<ArrayList<Int>> = arrayListOf()
+//
+//        val isLastRoundWinNumber = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.SELECT, LAST_ROUND_WIN_NUMBER.DFT_SELECT)
+//        val cntLastRoundWinNumber = PrefUtil.getInstance(context).getInt(LAST_ROUND_WIN_NUMBER.CNT, LAST_ROUND_WIN_NUMBER.DFT_CNT)
+//        val isLastRoundWinNumberWithBonus = PrefUtil.getInstance(context).getBoolean(LAST_ROUND_WIN_NUMBER.BONUS, LAST_ROUND_WIN_NUMBER.DFT_BONUS)
+//
+//        val isConsecutiveNumber = PrefUtil.getInstance(context).getBoolean(CONSECUTIVE_NUMBER.SELECT, CONSECUTIVE_NUMBER.DFT_SELECT)
+//        val cntConsecutiveNumber = PrefUtil.getInstance(context).getInt(CONSECUTIVE_NUMBER.CNT, CONSECUTIVE_NUMBER.DFT_CNT)
+//
+//        var index : Int = 0
+//
+//        // count 개수만큼 당첨번호 생성
+//        while(index < count) {
+//            // 추천로또번호 생성
+//            val LOTTO = arrayListOf<Int>()
+//            // 로또번호 1~45
+//            val GROUP : ArrayList<Int> = arrayListOf()
+//            GROUP.addAll(DefineCode.LOTTERY)
+//
+//            // 이전 회차 번호 중 n개 일치
+//            if( isLastRoundWinNumber && round > 1) {
+//                val lastRound = SQLiteService.selectRoundWinNumber(context, isLastRoundWinNumberWithBonus, round-1)
+//                // 0 <= idx < cntIncludeLastRoundWinNumber
+//                for( idx in 0 until cntLastRoundWinNumber) {
+//                    // 인덱스 구해서 추천번호 뽑기
+//                    val tempIndex = SecureRandom().nextInt(lastRound.size )
+//                    val goodNumber : Int = lastRound.get(tempIndex)
+//                    LOTTO.add(goodNumber)
+//                    // 당첨번호에서 추가한 번호삭제
+//                    lastRound.removeAt(tempIndex)
+//                    GROUP.remove(goodNumber)
+//                }
+//                // 나머지 당첨번호 삭제
+//                for( num in lastRound ) {
+//                    GROUP.remove(num)
+//                }
+//            }
+//
+//            var isConsecutiveExecuted = false
+//            while ( LOTTO.size < 6 ) {
+//                // n개 연속된수
+//                if(isConsecutiveNumber && cntConsecutiveNumber == (6-LOTTO.size)) {
+//                    if(!isConsecutiveExecuted) {
+//                        LOTTO.generateConsecutiveNumber(GROUP, cntConsecutiveNumber+1)
+//                        isConsecutiveExecuted = true
+//                    }
+//                }
+//
+//                // 번호추천 결과담고 모그룹에서 삭제
+//                if( LOTTO.size < 6 ) {
+//                    val numIndex = SecureRandom().nextInt(GROUP.size)
+//                    val number = GROUP.get(numIndex)    // 추가할 번호
+//
+//                    LOTTO.add(number)
+//                    LOTTO.sort()
+//                    GROUP.remove(number)
+//
+//                    // n개 연속된수 체크
+//                    if(isConsecutiveNumber && (cntConsecutiveNumber+1) < LOTTO.getConsecutiveCount() && GROUP.size > 6-LOTTO.size ) {
+//                        LOTTO.remove(number)
+//                    }
+//                }
+//            }
+//            // end 추천로또번호 생성 while
+//
+//            // 번호 추천 목록에 담기
+//            resultList.add(LOTTO)
+//
+//            // 인덱스 1추가
+//            index++
+//        }
+//
+//        return resultList
+//    }
 
-    // 일치하는 숫자 갯수
-    fun ArrayList<Int>.getMatchCount(other: ArrayList<Int>) : Int {
+    // 연속된 숫자 갯수 구하기
+    fun ArrayList<Int>.GetConsecutiveCount() : Int {
+        if(this.size == 0) return 0
+        this.sort()
+
+        var count = 1   // 연속된 갯수
+        var tempCount = 1
+        var temp = -1
+        for( idx in this.indices) {
+            // 두수 사이 간격이 1이면 이전번호와 연속된 수
+            if( Math.abs(temp-this[idx]) == 1 ) {
+                tempCount++
+                if( tempCount > count ) {
+                    count = tempCount
+                }
+            }
+            else {
+                tempCount = 1
+            }
+            temp = this[idx]
+        }
+        return count
+    }
+    // 숫자합계 구하기
+    fun ArrayList<Int>.GetSum() : Int {
+        var sum = 0
+        for( number in this) {
+            sum += number
+        }
+        return sum
+    }
+
+    // 전달받은 배열과 일치하는 숫자 갯수
+    fun ArrayList<Int>.GetMatchCount(other: ArrayList<Int>) : Int {
         var count = 0
         for (num in other) {
             if( this.contains(num) ) {
@@ -97,6 +177,9 @@ object LottoScript {
         }
         return count
     }
+
+
+
 
     // 연속하는 갯수
     fun ArrayList<Int>.getConsecutiveCount() : Int {

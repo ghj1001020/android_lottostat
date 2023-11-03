@@ -6,8 +6,8 @@ import android.os.Handler
 import android.os.HandlerThread
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.activity.data.LottoWinNumber
+import com.ghj.lottostat.common.LottoScript.GetMatchCount
 import com.ghj.lottostat.common.LottoScript.getConsecutiveCount
-import com.ghj.lottostat.common.LottoScript.getMatchCount
 import com.ghj.lottostat.databinding.DialogWinLottoAnalysisBinding
 import kotlin.concurrent.thread
 
@@ -39,11 +39,11 @@ class WinLottoAnalysisDialog(context: Context, val currentNumber: LottoWinNumber
         thread(start = true, isDaemon = false, null, "PREV_ROUND_MATCH_COUNT_THREAD") {
             val curList1 = currentNumber.getNumberList(false)
             val prevList1 = prevNumber.getNumberList(false)
-            val count1 = curList1.getMatchCount(prevList1)
+            val count1 = curList1.GetMatchCount(prevList1)
 
             val curList2 = currentNumber.getNumberList(false)
             val prevList2 = prevNumber.getNumberList()
-            val count2 = curList2.getMatchCount(prevList2)
+            val count2 = curList2.GetMatchCount(prevList2)
 
             LTApp.mActivity?.runOnUiThread {
                 mBinding.txtLastRoundMatchCount1.text = "${count1}"

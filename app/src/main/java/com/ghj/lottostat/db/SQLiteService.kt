@@ -95,7 +95,7 @@ object SQLiteService {
     }
 
     // 특정 회차 로또당첨번호 조회
-    fun selectRoundWinNumber(context: Context, isBonus: Boolean, round: Int) : ArrayList<Int> {
+    fun selectRoundWinNumber(context: Context, round: Int) : ArrayList<Int> {
         val result : ArrayList<Int> = arrayListOf()
 
         SQLite.init(context)
@@ -107,9 +107,7 @@ object SQLiteService {
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN4") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN5") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN6") ) )
-            if( isBonus ) {
-                result.add( cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") ) )
-            }
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") ) )
         }
         SQLite.close()
 

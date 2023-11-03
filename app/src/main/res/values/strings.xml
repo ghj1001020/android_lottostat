@@ -24,8 +24,8 @@
     <string name="no_number_simulation">시뮬레이션을\n시작하세요.</string>
 
     <!-- 필터 -->
-    <string name="filter_last_round_win_number">이전 회차 번호 중 %s개 일치</string>
-    <string name="filter_consecutive_number">%s개 연속된 수 포함</string>
+    <string name="filter_last_round_win_number">이전 회차 번호 중 1개 일치 (보너스 포함)</string>
+    <string name="filter_consecutive_number">2~3개 연속된 수 포함</string>
 
     <!-- 필터 > 보충설명 -->
     <string name="filter_desc_last_round_win_number">0개 : 직전회차 당첨번호 모두 제외한다</string>

@@ -22,7 +22,6 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
         SQLiteService.selectMaxNo(this) + 1
     }
 
-
     override fun newViewModel(): RecommendViewModel {
         return ViewModelProvider(this).get(RecommendViewModel::class.java)
     }
@@ -39,7 +38,6 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
     fun initLayout() {
         mContent.titleBar.mTitle = "${mLottoNum}회 번호추천"
 
-        mContent.noContent.txtDesc.text = getString(R.string.no_number_recommend)
         mContent.btnSave.setOnClickListener(this)
         mContent.btnFilter.setOnClickListener(this)
         mContent.btnRecommend.setOnClickListener(this)
@@ -58,7 +56,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
 
             // 번호생성
             R.id.btnRecommend -> {
-                generateLottoNumber(20);
+                generateLottoNumber(10);
             }
 
             // 저장
@@ -77,11 +75,12 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
         }
     }
 
+    // 번호생성
     fun generateLottoNumber(count: Int) {
         val startTime = SystemClock.elapsedRealtime()
         lottoNumberAdapter.clearItems()
 
-        val list = LottoScript.generateLottoNumberList(this, mLottoNum, count)
+        val list = LottoScript.GenerateLottoNumberList(this, mLottoNum, count)
 
         lottoNumberAdapter.addItems(list)
         lottoNumberAdapter.notifyDataSetChanged()
@@ -91,6 +90,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
         LogUtil.d("runTime = ${runTime}")
     }
 
+    // 추천받은 번호 목록 노출
     fun renderLottoNumberList() {
         if( getViewModel().mLottoNumberList.size > 0 ) {
             mContent.rvLottoNumber.visibility = View.VISIBLE

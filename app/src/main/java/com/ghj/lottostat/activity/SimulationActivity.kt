@@ -84,7 +84,7 @@ class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding
         val startTime = SystemClock.elapsedRealtime()
         simulationAdapter.clearItems()
 
-        val list = LottoScript.generateLottoNumberList(this, winData.no, 100 )
+        val list = LottoScript.GenerateLottoNumberList(this, winData.no, 100 )
 
         simulationAdapter.addItems(list, winData)
         simulationAdapter.notifyDataSetChanged()

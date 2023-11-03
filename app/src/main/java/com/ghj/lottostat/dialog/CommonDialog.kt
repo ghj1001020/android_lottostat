@@ -3,6 +3,7 @@ package com.ghj.lottostat.dialog
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import com.ghj.lottostat.R
@@ -30,6 +31,9 @@ class CommonDialog(context: Context, val title: String, val message: String) : B
 
     fun initLayout() {
         mBinding.txtTitle.text = title
+        if(TextUtils.isEmpty(title)) {
+           mBinding.txtTitle.visibility = View.GONE
+        }
         mBinding.txtMessage.text = message
         mBinding.btnOk.setOnClickListener(this)
 

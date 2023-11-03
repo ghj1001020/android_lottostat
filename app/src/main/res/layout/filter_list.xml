@@ -20,6 +20,7 @@
         android:text="@string/filter_consecutive_number"
         style="@style/BaseCheck"
         android:checked="true"
+        android:enabled="false"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/chkLastRoundWinNumber"
         app:layout_constraintLeft_toLeftOf="parent"

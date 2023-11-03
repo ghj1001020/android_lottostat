@@ -1,5 +1,6 @@
 package com.ghj.lottostat.activity.base
 
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewbinding.ViewBinding
 import com.ghj.lottostat.R
@@ -11,12 +12,12 @@ abstract class BaseDrawerViewModelActivity<VB: ViewBinding, VM: BaseViewModel> :
     lateinit var mContent : VB
 
     final override fun newBinding(): BaseDrawerBinding {
-        return BaseDrawerBinding.inflate(layoutInflater)
+        return DataBindingUtil.setContentView(this, R.layout.base_drawer)
     }
 
     abstract fun newContentBinding() : VB
 
-    override fun onLayoutCreate() {
+    final override fun onLayoutCreate() {
         mContent = newContentBinding()
         (mBinding.root.findViewById<DrawerLayout>(R.id.drawer)).addView( mContent.root )
     }
