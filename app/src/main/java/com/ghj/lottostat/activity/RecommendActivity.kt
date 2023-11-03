@@ -15,7 +15,7 @@ import com.ghj.lottostat.dialog.FilterDialog
 import com.ghj.lottostat.util.AlertUtil
 import com.ghj.lottostat.util.LogUtil
 
-class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() , View.OnClickListener{
+class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, RecommendViewModel>() {
 
     lateinit var lottoNumberAdapter: LottoNumberAdapter
     val mLottoNum : Int by lazy {

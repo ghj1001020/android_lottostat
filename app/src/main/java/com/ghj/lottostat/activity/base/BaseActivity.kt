@@ -2,11 +2,12 @@ package com.ghj.lottostat.activity.base
 
 import android.os.Bundle
 import android.os.Process
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.ghj.lottostat.LTApp
 
-abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity(), View.OnClickListener {
 
     // 뷰바인딩
     lateinit var mBinding: VB
@@ -58,4 +59,5 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     abstract fun onCreateAfter()   // 앱 실행 후 기본적인 체크 후 액티비티 로직 실행
 
+    override fun onClick(v: View?) { }
 }

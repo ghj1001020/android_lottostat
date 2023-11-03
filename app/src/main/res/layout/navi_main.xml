@@ -1,18 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ff0"
+    android:background="@color/white"
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
-    android:layout_marginEnd="20dp"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="asdfasdf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+    <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:layout_margin="24dp"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/menuRecommend"
+        android:text="로또번호 추천"
+        style="@style/BtnMenu"
+        android:drawableLeft="@drawable/icon_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+    <Button
+        android:id="@+id/menuSimulation"
+        android:text="시뮬레이션"
+        style="@style/BtnMenu"
+        android:drawableLeft="@drawable/icon_simulation"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+    <Button
+        android:id="@+id/menuWinNumber"
+        android:text="당첨번호"
+        style="@style/BtnMenu"
+        android:drawableLeft="@drawable/icon_win"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+    <Button
+        android:id="@+id/menuMyLotto"
+        android:text="나의 로또번호"
+        style="@style/BtnMenu"
+        android:drawableLeft="@drawable/icon_lotto"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+</LinearLayout>
