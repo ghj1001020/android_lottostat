@@ -12,17 +12,23 @@ import com.ghj.lottostat.activity.data.LinkData
 import com.ghj.lottostat.activity.viewmodel.MainViewModel
 import com.ghj.lottostat.common.LinkParam
 import com.ghj.lottostat.databinding.ActivityMainBinding
+import com.ghj.lottostat.db.SQLiteService
+import com.ghj.lottostat.util.Util
 import com.google.rpc.Help.Link
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+
+    val mLatestNumber : ArrayList<Int> by lazy {
+        SQLiteService.selectLastRoundWinNumber(this)
+    }
 
     override fun newBinding(): ActivityMainBinding {
         return DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
 
     override fun onCreateAfter() {
-        initLayout()
         checkIntent(intent)
+        initLayout()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -46,6 +52,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     fun initLayout() {
+        mBinding.title.text = "${mLatestNumber[0]}회"
+        mBinding.num1.num = mLatestNumber[1]
+        mBinding.num2.num = mLatestNumber[2]
+        mBinding.num3.num = mLatestNumber[3]
+        mBinding.num4.num = mLatestNumber[4]
+        mBinding.num5.num = mLatestNumber[5]
+        mBinding.num6.num = mLatestNumber[6]
+        mBinding.numBonus.num = mLatestNumber[7]
+
         mBinding.btnRecommend.setOnClickListener{ v: View->
             val intent = Intent(this, RecommendActivity::class.java)
             startActivity(intent)

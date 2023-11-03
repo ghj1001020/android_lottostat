@@ -69,7 +69,6 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
                 dialog.setPositiveListener{ dialog: CommonDialog ->
                     SQLiteService.insertMyLottoData(this, mLottoNum, getViewModel().mLottoNumberList)
                 }
-                dialog.setNegativeListener()
                 dialog.show()
             }
         }

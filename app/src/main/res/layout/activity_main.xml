@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/title"
-            android:text="1000회"
+            android:text=""
             style="@style/TxtMainTitle"
             android:layout_marginTop="48dp"
             android:layout_width="wrap_content"
@@ -37,44 +37,51 @@
 
             <com.ghj.lottostat.ui.LTNumTextview
                 android:id="@+id/num1"
-                style="@style/TextLottoNum"
+                style="@style/TextLottoNumMid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/num2" />
 
             <com.ghj.lottostat.ui.LTNumTextview
                 android:id="@+id/num2"
-                style="@style/TextLottoNum"
+                style="@style/TextLottoNumMid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/num1"
                 app:layout_constraintRight_toLeftOf="@id/num3" />
 
             <com.ghj.lottostat.ui.LTNumTextview
                 android:id="@+id/num3"
-                style="@style/TextLottoNum"
+                style="@style/TextLottoNumMid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/num2"
                 app:layout_constraintRight_toLeftOf="@id/num4" />
 
             <com.ghj.lottostat.ui.LTNumTextview
                 android:id="@+id/num4"
-                style="@style/TextLottoNum"
+                style="@style/TextLottoNumMid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/num3"
                 app:layout_constraintRight_toLeftOf="@id/num5" />
 
             <com.ghj.lottostat.ui.LTNumTextview
                 android:id="@+id/num5"
-                style="@style/TextLottoNum"
+                style="@style/TextLottoNumMid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/num4"
                 app:layout_constraintRight_toLeftOf="@id/num6" />
 
             <com.ghj.lottostat.ui.LTNumTextview
                 android:id="@+id/num6"
-                style="@style/TextLottoNum"
+                style="@style/TextLottoNumMid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/num5"
+                app:layout_constraintRight_toLeftOf="@id/numBonus" />
+
+            <com.ghj.lottostat.ui.LTNumTextview
+                android:id="@+id/numBonus"
+                style="@style/TextLottoNumSmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/num6"
                 app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

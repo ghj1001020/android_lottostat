@@ -73,21 +73,20 @@ object SQLiteService {
     }
 
     // 마지막 로또번호 조회
-    fun selectLastRoundWinNumber(context: Context, isBonus: Boolean) : ArrayList<Int>  {
+    fun selectLastRoundWinNumber(context: Context) : ArrayList<Int>  {
         val result : ArrayList<Int> = arrayListOf()
 
         SQLite.init(context)
         SQLite.select(DefineQuery.SELECT_LAST_ROUND_WIN_NUMBER) {cursor: Cursor ->
             cursor.moveToNext()
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("NO") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN1") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN2") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN3") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN4") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN5") ) )
             result.add( cursor.getInt( cursor.getColumnIndexOrThrow("WIN6") ) )
-            if( isBonus ) {
-                result.add( cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") ) )
-            }
+            result.add( cursor.getInt( cursor.getColumnIndexOrThrow("BONUS") ) )
         }
         SQLite.close()
 

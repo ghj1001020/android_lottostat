@@ -44,7 +44,7 @@ object DefineQuery {
                                      "WHERE  WIN1=? AND WIN2=? AND WIN3=? AND WIN4=? AND WIN5=? AND WIN6=?"
 
     // 마지막 회차 로또당첨번호 조회
-    val SELECT_LAST_ROUND_WIN_NUMBER = "SELECT   WIN1, WIN2, WIN3, WIN4, WIN5, WIN6, BONUS " +
+    val SELECT_LAST_ROUND_WIN_NUMBER = "SELECT   NO, WIN1, WIN2, WIN3, WIN4, WIN5, WIN6, BONUS " +
                                        "FROM     LOTTO_WIN_NUMBER " +
                                        "ORDER BY NO DESC "          +
                                        "LIMIT    1"

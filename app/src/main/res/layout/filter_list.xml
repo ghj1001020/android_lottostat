@@ -10,6 +10,7 @@
         android:text="@string/filter_last_round_win_number"
         style="@style/BaseCheck"
         android:checked="true"
+        android:enabled="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
