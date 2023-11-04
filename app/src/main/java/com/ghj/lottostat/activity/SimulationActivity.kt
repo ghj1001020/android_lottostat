@@ -1,5 +1,6 @@
 package com.ghj.lottostat.activity
 
+import android.content.DialogInterface
 import android.os.SystemClock
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -12,17 +13,21 @@ import com.ghj.lottostat.activity.viewmodel.SimulationViewModel
 import com.ghj.lottostat.common.LottoScript
 import com.ghj.lottostat.databinding.ActivitySimulationBinding
 import com.ghj.lottostat.dialog.FilterDialog
+import com.ghj.lottostat.util.AlertUtil
+import com.ghj.lottostat.util.AppUtil
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.StringUtil.stringToDouble
 import java.text.DecimalFormat
 
-class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding, SimulationViewModel>(), View.OnClickListener {
+class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding, SimulationViewModel>() {
 
     // 시뮬레이션 번호 목록 어답터
     lateinit var simulationAdapter: SimulationAdapter
 
     // 당첨번호
-    val winData : LottoWinNumber = LTApp.LottoWinNumberList.first()
+    val winData : LottoWinNumber by lazy {
+        LTApp.LottoWinNumberList.first()
+    }
 
 
     override fun newContentBinding(): ActivitySimulationBinding {
@@ -34,6 +39,11 @@ class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding
     }
 
     override fun onCreateAfter() {
+        if(LTApp.LottoWinNumberList.size == 0) {
+            AlertUtil.alert(getString(R.string.restart)) { dialog, which ->
+                AppUtil.AppClose()
+            }
+        }
         initLayout()
     }
 
@@ -112,6 +122,7 @@ class SimulationActivity : BaseDrawerViewModelActivity<ActivitySimulationBinding
         LogUtil.d("runTime = ${runTime}")
     }
 
+    // 시뮬레이션 목록 조회 노출
     fun renderSimulationList() {
         if( getViewModel().mSimulationList.size > 0 ) {
             mContent.rvLottoNumber.visibility = View.VISIBLE

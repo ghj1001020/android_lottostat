@@ -4,17 +4,12 @@ import android.content.Intent
 import android.os.Build
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.ghj.lottostat.R
 import com.ghj.lottostat.activity.base.BaseActivity
-import com.ghj.lottostat.activity.base.BaseViewModelActivity
 import com.ghj.lottostat.activity.data.LinkData
-import com.ghj.lottostat.activity.viewmodel.MainViewModel
 import com.ghj.lottostat.common.LinkParam
 import com.ghj.lottostat.databinding.ActivityMainBinding
 import com.ghj.lottostat.db.SQLiteService
-import com.ghj.lottostat.util.Util
-import com.google.rpc.Help.Link
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 

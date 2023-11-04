@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@drawable/bg_r3_fff"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -92,17 +92,6 @@
             android:layout_marginTop="8dp"
             android:layout_alignParentStart="true" />
 
-        <!--
-        <Button
-            android:id="@+id/btnFilterSetting"
-            android:text="필터 설정하기 >"
-            style="@style/BaseWidgetButton"
-            android:layout_marginTop="8dp"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        -->
-
         <ListView
             android:id="@+id/listInfo"
             android:layout_width="match_parent"
@@ -119,7 +108,8 @@
             style="@style/Text_14_333"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

@@ -38,6 +38,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
     fun initLayout() {
         mContent.titleBar.mTitle = "${mLottoNum}회 번호추천"
 
+        mContent.noContent.txtDesc.text = getString(R.string.no_number_recommend)
         mContent.btnSave.setOnClickListener(this)
         mContent.btnFilter.setOnClickListener(this)
         mContent.btnRecommend.setOnClickListener(this)

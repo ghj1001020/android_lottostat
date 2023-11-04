@@ -23,7 +23,6 @@ class MyLottoActivity : BaseDrawerViewModelActivity<ActivityMyLottoBinding, MyLo
         return ActivityMyLottoBinding.inflate(layoutInflater)
     }
 
-
     override fun onCreateAfter() {
         getViewModel().mOrgMyLottoList = SQLiteService.selectMyLottoRoundNo(this)
         getViewModel().calculateList()
@@ -50,6 +49,7 @@ class MyLottoActivity : BaseDrawerViewModelActivity<ActivityMyLottoBinding, MyLo
         renderMyLottoList()
     }
 
+    // 나의로또번호 목록 조회 노출
     fun renderMyLottoList() {
         if( getViewModel().mMyLottoList.size > 0 ) {
             mContent.rvMyLotto.visibility = View.VISIBLE

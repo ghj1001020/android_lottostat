@@ -11,6 +11,10 @@ class WinLottoViewModel(application: Application) : BaseViewModel(application) {
     var mLottoWinList : ArrayList<LottoWinNumber> = arrayListOf()
 
     init {
+
+    }
+
+    fun setWinNumber() {
         LTApp.LottoWinNumberList.map {
             mLottoWinList.add(it.copy())
         }

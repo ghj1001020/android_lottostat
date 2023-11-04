@@ -25,6 +25,8 @@ class WinLottoActivity : BaseDrawerViewModelActivity<ActivityWinLottoBinding, Wi
 
     override fun onCreateAfter() {
         initLayout()
+        getViewModel().setWinNumber()
+        winLottoAdapter.notifyDataSetChanged()
     }
 
     fun initLayout() {

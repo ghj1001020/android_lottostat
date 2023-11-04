@@ -32,7 +32,6 @@ class WidgetProvider : AppWidgetProvider() {
 
         val action = intent.action
         LogUtil.d("WidgetProvider action = $action")
-        Toast.makeText(context, "onReceive $action", Toast.LENGTH_SHORT).show()
 
         if( Intent.ACTION_MY_PACKAGE_REPLACED.equals(action) ) {
             val appWidgetManager = AppWidgetManager.getInstance(context)
@@ -46,8 +45,6 @@ class WidgetProvider : AppWidgetProvider() {
 
     // 위젯 업데이트 주기, 위젯 구성완료
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
-        Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show()
-
         if(context == null)
             return
 
@@ -119,7 +116,7 @@ class WidgetProvider : AppWidgetProvider() {
         val intent = Intent(context, javaClass)
         intent.action = action
         intent.flags = Intent.FLAG_RECEIVER_FOREGROUND
-        return PendingIntent.getBroadcast(context, reqId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, reqId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
     }
 
     // 클릭이벤트를 위한 액티비티 PendingIntent
@@ -127,7 +124,7 @@ class WidgetProvider : AppWidgetProvider() {
         val intent = Intent(context, IntroActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(LinkParam.LINK, linkCode)
-        return PendingIntent.getActivity(context, reqId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getActivity(context, reqId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
     }
     
     // 위젯 삭제

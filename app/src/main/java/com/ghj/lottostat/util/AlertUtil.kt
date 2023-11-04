@@ -2,14 +2,14 @@ package com.ghj.lottostat.util
 
 import android.content.Context
 import android.content.DialogInterface
-import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
 import com.ghj.lottostat.LTApp
 import com.ghj.lottostat.dialog.CommonDialog
 
 object AlertUtil {
 
-    fun alert(title: String="", message: String="", buttonText: String="확인", listener: DialogInterface.OnClickListener?=null): AlertDialog? {
+    // alert
+    fun alert(buttonText: String="확인", title: String="", message: String="", listener: DialogInterface.OnClickListener?=null): AlertDialog? {
         if(LTApp.mContext == null) return null;
 
         val builder = AlertDialog.Builder(LTApp.mContext!!)
