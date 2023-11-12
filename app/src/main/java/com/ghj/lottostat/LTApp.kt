@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.multidex.MultiDexApplication
 import com.ghj.lottostat.activity.data.LottoWinNumber
 import com.ghj.lottostat.common.FILTER
+import com.ghj.lottostat.db.SQLiteService
 import com.ghj.lottostat.util.LogUtil
 import com.ghj.lottostat.util.PrefUtil
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,6 +32,12 @@ class LTApp : MultiDexApplication() {
 
         // 로또당첨번호
         var LottoWinNumberList: ArrayList<LottoWinNumber> = arrayListOf()
+
+        // 로또당첨번호 가져오기
+        fun setLottoWinNumberList() {
+            LottoWinNumberList.clear()
+            LottoWinNumberList.addAll( SQLiteService.selectLottoWinNumber() )
+        }
     }
 
     override fun onCreate() {

@@ -67,6 +67,7 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
                     return
                 }
                 val dialog = AlertUtil.Alert(this,"저장하시겠습니까?")
+                dialog.setNegativeListener{  }
                 dialog.setPositiveListener{ dialog: CommonDialog ->
                     SQLiteService.insertMyLottoData(this, mLottoNum, getViewModel().mLottoNumberList)
                 }
@@ -94,12 +95,10 @@ class RecommendActivity : BaseDrawerViewModelActivity<ActivityRecommendBinding, 
     fun renderLottoNumberList() {
         if( getViewModel().mLottoNumberList.size > 0 ) {
             mContent.rvLottoNumber.visibility = View.VISIBLE
-            mContent.btnSave.visibility = View.VISIBLE
             mContent.noContent.root.visibility = View.GONE
         }
         else {
             mContent.rvLottoNumber.visibility = View.GONE
-            mContent.btnSave.visibility = View.GONE
             mContent.noContent.root.visibility = View.VISIBLE
         }
     }

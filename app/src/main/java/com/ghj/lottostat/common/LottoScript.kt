@@ -23,26 +23,30 @@ object LottoScript {
             // 로또번호 1~45
             val GROUP : ArrayList<Int> = arrayListOf()
             GROUP.addAll(DefineCode.LOTTERY)
+            // 이전회차번호
+            var lastRound: ArrayList<Int> = arrayListOf()
 
             val secureRandom = SecureRandom()
             secureRandom.setSeed(Date().time)
 
             // 이전 회차 번호 중 n개 일치
-            var lastRound: ArrayList<Int> = arrayListOf()
             if( round > 1) {
                 lastRound = SQLiteService.selectRoundWinNumber(context,round-1)
                 // 인덱스 구해서 이전 회차 번호 뽑기
                 val goodNumber : Int = lastRound.get(secureRandom.nextInt(lastRound.size))
                 LOTTO.add(goodNumber)
+                LOTTO.sort()
                 // 전체번호에서 삭제
                 GROUP.remove(goodNumber)
             }
 
             // 로또번호 6개 뽑기
             while ( LOTTO.size < 6 ) {
-                val number = GROUP[secureRandom.nextInt(GROUP.size)]
-                LOTTO.add(number)
-                GROUP.remove(number)
+                val goodNumber = GROUP[secureRandom.nextInt(GROUP.size)]
+                LOTTO.add(goodNumber)
+                LOTTO.sort()
+                // 전체번호에서 삭제
+                GROUP.remove(goodNumber)
             }
 
             // 유효성 검사

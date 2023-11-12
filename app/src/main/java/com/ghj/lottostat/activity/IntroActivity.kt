@@ -96,8 +96,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             mBinding.txtMessage.text = getString(R.string.intro_guide_read)
 
             // SQLite파일 로또 당첨번호 읽기
-            LTApp.LottoWinNumberList.clear()
-            LTApp.LottoWinNumberList.addAll( SQLiteService.selectLottoWinNumber() )
+            LTApp.setLottoWinNumberList()
             moveToMain()
         }
         else {
